@@ -153,32 +153,32 @@
         /* =========================================================
            FORMULARIOS
         ========================================================= */
-
+        
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px 30px;
         }
-
+        
         .form-group {
             display: flex;
             flex-direction: column;
         }
-
+        
         .form-group.full {
             grid-column: 1 / -1;
         }
-
+        
         label {
             font-weight: bold;
             margin-bottom: 7px;
             font-size: 14px;
         }
-
+        
         .required {
             color: #b3261e;
         }
-
+        
         input,
         select {
             width: 100%;
@@ -188,19 +188,47 @@
             font-size: 15px;
             background: white;
         }
-
+        
         input:focus,
         select:focus {
             outline: none;
             border-color: #5b7f3a;
             box-shadow: 0 0 0 2px rgba(91,127,58,0.15);
         }
-
+        
         input.invalid,
         select.invalid {
             border: 2px solid #c62828;
             background: #fff5f5;
-            .field-error {
+        }
+        
+        
+        /* =========================================================
+           CAMPOS CON UNIDAD
+        ========================================================= */
+        
+        .input-with-unit {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .input-with-unit input {
+            width: 220px;
+        }
+        
+        .input-unit {
+            font-size: 14px;
+            color: #555;
+            white-space: nowrap;
+        }
+        
+        
+        /* =========================================================
+           MENSAJES DE ERROR
+        ========================================================= */
+        
+        .field-error {
             display: none;
             margin-top: 6px;
             font-size: 12px;
@@ -211,8 +239,8 @@
         .field-error.visible {
             display: block;
         }
-        }
-
+        
+        
         .unit {
             margin-top: 5px;
             font-size: 12px;
@@ -926,7 +954,7 @@
 
             <div class="form-group">
 
-                <label>
+                <h3 class="consumption-title">
 
                     Consumo anual de energía eléctrica
 
@@ -938,7 +966,7 @@
                         i
                     </button>
 
-                </label>
+                </h3>
 
 
                 <!-- INFORMACIÓN DEL RECIBO -->
@@ -996,7 +1024,7 @@
                 <div class="monthly-grid">
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 1:</label>
+                        <label>Consumo mensual 1 [kWh]:</label>
                         <input
                             type="number"
                             class="monthly-consumption"
@@ -1006,7 +1034,7 @@
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 2:</label>
+                        <label>Consumo mensual 2 [kWh]:</label>
                         <input
                             type="number"
                             class="monthly-consumption"
@@ -1016,7 +1044,7 @@
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 3:</label>
+                        <label>Consumo mensual 3 [kWh]:</label>
                         <input
                             type="number"
                             class="monthly-consumption"
@@ -1026,7 +1054,7 @@
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 4:</label>
+                        <label>Consumo mensual 4 [kWh]:</label>
                         <input
                             type="number"
                             class="monthly-consumption"
@@ -1036,7 +1064,7 @@
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 5:</label>
+                        <label>Consumo mensual 5 [kWh]:</label>
                         <input
                             type="number"
                             class="monthly-consumption"
@@ -1046,7 +1074,7 @@
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 6:</label>
+                        <label>Consumo mensual 6 [kWh]:</label>
                         <input
                             type="number"
                             class="monthly-consumption"
@@ -1056,7 +1084,7 @@
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 7:</label>
+                        <label>Consumo mensual 7 [kWh]:</label>
                         <input
                             type="number"
                             class="monthly-consumption"
@@ -1066,7 +1094,7 @@
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 8:</label>
+                        <label>Consumo mensual 8 [kWh]:</label>
                         <input
                             type="number"
                             class="monthly-consumption"
@@ -1076,7 +1104,7 @@
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 9:</label>
+                        <label>Consumo mensual 9 [kWh]:</label>
                         <input
                             type="number"
                             class="monthly-consumption"
@@ -1086,7 +1114,7 @@
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 10:</label>
+                        <label>Consumo mensual 10 [kWh]:</label>
                         <input
                             type="number"
                             class="monthly-consumption"
@@ -1096,7 +1124,7 @@
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 11:</label>
+                        <label>Consumo mensual 11 [kWh]:</label>
                         <input
                             type="number"
                             class="monthly-consumption"
@@ -1106,7 +1134,7 @@
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 12:</label>
+                        <label>Consumo mensual 12 [kWh]:</label>
                         <input
                             type="number"
                             class="monthly-consumption"
@@ -1177,7 +1205,7 @@
 
                         <label for="usuarios">
 
-                            Número promedio de personas atendidas
+                            Número promedio al día, de personas atendidas
                             o usuarias de las instalaciones
 
                             <button
@@ -1206,7 +1234,7 @@
                         >
                             Corresponde al número promedio de personas
                             que hacen uso de las instalaciones de forma
-                            temporal, excluyendo al personal que labora
+                            temporal durante un día, excluyendo al personal que labora
                             en el inmueble. Ejemplos: visitantes,
                             pacientes, alumnos, personas privadas de
                             la libertad, personas en resguardo o custodia,
