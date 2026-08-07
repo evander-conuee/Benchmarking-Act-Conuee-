@@ -200,6 +200,17 @@
         select.invalid {
             border: 2px solid #c62828;
             background: #fff5f5;
+            .field-error {
+            display: none;
+            margin-top: 6px;
+            font-size: 12px;
+            color: #c62828;
+            line-height: 1.4;
+        }
+        
+        .field-error.visible {
+            display: block;
+        }
         }
 
         .unit {
@@ -509,117 +520,140 @@
     </section>
 
 
-    <!-- =========================================================
-         SECCIÓN 2: DATOS GENERALES
-    ========================================================== -->
+<!-- =========================================================
+     SECCIÓN 2: DATOS GENERALES
+========================================================== -->
 
-    <section class="section" id="section2">
+<section class="section" id="section2">
 
-        <div class="section-title">
-            Datos generales
-        </div>
+    <div class="section-title">
+        Datos generales
+    </div>
 
-        <div class="section-content">
+    <div class="section-content">
 
-            <div class="form-grid">
+        <div class="form-grid">
 
-                <!-- ID -->
+            <!-- ID DEL INMUEBLE -->
 
-                <div class="form-group">
+            <div class="form-group">
 
-                    <label for="idInmueble">
-                        ID del inmueble
-                        <span class="required">*</span>
-                    </label>
+                <label for="idInmueble">
+                    ID del inmueble
+                    <span class="required">*</span>
+                </label>
 
-                    <input
-                        type="text"
-                        id="idInmueble"
-                        required
-                    >
+                <input
+                    type="text"
+                    id="idInmueble"
+                    required
+                >
 
-                </div>
-
-
-                <!-- ENTIDAD -->
-
-                <div class="form-group">
-
-                    <label for="entidad">
-                        Entidad federativa
-                        <span class="required">*</span>
-                    </label>
-
-                    <select id="entidad" required>
-
-                        <option value="">
-                            Seleccione una opción
-                        </option>
-
-                        <option>Aguascalientes</option>
-                        <option>Baja California</option>
-                        <option>Baja California Sur</option>
-                        <option>Campeche</option>
-                        <option>Chiapas</option>
-                        <option>Chihuahua</option>
-                        <option>Ciudad de México</option>
-                        <option>Coahuila</option>
-                        <option>Colima</option>
-                        <option>Durango</option>
-                        <option>Estado de México</option>
-                        <option>Guanajuato</option>
-                        <option>Guerrero</option>
-                        <option>Hidalgo</option>
-                        <option>Jalisco</option>
-                        <option>Michoacán</option>
-                        <option>Morelos</option>
-                        <option>Nayarit</option>
-                        <option>Nuevo León</option>
-                        <option>Oaxaca</option>
-                        <option>Puebla</option>
-                        <option>Querétaro</option>
-                        <option>Quintana Roo</option>
-                        <option>San Luis Potosí</option>
-                        <option>Sinaloa</option>
-                        <option>Sonora</option>
-                        <option>Tabasco</option>
-                        <option>Tamaulipas</option>
-                        <option>Tlaxcala</option>
-                        <option>Veracruz</option>
-                        <option>Yucatán</option>
-                        <option>Zacatecas</option>
-
-                    </select>
-
-                </div>
+            </div>
 
 
-                <!-- MUNICIPIO -->
+            <!-- ENTIDAD FEDERATIVA -->
 
-                <div class="form-group">
+            <div class="form-group">
 
-                    <label for="municipio">
-                        Municipio o alcaldía
-                        <span class="required">*</span>
-                    </label>
+                <label for="entidad">
+                    Entidad federativa
+                    <span class="required">*</span>
+                </label>
 
-                    <input
-                        type="text"
-                        id="municipio"
-                        required
-                    >
+                <select id="entidad" required>
 
-                </div>
+                    <option value="">
+                        Seleccione una opción
+                    </option>
+
+                    <option>Aguascalientes</option>
+                    <option>Baja California</option>
+                    <option>Baja California Sur</option>
+                    <option>Campeche</option>
+                    <option>Chiapas</option>
+                    <option>Chihuahua</option>
+                    <option>Ciudad de México</option>
+                    <option>Coahuila</option>
+                    <option>Colima</option>
+                    <option>Durango</option>
+                    <option>Estado de México</option>
+                    <option>Guanajuato</option>
+                    <option>Guerrero</option>
+                    <option>Hidalgo</option>
+                    <option>Jalisco</option>
+                    <option>Michoacán</option>
+                    <option>Morelos</option>
+                    <option>Nayarit</option>
+                    <option>Nuevo León</option>
+                    <option>Oaxaca</option>
+                    <option>Puebla</option>
+                    <option>Querétaro</option>
+                    <option>Quintana Roo</option>
+                    <option>San Luis Potosí</option>
+                    <option>Sinaloa</option>
+                    <option>Sonora</option>
+                    <option>Tabasco</option>
+                    <option>Tamaulipas</option>
+                    <option>Tlaxcala</option>
+                    <option>Veracruz</option>
+                    <option>Yucatán</option>
+                    <option>Zacatecas</option>
+
+                </select>
+
+            </div>
 
 
-                <!-- ÁREA -->
+            <!-- MUNICIPIO / ALCALDÍA -->
 
-                <div class="form-group">
+            <div class="form-group">
 
-                    <label for="area">
-                        Área total construida del inmueble
-                        <span class="required">*</span>
-                    </label>
+                <label for="municipio">
+                    Municipio o alcaldía
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="municipio"
+                    required
+                >
+
+            </div>
+
+
+            <!-- AÑO DE CONSTRUCCIÓN -->
+
+            <div class="form-group">
+
+                <label for="anio">
+                    Año de construcción
+                    <span class="required">*</span>
+                </label>
+
+                <input
+                    type="number"
+                    id="anio"
+                    min="1800"
+                    max="2100"
+                    step="1"
+                    required
+                >
+
+            </div>
+
+
+            <!-- ÁREA TOTAL CONSTRUIDA -->
+
+            <div class="form-group">
+
+                <label for="area">
+                    Área total construida del inmueble
+                    <span class="required">*</span>
+                </label>
+
+                <div class="input-with-unit">
 
                     <input
                         type="number"
@@ -629,30 +663,34 @@
                         required
                     >
 
-                    <span class="unit">m²</span>
+                    <span class="input-unit">m²</span>
 
                 </div>
 
+            </div>
 
-                <!-- OCUPACIÓN -->
 
-                <div class="form-group">
+            <!-- OCUPACIÓN -->
 
-                    <label for="ocupacion">
+            <div class="form-group">
 
-                        Ocupación
+                <label for="ocupacion">
 
-                        <button
-                            type="button"
-                            class="info-button"
-                            onclick="toggleInfo('infoOcupacion')"
-                        >
-                            i
-                        </button>
+                    Ocupación
 
-                        <span class="required">*</span>
+                    <button
+                        type="button"
+                        class="info-button"
+                        onclick="toggleInfo('infoOcupacion')"
+                    >
+                        i
+                    </button>
 
-                    </label>
+                    <span class="required">*</span>
+
+                </label>
+
+                <div class="input-with-unit">
 
                     <input
                         type="number"
@@ -663,89 +701,86 @@
                         required
                     >
 
-                    <span class="unit">%</span>
-
-                    <div
-                        class="info-box"
-                        id="infoOcupacion"
-                    >
-                        Corresponde al porcentaje del área bruta construida
-                        del inmueble que es utilizada de manera habitual
-                        por el personal y las personas usuarias.
-                    </div>
+                    <span class="input-unit">%</span>
 
                 </div>
 
-
-                <!-- AÑO -->
-
-                <div class="form-group">
-
-                    <label for="anio">
-                        Año de construcción
-                        <span class="required">*</span>
-                    </label>
-
-                    <input
-                        type="number"
-                        id="anio"
-                        min="1800"
-                        max="2100"
-                        required
-                    >
-
+                <div
+                    class="info-box"
+                    id="infoOcupacion"
+                >
+                    Corresponde al porcentaje del área total construida
+                    del inmueble que es utilizada de manera habitual
+                    por el personal y las personas usuarias.
                 </div>
 
-
-                <!-- PISOS -->
-
-                <div class="form-group">
-
-                    <label for="pisos">
-                        Número de pisos
-                        <span class="required">*</span>
-                    </label>
-
-                    <input
-                        type="number"
-                        id="pisos"
-                        min="1"
-                        step="1"
-                        required
-                    >
-
-                </div>
+            </div>
 
 
-                <!-- DÍAS -->
+            <!-- NÚMERO DE PISOS -->
 
-                <div class="form-group">
+            <div class="form-group">
 
-                    <label for="dias">
-                        Días de operación a la semana
-                        <span class="required">*</span>
-                    </label>
+                <label for="pisos">
+                    Número de pisos
+                    <span class="required">*</span>
+                </label>
 
-                    <input
-                        type="number"
-                        id="dias"
-                        min="1"
-                        max="7"
-                        step="1"
-                        required
-                    >
+                <input
+                    type="number"
+                    id="pisos"
+                    min="1"
+                    step="1"
+                    required
+                >
 
-                </div>
+            </div>
 
 
-                <!-- HORAS -->
+            <!-- DÍAS DE OPERACIÓN -->
 
-                <div class="form-group">
+           <div class="form-group">
 
-                    <label for="horas">
-                        Horas de operación a la semana
-                        <span class="required">*</span>
-                    </label>
+    <label for="dias">
+        Días de operación a la semana
+        <span class="required">*</span>
+    </label>
+
+    <div class="input-with-unit">
+
+        <input
+            type="number"
+            id="dias"
+            min="1"
+            max="7"
+            step="1"
+            required
+        >
+
+        <span class="input-unit">días/semana</span>
+
+    </div>
+
+    <div
+        class="field-error"
+        id="diasError"
+    >
+        El número de días de operación debe estar entre 1 y 7 días por semana.
+    </div>
+
+</div>
+
+
+            <!-- HORAS DE OPERACIÓN -->
+
+            <div class="form-group">
+
+                <label for="horas">
+                    Horas de operación a la semana
+                    <span class="required">*</span>
+                </label>
+
+                <div class="input-with-unit">
 
                     <input
                         type="number"
@@ -756,86 +791,113 @@
                         required
                     >
 
-                    <span class="unit">h/semana</span>
+                    <span class="input-unit">h/semana</span>
 
                 </div>
 
+            </div>
 
-                <!-- TIPO DE EDIFICIO -->
 
-                <div class="form-group full">
+            <!-- TIPO DE EDIFICIO -->
 
-                    <label>
-                        Tipo de edificio
-                        <span class="required">*</span>
+            <div class="form-group full">
+
+                <label>
+                    Tipo de edificio
+                    <span class="required">*</span>
+                </label>
+
+                <div class="radio-group">
+
+                    <label class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="tipoEdificio"
+                            value="Oficinas administrativas"
+                        >
+
+                        Oficinas administrativas
+
                     </label>
 
-                    <div class="radio-group">
 
-                        <label class="radio-option">
-                            <input
-                                type="radio"
-                                name="tipoEdificio"
-                                value="Oficinas administrativas"
-                            >
-                            Oficinas administrativas
-                        </label>
+                    <label class="radio-option">
 
-                        <label class="radio-option">
-                            <input
-                                type="radio"
-                                name="tipoEdificio"
-                                value="Hospitales y centros de salud"
-                            >
-                            Hospitales y centros de salud
-                        </label>
+                        <input
+                            type="radio"
+                            name="tipoEdificio"
+                            value="Hospitales y centros de salud"
+                        >
 
-                        <label class="radio-option">
-                            <input
-                                type="radio"
-                                name="tipoEdificio"
-                                value="Centros educativos y de investigación"
-                            >
-                            Centros educativos y de investigación
-                        </label>
+                        Hospitales y centros de salud
 
-                        <label class="radio-option">
-                            <input
-                                type="radio"
-                                name="tipoEdificio"
-                                value="Espacios culturales y recreativos"
-                            >
-                            Espacios culturales y recreativos
-                        </label>
+                    </label>
 
-                        <label class="radio-option">
-                            <input
-                                type="radio"
-                                name="tipoEdificio"
-                                value="Instalaciones de seguridad y defensa"
-                            >
-                            Instalaciones de seguridad y defensa
-                        </label>
 
-                        <label class="radio-option">
-                            <input
-                                type="radio"
-                                name="tipoEdificio"
-                                value="Infraestructura aduanal y fronteriza"
-                            >
-                            Infraestructura aduanal y fronteriza
-                        </label>
+                    <label class="radio-option">
 
-                        <label class="radio-option">
-                            <input
-                                type="radio"
-                                name="tipoEdificio"
-                                value="Otro tipo de inmueble"
-                            >
-                            Otro tipo de inmueble
-                        </label>
+                        <input
+                            type="radio"
+                            name="tipoEdificio"
+                            value="Centros educativos y de investigación"
+                        >
 
-                    </div>
+                        Centros educativos y de investigación
+
+                    </label>
+
+
+                    <label class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="tipoEdificio"
+                            value="Espacios culturales y recreativos"
+                        >
+
+                        Espacios culturales y recreativos
+
+                    </label>
+
+
+                    <label class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="tipoEdificio"
+                            value="Instalaciones de seguridad y defensa"
+                        >
+
+                        Instalaciones de seguridad y defensa
+
+                    </label>
+
+
+                    <label class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="tipoEdificio"
+                            value="Infraestructura aduanal y fronteriza"
+                        >
+
+                        Infraestructura aduanal y fronteriza
+
+                    </label>
+
+
+                    <label class="radio-option">
+
+                        <input
+                            type="radio"
+                            name="tipoEdificio"
+                            value="Otro tipo de inmueble"
+                        >
+
+                        Otro tipo de inmueble
+
+                    </label>
 
                 </div>
 
@@ -843,7 +905,11 @@
 
         </div>
 
-    </section>
+    </div>
+
+</section>
+   
+          
 
 
     <!-- =========================================================
@@ -2099,6 +2165,38 @@
 
     }
 
+    /* =========================================================
+   VALIDACIÓN INMEDIATA DE DÍAS DE OPERACIÓN
+========================================================= */
+
+const diasInput =
+    document.getElementById("dias");
+
+const diasError =
+    document.getElementById("diasError");
+
+
+diasInput.addEventListener("input", function() {
+
+    const valor = Number(this.value);
+
+    this.classList.remove("invalid");
+
+    diasError.classList.remove("visible");
+
+
+    if (
+        this.value !== "" &&
+        (valor < 1 || valor > 7)
+    ) {
+
+        this.classList.add("invalid");
+
+        diasError.classList.add("visible");
+
+    }
+
+});
 
     /* =========================================================
        INICIO
