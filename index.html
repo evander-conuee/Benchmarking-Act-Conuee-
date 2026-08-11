@@ -216,6 +216,34 @@
             align-items: center;
             gap: 8px;
         }
+        .unit-select {
+    width: auto;
+    min-width: 95px;
+    padding: 10px 12px;
+    font-size: 15px;
+    border: 1px solid #b8bec3;
+    border-radius: 5px;
+    background: white;
+}
+
+.aire-equivalente {
+    margin-top: 8px;
+    font-size: 13px;
+    color: #555;
+}
+
+.aire-equivalente strong {
+    color: #3f5d2a;
+}
+
+#aireWarningAlto,
+#aireWarningBajo {
+    margin-top: 8px;
+    color: #8e0000;
+    background: #fff4f4;
+    border-left: 4px solid #c62828;
+    padding: 8px 10px;
+}
         
         .input-with-unit input {
             width: 220px;
@@ -1293,14 +1321,85 @@
 
                         <div class="input-with-unit">
 
-    <input
-        type="number"
-        id="aire"
-        min="0"
-        step="0.01"
-    >
+    <!-- CAPACIDAD TOTAL INSTALADA DE AIRE ACONDICIONADO -->
 
-    <span class="input-unit">TR</span>
+<div class="form-group">
+
+    <label for="aire">
+        Capacidad total instalada de aire acondicionado
+
+        <button
+            type="button"
+            class="info-button"
+            onclick="toggleInfo('infoAire')"
+        >
+            i
+        </button>
+
+    </label>
+
+    <div class="input-with-unit">
+
+        <input
+            type="number"
+            id="aire"
+            min="0"
+            step="0.01"
+            placeholder="Ingrese el total"
+        >
+
+        <select
+            id="unidadAire"
+            class="unit-select"
+        >
+            <option value="TR">TR</option>
+            <option value="BTU_H">BTU/h</option>
+        </select>
+
+    </div>
+
+    <div class="aire-equivalente">
+        Equivalente a:
+        <strong>
+            <span id="aireEquivalente">0.00</span> TR
+        </strong>
+    </div>
+
+    <div
+        class="field-error"
+        id="aireWarningAlto"
+    >
+        ⚠️ El valor ingresado parece elevado para la unidad seleccionada.
+        Verifique que la unidad sea correcta.
+    </div>
+
+    <div
+        class="field-error"
+        id="aireWarningBajo"
+    >
+        ⚠️ El valor ingresado parece corresponder a una capacidad expresada
+        en TR. Verifique que la unidad seleccionada sea correcta.
+    </div>
+
+    <div
+        class="info-box"
+        id="infoAire"
+    >
+        Reporte la <strong>capacidad total instalada</strong> de aire
+        acondicionado del inmueble, considerando la suma de la capacidad
+        de todos los equipos en uso.
+
+        <br><br>
+
+        Seleccione la unidad en la que está expresando el total:
+        <strong>TR</strong> o <strong>BTU/h</strong>.
+
+        <br><br>
+
+        El sistema calculará automáticamente el equivalente en
+        <strong>TR</strong>. No es necesario realizar conversiones
+        manualmente.
+    </div>
 
 </div>
 
@@ -2252,6 +2351,72 @@ diasInput.addEventListener("input", function() {
 
 });
 
+    /* =========================================================
+   CAPACIDAD DE AIRE ACONDICIONADO
+========================================================= */
+
+const aireInput = document.getElementById("aire");
+const unidadAire = document.getElementById("unidadAire");
+const aireEquivalente = document.getElementById("aireEquivalente");
+const aireWarningAlto = document.getElementById("aireWarningAlto");
+const aireWarningBajo = document.getElementById("aireWarningBajo");
+
+function calcularEquivalenteAire() {
+
+    const valor = Number(aireInput.value);
+    const unidad = unidadAire.value;
+
+    aireWarningAlto.classList.remove("visible");
+    aireWarningBajo.classList.remove("visible");
+
+    if (
+        aireInput.value === "" ||
+        !Number.isFinite(valor) ||
+        valor <= 0
+    ) {
+        aireEquivalente.textContent = "0.00";
+        return;
+    }
+
+    let equivalenteTR = 0;
+
+    if (unidad === "TR") {
+
+        equivalenteTR = valor;
+
+        if (valor >= 100) {
+            aireWarningAlto.classList.add("visible");
+        }
+
+    } else if (unidad === "BTU_H") {
+
+        equivalenteTR = valor / 12000;
+
+        if (valor > 0 && valor < 12000) {
+            aireWarningBajo.classList.add("visible");
+        }
+    }
+
+    aireEquivalente.textContent =
+        equivalenteTR.toLocaleString(
+            "es-MX",
+            {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }
+        );
+}
+
+aireInput.addEventListener(
+    "input",
+    calcularEquivalenteAire
+);
+
+unidadAire.addEventListener(
+    "change",
+    calcularEquivalenteAire
+);
+    
     /* =========================================================
        INICIO
     ========================================================== */
