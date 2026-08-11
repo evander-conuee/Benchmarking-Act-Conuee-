@@ -3,14 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Herramienta de Benchmarking en la Administración Pública Federal</title>
 
     <style>
-        /* =========================================================
-           CONFIGURACIÓN GENERAL
-        ========================================================= */
-
+        /* CONFIGURACIÓN GENERAL */
         * {
             box-sizing: border-box;
         }
@@ -22,10 +18,7 @@
             color: #263238;
         }
 
-        /* =========================================================
-           ENCABEZADO
-        ========================================================= */
-
+        /* ENCABEZADO */
         header {
             background: #ffffff;
             border-bottom: 4px solid #5b7f3a;
@@ -41,20 +34,20 @@
         }
 
         .logo-placeholder {
-    width: 75px;
-    height: 55px;
-    border: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: transparent;
-}
+            width: 75px;
+            height: 55px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+        }
 
-.logo-placeholder img {
-    max-width: 100%;
-    max-height: 100%;
-    object-fit: contain;
-}
+        .logo-placeholder img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
 
         .header-title {
             flex: 1;
@@ -72,10 +65,7 @@
             color: #666;
         }
 
-        /* =========================================================
-           CONTENEDOR PRINCIPAL
-        ========================================================= */
-
+        /* CONTENEDOR PRINCIPAL Y BARRA DE PROGRESO */
         main {
             max-width: 1100px;
             margin: 30px auto;
@@ -113,10 +103,7 @@
             transition: width 0.3s ease;
         }
 
-        /* =========================================================
-           SECCIONES
-        ========================================================= */
-
+        /* SECCIONES */
         .section {
             display: none;
             background: white;
@@ -142,10 +129,6 @@
             padding: 25px;
         }
 
-        /* =========================================================
-           INSTRUCCIONES
-        ========================================================= */
-
         .instruction-box {
             background: #f5f7f3;
             border-left: 5px solid #5b7f3a;
@@ -154,41 +137,34 @@
             line-height: 1.6;
         }
 
-        /* =========================================================
-           FORMULARIOS
-        ========================================================= */
-        
+        /* FORMULARIOS */
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px 30px;
         }
-        
-        .form-group {
-    display: flex;
-    flex-direction: column;
-}
 
-.form-grid .form-group {
-    margin-bottom: 18px;
-}
-        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 18px;
+        }
+
         .form-group.full {
             grid-column: 1 / -1;
         }
-        
+
         label {
             font-weight: bold;
             margin-bottom: 7px;
             font-size: 14px;
         }
-        
+
         .required {
             color: #b3261e;
         }
-        
-        input,
-        select {
+
+        input, select {
             width: 100%;
             padding: 10px 12px;
             border: 1px solid #b8bec3;
@@ -196,74 +172,60 @@
             font-size: 15px;
             background: white;
         }
-        
-        input:focus,
-        select:focus {
+
+        input:focus, select:focus {
             outline: none;
             border-color: #5b7f3a;
             box-shadow: 0 0 0 2px rgba(91,127,58,0.15);
         }
-        
-        input.invalid,
-        select.invalid {
+
+        input.invalid, select.invalid {
             border: 2px solid #c62828;
             background: #fff5f5;
         }
-        
-        
-        /* =========================================================
-           CAMPOS CON UNIDAD
-        ========================================================= */
-        
+
+        /* CAMPOS CON UNIDAD */
         .input-with-unit {
             display: flex;
             align-items: center;
             gap: 8px;
         }
+
         .unit-select {
-    width: auto;
-    min-width: 95px;
-    padding: 10px 12px;
-    font-size: 15px;
-    border: 1px solid #b8bec3;
-    border-radius: 5px;
-    background: white;
-}
-
-.aire-equivalente {
-    margin-top: 8px;
-    font-size: 13px;
-    color: #555;
-}
-
-.aire-equivalente strong {
-    color: #3f5d2a;
-}
-
-#aireWarningAlto,
-#aireWarningBajo {
-    margin-top: 8px;
-    color: #8e0000;
-    background: #fff4f4;
-    border-left: 4px solid #c62828;
-    padding: 8px 10px;
-}
-        
-        .input-with-unit input {
-            width: 220px;
+            width: auto;
+            min-width: 95px;
+            padding: 10px 12px;
+            font-size: 15px;
+            border: 1px solid #b8bec3;
+            border-radius: 5px;
+            background: white;
         }
-        
+
+        .aire-equivalente {
+            margin-top: 8px;
+            font-size: 13px;
+            color: #555;
+        }
+
+        .aire-equivalente strong {
+            color: #3f5d2a;
+        }
+
+        #aireWarningAlto, #aireWarningBajo {
+            margin-top: 8px;
+            color: #8e0000;
+            background: #fff4f4;
+            border-left: 4px solid #c62828;
+            padding: 8px 10px;
+        }
+
         .input-unit {
             font-size: 14px;
             color: #555;
             white-space: nowrap;
         }
-        
-        
-        /* =========================================================
-           MENSAJES DE ERROR
-        ========================================================= */
-        
+
+        /* MENSAJES DE ERROR E INFO */
         .field-error {
             display: none;
             margin-top: 6px;
@@ -271,21 +233,10 @@
             color: #c62828;
             line-height: 1.4;
         }
-        
+
         .field-error.visible {
             display: block;
         }
-        
-        
-        .unit {
-            margin-top: 5px;
-            font-size: 12px;
-            color: #666;
-        }
-
-        /* =========================================================
-           OPCIONES DE TIPO DE INMUEBLE
-        ========================================================= */
 
         .radio-group {
             display: grid;
@@ -310,10 +261,6 @@
             width: auto;
             margin-right: 8px;
         }
-
-        /* =========================================================
-           ICONOS DE INFORMACIÓN
-        ========================================================= */
 
         .info-button {
             display: inline-flex;
@@ -351,17 +298,7 @@
             display: block;
         }
 
-        /* =========================================================
-           CONSUMO ELÉCTRICO
-        ========================================================= */
-
-        .consumption-help {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 18px;
-        }
-
+        /* CONSUMO ELÉCTRICO */
         .monthly-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
@@ -406,10 +343,7 @@
             display: block;
         }
 
-        /* =========================================================
-           NAVEGACIÓN
-        ========================================================= */
-
+        /* NAVEGACIÓN Y TABLA */
         .navigation {
             display: flex;
             justify-content: space-between;
@@ -425,27 +359,10 @@
             font-weight: bold;
         }
 
-        .previous {
-            background: #d8dde0;
-            color: #263238;
-        }
-
-        .next {
-            background: #5b7f3a;
-            color: white;
-        }
-
-        .next:hover {
-            background: #405b29;
-        }
-
-        .previous:hover {
-            background: #c6ccd0;
-        }
-
-        /* =========================================================
-           RESUMEN
-        ========================================================= */
+        .previous { background: #d8dde0; color: #263238; }
+        .next { background: #5b7f3a; color: white; }
+        .next:hover { background: #405b29; }
+        .previous:hover { background: #c6ccd0; }
 
         .summary-table {
             width: 100%;
@@ -453,16 +370,13 @@
             margin-top: 20px;
         }
 
-        .summary-table th,
-        .summary-table td {
+        .summary-table th, .summary-table td {
             border: 1px solid #d2d7da;
             padding: 10px;
             text-align: left;
         }
 
-        .summary-table th {
-            background: #eef1ed;
-        }
+        .summary-table th { background: #eef1ed; }
 
         .download-button {
             margin-top: 20px;
@@ -475,32 +389,9 @@
             font-weight: bold;
         }
 
-        /* =========================================================
-           RESPONSIVE
-        ========================================================= */
-
         @media (max-width: 700px) {
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .radio-group {
-                grid-template-columns: 1fr;
-            }
-
-            .monthly-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .monthly-item label {
-                min-width: 120px;
-            }
-
-            .header-container {
-                flex-direction: column;
-                align-items: flex-start;
-            }
+            .form-grid, .radio-group, .monthly-grid { grid-template-columns: 1fr; }
+            .header-container { flex-direction: column; align-items: flex-start; }
         }
     </style>
 </head>
@@ -509,1903 +400,525 @@
 
 <header>
     <div class="header-container">
-
         <div class="logo-placeholder">
-            <img 
-        src="Conuee.png" 
-        alt="Logo de la CONUEE"
-    >
+            <img src="Conuee.png" alt="Logo de la CONUEE">
         </div>
-
         <div class="header-title">
             <h1>Herramienta de Benchmarking en la Administración Pública Federal</h1>
             <p>Instrumento de recolección de información para inmuebles de la APF</p>
         </div>
-
     </div>
 </header>
 
-
 <main>
-
-    <!-- =========================================================
-         BARRA DE PROGRESO
-    ========================================================== -->
-
     <div class="progress-container">
-
         <div class="progress-header">
             <span id="progressText">Sección 1 de 4</span>
             <span id="progressPercent">25%</span>
         </div>
-
         <div class="progress-bar">
             <div class="progress-fill" id="progressFill"></div>
         </div>
-
     </div>
 
-
-    <!-- =========================================================
-         SECCIÓN 1: INSTRUCCIONES
-    ========================================================== -->
-
+    <!-- SECCIÓN 1: INSTRUCCIONES -->
     <section class="section active" id="section1">
-
-        <div class="section-title">
-            Instrucciones de uso
-        </div>
-
+        <div class="section-title">Instrucciones de uso</div>
         <div class="section-content">
-
             <div class="instruction-box">
-
-                <p>
-                    Por favor, complete la información solicitada
-                    basándose en las características del inmueble.
-                </p>
-
-                <p>
-                    Utilice los iconos
-                    <strong>ⓘ</strong>
-                    cuando necesite aclarar algún dato solicitado.
-                </p>
-
-                <p>
-                    Para completar la sección
-                    <strong>Captura de datos</strong>,
-                    requiere el último recibo más reciente de la
-                    Comisión Federal de Electricidad (CFE) del que disponga.
-                    
-                </p>
-
+                <p>Por favor, complete la información solicitada basándose en las características del inmueble.</p>
+                <p>Utilice los iconos <strong>ⓘ</strong> cuando necesite aclarar algún dato solicitado.</p>
+                <p>Para completar la sección <strong>Captura de datos</strong>, requiere el último recibo más reciente de la Comisión Federal de Electricidad (CFE) del que disponga.</p>
             </div>
-
         </div>
-
     </section>
 
-
-<!-- =========================================================
-     SECCIÓN 2: DATOS GENERALES
-========================================================== -->
-
-<section class="section" id="section2">
-
-    <div class="section-title">
-        Datos generales
-    </div>
-
-    <div class="section-content">
-
-        <div class="form-grid">
-
-            <!-- ID DEL INMUEBLE -->
-
-            <div class="form-group">
-
-                <label for="idInmueble">
-                    ID del inmueble
-                    <span class="required">*</span>
-                </label>
-
-                <input
-                    type="text"
-                    id="idInmueble"
-                    required
-                >
-
-            </div>
-
-
-            <!-- ENTIDAD FEDERATIVA -->
-
-            <div class="form-group">
-
-                <label for="entidad">
-                    Entidad federativa
-                    <span class="required">*</span>
-                </label>
-
-                <select id="entidad" required>
-
-                    <option value="">
-                        Seleccione una opción
-                    </option>
-
-                    <option>Aguascalientes</option>
-                    <option>Baja California</option>
-                    <option>Baja California Sur</option>
-                    <option>Campeche</option>
-                    <option>Chiapas</option>
-                    <option>Chihuahua</option>
-                    <option>Ciudad de México</option>
-                    <option>Coahuila</option>
-                    <option>Colima</option>
-                    <option>Durango</option>
-                    <option>Estado de México</option>
-                    <option>Guanajuato</option>
-                    <option>Guerrero</option>
-                    <option>Hidalgo</option>
-                    <option>Jalisco</option>
-                    <option>Michoacán</option>
-                    <option>Morelos</option>
-                    <option>Nayarit</option>
-                    <option>Nuevo León</option>
-                    <option>Oaxaca</option>
-                    <option>Puebla</option>
-                    <option>Querétaro</option>
-                    <option>Quintana Roo</option>
-                    <option>San Luis Potosí</option>
-                    <option>Sinaloa</option>
-                    <option>Sonora</option>
-                    <option>Tabasco</option>
-                    <option>Tamaulipas</option>
-                    <option>Tlaxcala</option>
-                    <option>Veracruz</option>
-                    <option>Yucatán</option>
-                    <option>Zacatecas</option>
-
-                </select>
-
-            </div>
-
-
-            <!-- MUNICIPIO / ALCALDÍA -->
-
-            <div class="form-group">
-
-                <label for="municipio">
-                    Municipio o alcaldía
-                    <span class="required">*</span>
-                </label>
-
-                <input
-                    type="text"
-                    id="municipio"
-                    required
-                >
-
-            </div>
-
-
-            <!-- AÑO DE CONSTRUCCIÓN -->
-
-            <div class="form-group">
-
-                <label for="anio">
-                    Año de construcción
-                    <span class="required">*</span>
-                </label>
-
-                <input
-                    type="number"
-                    id="anio"
-                    min="1800"
-                    max="2100"
-                    step="1"
-                    required
-                >
-
-            </div>
-
-
-            <!-- ÁREA TOTAL CONSTRUIDA -->
-
-            <div class="form-group">
-
-                <label for="area">
-                    Área total construida del inmueble
-                    <span class="required">*</span>
-                </label>
-
-                <div class="input-with-unit">
-
-                    <input
-                        type="number"
-                        id="area"
-                        min="0"
-                        step="0.01"
-                        required
-                    >
-
-                    <span class="input-unit">m²</span>
-
-                </div>
-
-            </div>
-
-
-            <!-- OCUPACIÓN -->
-
-            <div class="form-group">
-
-                <label for="ocupacion">
-
-                    Ocupación
-
-                    <button
-                        type="button"
-                        class="info-button"
-                        onclick="toggleInfo('infoOcupacion')"
-                    >
-                        i
-                    </button>
-
-                    <span class="required">*</span>
-
-                </label>
-
-                <div class="input-with-unit">
-
-                    <input
-                        type="number"
-                        id="ocupacion"
-                        min="0"
-                        max="100"
-                        step="0.01"
-                        required
-                    >
-
-                    <span class="input-unit">%</span>
-
-                </div>
-
-                <div
-                    class="info-box"
-                    id="infoOcupacion"
-                >
-                    Corresponde al porcentaje del área total construida
-                    del inmueble que es utilizada de manera habitual
-                    por el personal y las personas usuarias.
-                </div>
-
-            </div>
-
-
-            <!-- NÚMERO DE PISOS -->
-
-            <div class="form-group">
-
-                <label for="pisos">
-                    Número de pisos
-                    <span class="required">*</span>
-                </label>
-
-                <input
-                    type="number"
-                    id="pisos"
-                    min="1"
-                    step="1"
-                    required
-                >
-
-            </div>
-
-
-            <!-- DÍAS DE OPERACIÓN -->
-
-           <div class="form-group">
-
-    <label for="dias">
-        Días de operación a la semana
-        <span class="required">*</span>
-    </label>
-
-    <div class="input-with-unit">
-
-        <input
-            type="number"
-            id="dias"
-            min="1"
-            max="7"
-            step="1"
-            required
-        >
-
-        <span class="input-unit">días/semana</span>
-
-    </div>
-
-    <div
-        class="field-error"
-        id="diasError"
-    >
-        El número de días de operación debe estar entre 1 y 7 días por semana.
-    </div>
-
-</div>
-
-
-            <!-- HORAS DE OPERACIÓN -->
-
-            <div class="form-group">
-
-                <label for="horas">
-                    Horas de operación a la semana
-                    <span class="required">*</span>
-                </label>
-
-                <div class="input-with-unit">
-
-                    <input
-                        type="number"
-                        id="horas"
-                        min="0"
-                        max="168"
-                        step="0.5"
-                        required
-                    >
-
-                    <span class="input-unit">h/semana</span>
-
-                </div>
-
-            </div>
-
-
-            <!-- TIPO DE EDIFICIO -->
-
-            <div class="form-group full">
-
-                <label>
-                    Tipo de edificio
-                    <span class="required">*</span>
-                </label>
-
-                <div class="radio-group">
-
-                    <label class="radio-option">
-
-                        <input
-                            type="radio"
-                            name="tipoEdificio"
-                            value="Oficinas administrativas"
-                        >
-
-                        Oficinas administrativas
-
-                    </label>
-
-
-                    <label class="radio-option">
-
-                        <input
-                            type="radio"
-                            name="tipoEdificio"
-                            value="Hospitales y centros de salud"
-                        >
-
-                        Hospitales y centros de salud
-
-                    </label>
-
-
-                    <label class="radio-option">
-
-                        <input
-                            type="radio"
-                            name="tipoEdificio"
-                            value="Centros educativos y de investigación"
-                        >
-
-                        Centros educativos y de investigación
-
-                    </label>
-
-
-                    <label class="radio-option">
-
-                        <input
-                            type="radio"
-                            name="tipoEdificio"
-                            value="Espacios culturales y recreativos"
-                        >
-
-                        Espacios culturales y recreativos
-
-                    </label>
-
-
-                    <label class="radio-option">
-
-                        <input
-                            type="radio"
-                            name="tipoEdificio"
-                            value="Instalaciones de seguridad y defensa"
-                        >
-
-                        Instalaciones de seguridad y defensa
-
-                    </label>
-
-
-                    <label class="radio-option">
-
-                        <input
-                            type="radio"
-                            name="tipoEdificio"
-                            value="Infraestructura aduanal y fronteriza"
-                        >
-
-                        Infraestructura aduanal y fronteriza
-
-                    </label>
-
-
-                    <label class="radio-option">
-
-                        <input
-                            type="radio"
-                            name="tipoEdificio"
-                            value="Otro tipo de inmueble"
-                        >
-
-                        Otro tipo de inmueble
-
-                    </label>
-
-                </div>
-
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
-   
-          
-
-
-    <!-- =========================================================
-         SECCIÓN 3: CAPTURA DE DATOS
-    ========================================================== -->
-
-    <section class="section" id="section3">
-
-        <div class="section-title">
-            Captura de datos
-        </div>
-
+    <!-- SECCIÓN 2: DATOS GENERALES -->
+    <section class="section" id="section2">
+        <div class="section-title">Datos generales</div>
         <div class="section-content">
-
-            <div class="form-group">
-
-                <h3 class="consumption-title">
-
-                    Consumo anual de energía eléctrica
-
-                    <button
-                        type="button"
-                        class="info-button"
-                        onclick="toggleInfo('infoConsumo')"
-                    >
-                        i
-                    </button>
-
-                </h3>
-
-
-                <!-- INFORMACIÓN DEL RECIBO -->
-
-                <div
-                    class="info-box"
-                    id="infoConsumo"
-                >
-
-                    <strong>
-                        Instrucciones para obtener el consumo:
-                    </strong>
-
-                    <p>
-                        Para registrar el consumo anual del inmueble,
-                        revise el reverso de su recibo de luz impreso
-                        o la segunda página si es digital.
-                    </p>
-
-                    <p>
-                        Ubique la tabla denominada
-                        <strong>Consumo Histórico</strong>.
-                        Capture los consumos correspondientes a
-                        12 periodos mensuales consecutivos.
-                    </p>
-
-                    <div style="
-    margin-top:15px;
-    text-align:center;
-">
-
-    <img 
-        src="recibo_cfe.jpg"
-        alt="Ejemplo de recibo CFE GDMTH con consumo histórico anual"
-        style="
-            max-width:100%;
-            width:700px;
-            border:1px solid #ccc;
-            border-radius:5px;
-        "
-    >
-
-</div>
-
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="idInmueble">ID del inmueble <span class="required">*</span></label>
+                    <input type="text" id="idInmueble" required>
                 </div>
 
+                <div class="form-group">
+                    <label for="entidad">Entidad federativa <span class="required">*</span></label>
+                    <select id="entidad" required>
+                        <option value="">Seleccione una opción</option>
+                        <option>Aguascalientes</option><option>Baja California</option><option>Baja California Sur</option>
+                        <option>Campeche</option><option>Chiapas</option><option>Chihuahua</option>
+                        <option>Ciudad de México</option><option>Coahuila</option><option>Colima</option>
+                        <option>Durango</option><option>Estado de México</option><option>Guanajuato</option>
+                        <option>Guerrero</option><option>Hidalgo</option><option>Jalisco</option>
+                        <option>Michoacán</option><option>Morelos</option><option>Nayarit</option>
+                        <option>Nuevo León</option><option>Oaxaca</option><option>Puebla</option>
+                        <option>Querétaro</option><option>Quintana Roo</option><option>San Luis Potosí</option>
+                        <option>Sinaloa</option><option>Sonora</option><option>Tabasco</option>
+                        <option>Tamaulipas</option><option>Tlaxcala</option><option>Veracruz</option>
+                        <option>Yucatán</option><option>Zacatecas</option>
+                    </select>
+                </div>
 
-                <!-- CONSUMOS MENSUALES -->
+                <div class="form-group">
+                    <label for="municipio">Municipio o alcaldía <span class="required">*</span></label>
+                    <input type="text" id="municipio" required>
+                </div>
 
-                <h3 style="margin-top:30px;">
-                    Consumos mensuales
-                </h3>
+                <div class="form-group">
+                    <label for="anio">Año de construcción <span class="required">*</span></label>
+                    <input type="number" id="anio" min="1800" max="2100" step="1" required>
+                </div>
 
-                <p>
-                    Capture los consumos de 12 periodos mensuales
-                    consecutivos. No es necesario que correspondan
-                    a enero–diciembre.
-                </p>
+                <div class="form-group">
+                    <label for="area">Área total construida del inmueble <span class="required">*</span></label>
+                    <div class="input-with-unit">
+                        <input type="number" id="area" min="0" step="0.01" required>
+                        <span class="input-unit">m²</span>
+                    </div>
+                </div>
 
+                <div class="form-group">
+                    <label for="ocupacion">Ocupación <button type="button" class="info-button" onclick="toggleInfo('infoOcupacion')">i</button> <span class="required">*</span></label>
+                    <div class="input-with-unit">
+                        <input type="number" id="ocupacion" min="0" max="100" step="0.01" required>
+                        <span class="input-unit">%</span>
+                    </div>
+                    <div class="info-box" id="infoOcupacion">
+                        Corresponde al porcentaje del área total construida del inmueble que es utilizada de manera habitual por el personal y las personas usuarias.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="pisos">Número de pisos <span class="required">*</span></label>
+                    <input type="number" id="pisos" min="1" step="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="dias">Días de operación a la semana <span class="required">*</span></label>
+                    <div class="input-with-unit">
+                        <input type="number" id="dias" min="1" max="7" step="1" required>
+                        <span class="input-unit">días/semana</span>
+                    </div>
+                    <div class="field-error" id="diasError">El número de días debe estar entre 1 y 7.</div>
+                </div>
+
+                <div class="form-group">
+                    <label for="horas">Horas de operación a la semana <span class="required">*</span></label>
+                    <div class="input-with-unit">
+                        <input type="number" id="horas" min="0" max="168" step="0.5" required>
+                        <span class="input-unit">h/semana</span>
+                    </div>
+                </div>
+
+                <div class="form-group full">
+                    <label>Tipo de edificio <span class="required">*</span></label>
+                    <div class="radio-group">
+                        <label class="radio-option"><input type="radio" name="tipoEdificio" value="Oficinas administrativas"> Oficinas administrativas</label>
+                        <label class="radio-option"><input type="radio" name="tipoEdificio" value="Hospitales y centros de salud"> Hospitales y centros de salud</label>
+                        <label class="radio-option"><input type="radio" name="tipoEdificio" value="Centros educativos y de investigación"> Centros educativos y de investigación</label>
+                        <label class="radio-option"><input type="radio" name="tipoEdificio" value="Espacios culturales y recreativos"> Espacios culturales y recreativos</label>
+                        <label class="radio-option"><input type="radio" name="tipoEdificio" value="Instalaciones de seguridad y defensa"> Instalaciones de seguridad y defensa</label>
+                        <label class="radio-option"><input type="radio" name="tipoEdificio" value="Infraestructura aduanal y fronteriza"> Infraestructura aduanal y fronteriza</label>
+                        <label class="radio-option"><input type="radio" name="tipoEdificio" value="Otro tipo de inmueble"> Otro tipo de inmueble</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN 3: CAPTURA DE DATOS -->
+    <section class="section" id="section3">
+        <div class="section-title">Captura de datos</div>
+        <div class="section-content">
+            <div class="form-group">
+                <h3>Consumo anual de energía eléctrica <button type="button" class="info-button" onclick="toggleInfo('infoConsumo')">i</button></h3>
+                <div class="info-box" id="infoConsumo">
+                    <strong>Instrucciones para obtener el consumo:</strong>
+                    <p>Para registrar el consumo anual del inmueble, revise el reverso de su recibo de luz impreso o la segunda página si es digital.</p>
+                    <p>Ubique la tabla denominada <strong>Consumo Histórico</strong>. Capture los consumos correspondientes a 12 periodos mensuales consecutivos.</p>
+                    <div style="margin-top:15px; text-align:center;">
+                        <img src="recibo_cfe.jpg" alt="Ejemplo de recibo CFE GDMTH" style="max-width:100%; width:700px; border:1px solid #ccc; border-radius:5px;">
+                    </div>
+                </div>
+
+                <h3 style="margin-top:30px;">Consumos mensuales</h3>
+                <p>Capture los consumos de 12 periodos mensuales consecutivos. No es necesario que correspondan a enero–diciembre.</p>
 
                 <div class="monthly-grid">
-
-                    <div class="monthly-item">
-                        <label>Consumo mensual 1 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
-                    </div>
-
-                    <div class="monthly-item">
-                        <label>Consumo mensual 2 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
-                    </div>
-
-                    <div class="monthly-item">
-                        <label>Consumo mensual 3 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
-                    </div>
-
-                    <div class="monthly-item">
-                        <label>Consumo mensual 4 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
-                    </div>
-
-                    <div class="monthly-item">
-                        <label>Consumo mensual 5 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
-                    </div>
-
-                    <div class="monthly-item">
-                        <label>Consumo mensual 6 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
-                    </div>
-
-                    <div class="monthly-item">
-                        <label>Consumo mensual 7 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
-                    </div>
-
-                    <div class="monthly-item">
-                        <label>Consumo mensual 8 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
-                    </div>
-
-                    <div class="monthly-item">
-                        <label>Consumo mensual 9 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
-                    </div>
-
-                    <div class="monthly-item">
-                        <label>Consumo mensual 10 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
-                    </div>
-
-                    <div class="monthly-item">
-                        <label>Consumo mensual 11 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
-                    </div>
-
-                    <div class="monthly-item">
-                        <label>Consumo mensual 12 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
-                    </div>
-
+                    <div class="monthly-item"><label>Consumo 1 [kWh]:</label><input type="number" class="monthly-consumption" min="0" step="0.01"></div>
+                    <div class="monthly-item"><label>Consumo 2 [kWh]:</label><input type="number" class="monthly-consumption" min="0" step="0.01"></div>
+                    <div class="monthly-item"><label>Consumo 3 [kWh]:</label><input type="number" class="monthly-consumption" min="0" step="0.01"></div>
+                    <div class="monthly-item"><label>Consumo 4 [kWh]:</label><input type="number" class="monthly-consumption" min="0" step="0.01"></div>
+                    <div class="monthly-item"><label>Consumo 5 [kWh]:</label><input type="number" class="monthly-consumption" min="0" step="0.01"></div>
+                    <div class="monthly-item"><label>Consumo 6 [kWh]:</label><input type="number" class="monthly-consumption" min="0" step="0.01"></div>
+                    <div class="monthly-item"><label>Consumo 7 [kWh]:</label><input type="number" class="monthly-consumption" min="0" step="0.01"></div>
+                    <div class="monthly-item"><label>Consumo 8 [kWh]:</label><input type="number" class="monthly-consumption" min="0" step="0.01"></div>
+                    <div class="monthly-item"><label>Consumo 9 [kWh]:</label><input type="number" class="monthly-consumption" min="0" step="0.01"></div>
+                    <div class="monthly-item"><label>Consumo 10 [kWh]:</label><input type="number" class="monthly-consumption" min="0" step="0.01"></div>
+                    <div class="monthly-item"><label>Consumo 11 [kWh]:</label><input type="number" class="monthly-consumption" min="0" step="0.01"></div>
+                    <div class="monthly-item"><label>Consumo 12 [kWh]:</label><input type="number" class="monthly-consumption" min="0" step="0.01"></div>
                 </div>
-
-
-                <!-- RESULTADO -->
 
                 <div class="annual-result">
-
-                    Consumo anual calculado:
-
-                    <br>
-
-                    <strong>
-                        <span id="annualConsumption">
-                            0
-                        </span>
-                        kWh
-                    </strong>
-
+                    Consumo anual calculado:<br>
+                    <strong><span id="annualConsumption">0</span> kWh</strong>
                 </div>
 
-
-                <div
-                    class="error-message"
-                    id="consumptionError"
-                >
-                    Debe capturar los 12 consumos mensuales para
-                    calcular el consumo anual.
+                <div class="error-message" id="consumptionError">
+                    Debe capturar los 12 consumos mensuales para calcular el consumo anual.
                 </div>
-
-
-                <!-- OTROS DATOS -->
-
-                <div
-                    class="form-grid"
-                    style="margin-top:35px;"
-                >
-
-                    <div class="form-group">
-
-                        <label for="empleados">
-
-                            Número de empleados en el turno principal
-
-                            <span class="required">*</span>
-
-                        </label>
-
-                        <input
-                            type="number"
-                            id="empleados"
-                            min="0"
-                            step="1"
-                            required
-                        >
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="usuarios">
-
-                            Número promedio al día, de personas atendidas
-                            o usuarias de las instalaciones
-
-                            <button
-                                type="button"
-                                class="info-button"
-                                onclick="toggleInfo('infoUsuarios')"
-                            >
-                                i
-                            </button>
-
-                            <span class="required">*</span>
-
-                        </label>
-
-                        <input
-                            type="number"
-                            id="usuarios"
-                            min="0"
-                            step="1"
-                            required
-                        >
-
-                        <div
-                            class="info-box"
-                            id="infoUsuarios"
-                        >
-                            Corresponde al número promedio de personas
-                            que hacen uso de las instalaciones de forma
-                            temporal durante un día, excluyendo al personal que labora
-                            en el inmueble. Ejemplos: visitantes,
-                            pacientes, alumnos, personas privadas de
-                            la libertad, personas en resguardo o custodia,
-                            entre otros.
-                        </div>
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="computadoras">
-                            Número de computadoras
-                            <span class="required">*</span>
-                        </label>
-
-                        <input
-                            type="number"
-                            id="computadoras"
-                            min="0"
-                            step="1"
-                            required
-                        >
-
-
-    <!-- CAPACIDAD TOTAL INSTALADA DE AIRE ACONDICIONADO -->
-
-<div class="form-group">
-
-    <label for="aire">
-        Capacidad total instalada de aire acondicionado
-
-        <button
-            type="button"
-            class="info-button"
-            onclick="toggleInfo('infoAire')"
-        >
-            i
-        </button>
-
-    </label>
-
-    <div class="input-with-unit">
-
-        <input
-            type="number"
-            id="aire"
-            min="0"
-            step="0.01"
-            placeholder="Ingrese el total"
-        >
-
-        <select
-            id="unidadAire"
-            class="unit-select"
-        >
-            <option value="TR">TR</option>
-            <option value="BTU_H">BTU/h</option>
-        </select>
-
-    </div>
-
-    <div class="aire-equivalente">
-        Equivalente a:
-        <strong>
-            <span id="aireEquivalente">0.00</span> TR
-        </strong>
-    </div>
-
-    <div
-        class="field-error"
-        id="aireWarningAlto"
-    >
-        ⚠️ El valor ingresado parece elevado para la unidad seleccionada.
-        Verifique que la unidad sea correcta.
-    </div>
-
-    <div
-        class="field-error"
-        id="aireWarningBajo"
-    >
-        ⚠️ El valor ingresado parece corresponder a una capacidad expresada
-        en TR. Verifique que la unidad seleccionada sea correcta.
-    </div>
-
-    <div
-        class="info-box"
-        id="infoAire"
-    >
-        Reporte la <strong>capacidad total instalada</strong> de aire
-        acondicionado del inmueble, considerando la suma de la capacidad
-        de todos los equipos en uso.
-
-        <br><br>
-
-        Seleccione la unidad en la que está expresando el total:
-        <strong>TR</strong> o <strong>BTU/h</strong>.
-
-        <br><br>
-
-        El sistema calculará automáticamente el equivalente en
-        <strong>TR</strong>. No es necesario realizar conversiones
-        manualmente.
-    </div>
-
-</div>
-
-                        <div
-                            class="info-box"
-                            id="infoAire"
-                        >
-                            Reporte la suma de la capacidad de todos
-                            los equipos en uso, expresada en TR.
-                            Si la capacidad está en BTU/h o kW,
-                            conviértala previamente a TR.
-                        </div>
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="areaFria">
-                            Porcentaje del área total construida
-                            que se enfría mediante equipos eléctricos
-                        </label>
-
-                        <div class="input-with-unit">
-
-    <input
-        type="number"
-        id="areaFria"
-        min="0"
-        max="100"
-        step="0.01"
-    >
-
-    <span class="input-unit">%</span>
-
-</div>
-
-                    </div>
-
-
-                    <div class="form-group">
-
-                        <label for="areaCaliente">
-                            Porcentaje del área total construida
-                            que se calienta mediante equipos eléctricos
-                        </label>
-
-                        <div class="input-with-unit">
-
-    <input
-        type="number"
-        id="areaCaliente"
-        min="0"
-        max="100"
-        step="0.01"
-    >
-
-    <span class="input-unit">%</span>
-
-</div>
-
-                    </div>
-
-
-                    <div class="form-group full">
-
-                        <label for="iluminacion">
-                            Porcentaje del área total construida
-                            del inmueble, con iluminación artificial
-                        </label>
-
-                        <div class="input-with-unit">
-
-    <input
-        type="number"
-        id="iluminacion"
-        min="0"
-        max="100"
-        step="0.01"
-    >
-
-    <span class="input-unit">%</span>
-
-</div>
-
-                    </div>
-
-                </div>
-
             </div>
 
-        </div>
+            <!-- OTROS DATOS DE CAPTURA -->
+            <div class="form-grid" style="margin-top:35px;">
+                <div class="form-group">
+                    <label for="empleados">Número de empleados en el turno principal <span class="required">*</span></label>
+                    <input type="number" id="empleados" min="0" step="1" required>
+                </div>
 
+                <div class="form-group">
+                    <label for="usuarios">Número promedio diario de personas atendidas <button type="button" class="info-button" onclick="toggleInfo('infoUsuarios')">i</button> <span class="required">*</span></label>
+                    <input type="number" id="usuarios" min="0" step="1" required>
+                    <div class="info-box" id="infoUsuarios">
+                        Corresponde al número promedio de personas que hacen uso de las instalaciones de forma temporal durante un día, excluyendo al personal que labora en el inmueble (ej. visitantes, pacientes, alumnos).
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="computadoras">Número de computadoras <span class="required">*</span></label>
+                    <input type="number" id="computadoras" min="0" step="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="aire">Capacidad total instalada de aire acondicionado <button type="button" class="info-button" onclick="toggleInfo('infoAire')">i</button></label>
+                    <div class="input-with-unit">
+                        <input type="number" id="aire" min="0" step="0.01" placeholder="Ingrese el total">
+                        <select id="unidadAire" class="unit-select">
+                            <option value="TR">TR</option>
+                            <option value="BTU_H">BTU/h</option>
+                        </select>
+                    </div>
+                    <div class="aire-equivalente">
+                        Equivalente a: <strong><span id="aireEquivalente">0.00</span> TR</strong>
+                    </div>
+                    <div class="field-error" id="aireWarningAlto">⚠️ El valor ingresado parece elevado para la unidad seleccionada. Verifique que sea correcta.</div>
+                    <div class="field-error" id="aireWarningBajo">⚠️ El valor ingresado parece corresponder a una capacidad expresada en TR. Verifique la unidad.</div>
+                    <div class="info-box" id="infoAire">
+                        Reporte la <strong>capacidad total instalada</strong> de aire acondicionado del inmueble, considerando la suma de todos los equipos en uso.<br><br>
+                        Seleccione <strong>TR</strong> o <strong>BTU/h</strong>. El sistema calculará el equivalente en TR automáticamente.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="areaFria">Porcentaje del área total construida que se enfría mediante equipos eléctricos</label>
+                    <div class="input-with-unit">
+                        <input type="number" id="areaFria" min="0" max="100" step="0.01">
+                        <span class="input-unit">%</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="areaCaliente">Porcentaje del área total construida que se calienta mediante equipos eléctricos</label>
+                    <div class="input-with-unit">
+                        <input type="number" id="areaCaliente" min="0" max="100" step="0.01">
+                        <span class="input-unit">%</span>
+                    </div>
+                </div>
+
+                <div class="form-group full">
+                    <label for="iluminacion">Porcentaje del área total construida con iluminación artificial</label>
+                    <div class="input-with-unit">
+                        <input type="number" id="iluminacion" min="0" max="100" step="0.01">
+                        <span class="input-unit">%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </section>
 
-
-    <!-- =========================================================
-         SECCIÓN 4: RESUMEN
-    ========================================================== -->
-
+    <!-- SECCIÓN 4: RESUMEN -->
     <section class="section" id="section4">
-
-        <div class="section-title">
-            Resumen de información capturada
-        </div>
-
+        <div class="section-title">Resumen de información capturada</div>
         <div class="section-content">
-
-            <p>
-                Revise la información antes de finalizar.
-            </p>
-
+            <p>Revise la información antes de finalizar.</p>
             <table class="summary-table">
-
                 <thead>
                     <tr>
                         <th>Dato</th>
                         <th>Valor</th>
                     </tr>
                 </thead>
-
-                <tbody id="summaryBody">
-                </tbody>
-
+                <tbody id="summaryBody"></tbody>
             </table>
-
-            <button
-                class="download-button"
-                onclick="downloadData()"
-            >
-                Descargar información
-            </button>
-
+            <button class="download-button" onclick="downloadData()">Descargar información</button>
         </div>
-
     </section>
 
-
-    <!-- =========================================================
-         BOTONES DE NAVEGACIÓN
-    ========================================================== -->
-
+    <!-- NAVEGACIÓN -->
     <div class="navigation">
-
-        <button
-            class="nav-button previous"
-            id="previousButton"
-            onclick="previousSection()"
-        >
-            ← Anterior
-        </button>
-
-        <button
-            class="nav-button next"
-            id="nextButton"
-            onclick="nextSection()"
-        >
-            Siguiente →
-        </button>
-
+        <button class="nav-button previous" id="previousButton" onclick="previousSection()">← Anterior</button>
+        <button class="nav-button next" id="nextButton" onclick="nextSection()">Siguiente →</button>
     </div>
-
 </main>
 
-
 <script>
-
-    /* =========================================================
-       VARIABLES PRINCIPALES
-    ========================================================== */
-
     let currentSection = 1;
-
     const totalSections = 4;
 
-
-    /* =========================================================
-       CAMBIO DE SECCIÓN
-    ========================================================== */
-
     function showSection(sectionNumber) {
-
         for (let i = 1; i <= totalSections; i++) {
-
-            document
-                .getElementById("section" + i)
-                .classList.remove("active");
-
+            document.getElementById("section" + i).classList.remove("active");
         }
-
-        document
-            .getElementById("section" + sectionNumber)
-            .classList.add("active");
-
+        document.getElementById("section" + sectionNumber).classList.add("active");
 
         updateProgress();
 
-
-        document
-            .getElementById("previousButton")
-            .style.visibility =
-            sectionNumber === 1 ? "hidden" : "visible";
-
-
-        document
-            .getElementById("nextButton")
-            .textContent =
-            sectionNumber === totalSections
-                ? "Finalizar"
-                : "Siguiente →";
-
+        document.getElementById("previousButton").style.visibility = sectionNumber === 1 ? "hidden" : "visible";
+        document.getElementById("nextButton").textContent = sectionNumber === totalSections ? "Finalizar" : "Siguiente →";
 
         if (sectionNumber === totalSections) {
-
             generateSummary();
-
         }
-
     }
-
-
-    /* =========================================================
-       BARRA DE PROGRESO
-    ========================================================== */
 
     function updateProgress() {
-
-        const percentage =
-            (currentSection / totalSections) * 100;
-
-        document
-            .getElementById("progressFill")
-            .style.width = percentage + "%";
-
-        document
-            .getElementById("progressPercent")
-            .textContent =
-            Math.round(percentage) + "%";
-
-        document
-            .getElementById("progressText")
-            .textContent =
-            "Sección " +
-            currentSection +
-            " de " +
-            totalSections;
-
+        const percentage = (currentSection / totalSections) * 100;
+        document.getElementById("progressFill").style.width = percentage + "%";
+        document.getElementById("progressPercent").textContent = Math.round(percentage) + "%";
+        document.getElementById("progressText").textContent = "Sección " + currentSection + " de " + totalSections;
     }
 
-
-    /* =========================================================
-       SIGUIENTE
-    ========================================================== */
-
     function nextSection() {
+        if (!validateCurrentSection()) return;
 
-        if (!validateCurrentSection()) {
+        if (currentSection < totalSections) {
+            currentSection++;
+            showSection(currentSection);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        } else {
+            alert("La información ha sido validada correctamente.");
+        }
+    }
+
+    function previousSection() {
+        if (currentSection > 1) {
+            currentSection--;
+            showSection(currentSection);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+    }
+
+    function validateCurrentSection() {
+        let valid = true;
+        if (currentSection === 1) return true;
+
+        if (currentSection === 2) {
+            const requiredFields = ["idInmueble", "entidad", "municipio", "area", "ocupacion", "anio", "pisos", "dias", "horas"];
+            requiredFields.forEach(id => {
+                const field = document.getElementById(id);
+                field.classList.remove("invalid");
+                if (field.value === "" || field.value === null) {
+                    field.classList.add("invalid");
+                    valid = false;
+                }
+            });
+
+            const tipo = document.querySelector('input[name="tipoEdificio"]:checked');
+            if (!tipo) {
+                alert("Seleccione un tipo de edificio.");
+                valid = false;
+            }
+
+            const ocupacion = Number(document.getElementById("ocupacion").value);
+            if (ocupacion < 0 || ocupacion > 100) {
+                document.getElementById("ocupacion").classList.add("invalid");
+                alert("La ocupación debe estar entre 0 y 100 %.");
+                valid = false;
+            }
+
+            if (!valid) alert("Complete correctamente los campos obligatorios.");
+        }
+
+        if (currentSection === 3) {
+            valid = validateConsumption();
+            const requiredFields = ["empleados", "usuarios", "computadoras"];
+
+            requiredFields.forEach(id => {
+                const field = document.getElementById(id);
+                field.classList.remove("invalid");
+                if (field.value === "") {
+                    field.classList.add("invalid");
+                    valid = false;
+                }
+            });
+
+            if (!valid) alert("Complete correctamente los campos obligatorios.");
+        }
+
+        return valid;
+    }
+
+    function toggleInfo(id) {
+        document.getElementById(id).classList.toggle("visible");
+    }
+
+    const monthlyInputs = document.querySelectorAll(".monthly-consumption");
+    monthlyInputs.forEach(input => input.addEventListener("input", calculateAnnualConsumption));
+
+    function calculateAnnualConsumption() {
+        let total = 0;
+        let complete = true;
+
+        monthlyInputs.forEach(input => {
+            if (input.value === "") complete = false;
+            else total += Number(input.value);
+        });
+
+        const annual = document.getElementById("annualConsumption");
+        const error = document.getElementById("consumptionError");
+
+        if (complete) {
+            annual.textContent = total.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            error.classList.remove("visible");
+        } else {
+            annual.textContent = "0";
+        }
+    }
+
+    function validateConsumption() {
+        let complete = true;
+        monthlyInputs.forEach(input => {
+            input.classList.remove("invalid");
+            if (input.value === "" || Number(input.value) < 0) {
+                input.classList.add("invalid");
+                complete = false;
+            }
+        });
+
+        const error = document.getElementById("consumptionError");
+        if (!complete) error.classList.add("visible");
+        else error.classList.remove("visible");
+
+        return complete;
+    }
+
+    function generateSummary() {
+        const summary = document.getElementById("summaryBody");
+        const tipo = document.querySelector('input[name="tipoEdificio"]:checked');
+        const annual = document.getElementById("annualConsumption").textContent;
+        const aireTR = document.getElementById("aireEquivalente").textContent;
+
+        const data = [
+            ["ID del inmueble", document.getElementById("idInmueble").value],
+            ["Entidad federativa", document.getElementById("entidad").value],
+            ["Municipio o alcaldía", document.getElementById("municipio").value],
+            ["Tipo de edificio", tipo ? tipo.value : ""],
+            ["Área construida", document.getElementById("area").value + " m²"],
+            ["Ocupación", document.getElementById("ocupacion").value + " %"],
+            ["Año de construcción", document.getElementById("anio").value],
+            ["Número de pisos", document.getElementById("pisos").value],
+            ["Días de operación", document.getElementById("dias").value],
+            ["Horas de operación", document.getElementById("horas").value + " h/semana"],
+            ["Consumo anual", annual + " kWh"],
+            ["Número de empleados", document.getElementById("empleados").value],
+            ["Personas usuarias", document.getElementById("usuarios").value],
+            ["Número de computadoras", document.getElementById("computadoras").value],
+            ["Capacidad de aire acondicionado", aireTR + " TR"]
+        ];
+
+        summary.innerHTML = "";
+        data.forEach(row => {
+            const tr = document.createElement("tr");
+            const td1 = document.createElement("td");
+            const td2 = document.createElement("td");
+            td1.textContent = row[0];
+            td2.textContent = row[1];
+            tr.appendChild(td1);
+            tr.appendChild(td2);
+            summary.appendChild(tr);
+        });
+    }
+
+    function downloadData() {
+        const tipo = document.querySelector('input[name="tipoEdificio"]:checked');
+        const monthlyValues = Array.from(monthlyInputs).map(input => Number(input.value));
+        const aireEquiv = Number(document.getElementById("aireEquivalente").textContent.replace(",", ""));
+
+        const data = {
+            idInmueble: document.getElementById("idInmueble").value,
+            entidad: document.getElementById("entidad").value,
+            municipio: document.getElementById("municipio").value,
+            tipoEdificio: tipo ? tipo.value : "",
+            areaConstruida: document.getElementById("area").value,
+            ocupacion: document.getElementById("ocupacion").value,
+            anioConstruccion: document.getElementById("anio").value,
+            pisos: document.getElementById("pisos").value,
+            diasOperacion: document.getElementById("dias").value,
+            horasOperacion: document.getElementById("horas").value,
+            consumosMensuales: monthlyValues,
+            consumoAnual: monthlyValues.reduce((a, b) => a + b, 0),
+            empleados: document.getElementById("empleados").value,
+            usuarios: document.getElementById("usuarios").value,
+            computadoras: document.getElementById("computadoras").value,
+            capacidadAireTR: aireEquiv,
+            porcentajeAreaFria: document.getElementById("areaFria").value,
+            porcentajeAreaCaliente: document.getElementById("areaCaliente").value,
+            porcentajeIluminacion: document.getElementById("iluminacion").value
+        };
+
+        const blob = new Blob([JSON.stringify(data, null, 4)], { type: "application/json" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "captura_benchmarking.json";
+        link.click();
+        URL.revokeObjectURL(url);
+    }
+
+    /* VALIDACIONES EN TIEMPO REAL */
+    document.getElementById("dias").addEventListener("input", function() {
+        const valor = Number(this.value);
+        this.classList.remove("invalid");
+        document.getElementById("diasError").classList.remove("visible");
+        if (this.value !== "" && (valor < 1 || valor > 7)) {
+            this.classList.add("invalid");
+            document.getElementById("diasError").classList.add("visible");
+        }
+    });
+
+    const aireInput = document.getElementById("aire");
+    const unidadAire = document.getElementById("unidadAire");
+
+    function calcularEquivalenteAire() {
+        const valor = Number(aireInput.value);
+        const unidad = unidadAire.value;
+
+        document.getElementById("aireWarningAlto").classList.remove("visible");
+        document.getElementById("aireWarningBajo").classList.remove("visible");
+
+        if (aireInput.value === "" || !Number.isFinite(valor) || valor <= 0) {
+            document.getElementById("aireEquivalente").textContent = "0.00";
             return;
         }
 
-        if (currentSection < totalSections) {
-
-            currentSection++;
-
-            showSection(currentSection);
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-
-        } else {
-
-            alert(
-                "La información ha sido validada correctamente."
-            );
-
+        let equivalenteTR = 0;
+        if (unidad === "TR") {
+            equivalenteTR = valor;
+            if (valor >= 100) document.getElementById("aireWarningAlto").classList.add("visible");
+        } else if (unidad === "BTU_H") {
+            equivalenteTR = valor / 12000;
+            if (valor > 0 && valor < 12000) document.getElementById("aireWarningBajo").classList.add("visible");
         }
 
+        document.getElementById("aireEquivalente").textContent = equivalenteTR.toLocaleString("es-MX", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
     }
 
-
-    /* =========================================================
-       ANTERIOR
-    ========================================================== */
-
-    function previousSection() {
-
-        if (currentSection > 1) {
-
-            currentSection--;
-
-            showSection(currentSection);
-
-            window.scrollTo({
-                top: 0,
-                behavior: "smooth"
-            });
-
-        }
-
-    }
-
-
-    /* =========================================================
-       VALIDACIÓN
-    ========================================================== */
-
-    function validateCurrentSection() {
-
-        let valid = true;
-
-
-        if (currentSection === 1) {
-
-            return true;
-
-        }
-
-
-        if (currentSection === 2) {
-
-            const requiredFields = [
-                "idInmueble",
-                "entidad",
-                "municipio",
-                "area",
-                "ocupacion",
-                "anio",
-                "pisos",
-                "dias",
-                "horas"
-            ];
-
-
-            requiredFields.forEach(function(id) {
-
-                const field =
-                    document.getElementById(id);
-
-                field.classList.remove("invalid");
-
-
-                if (
-                    field.value === "" ||
-                    field.value === null
-                ) {
-
-                    field.classList.add("invalid");
-
-                    valid = false;
-
-                }
-
-            });
-
-
-            const tipo =
-                document.querySelector(
-                    'input[name="tipoEdificio"]:checked'
-                );
-
-
-            if (!tipo) {
-
-                alert(
-                    "Seleccione un tipo de edificio."
-                );
-
-                valid = false;
-
-            }
-
-
-            const ocupacion =
-                Number(
-                    document.getElementById("ocupacion").value
-                );
-
-
-            if (
-                ocupacion < 0 ||
-                ocupacion > 100
-            ) {
-
-                document
-                    .getElementById("ocupacion")
-                    .classList.add("invalid");
-
-                alert(
-                    "La ocupación debe estar entre 0 y 100 %."
-                );
-
-                valid = false;
-
-            }
-
-
-            if (!valid) {
-
-                alert(
-                    "Complete correctamente los campos obligatorios."
-                );
-
-            }
-
-        }
-
-
-        if (currentSection === 3) {
-
-            valid =
-                validateConsumption();
-
-
-            const requiredFields = [
-                "empleados",
-                "usuarios",
-                "computadoras"
-            ];
-
-
-            requiredFields.forEach(function(id) {
-
-                const field =
-                    document.getElementById(id);
-
-                field.classList.remove("invalid");
-
-
-                if (field.value === "") {
-
-                    field.classList.add("invalid");
-
-                    valid = false;
-
-                }
-
-            });
-
-
-            if (!valid) {
-
-                alert(
-                    "Complete correctamente los campos obligatorios."
-                );
-
-            }
-
-        }
-
-
-        return valid;
-
-    }
-
-
-    /* =========================================================
-       INFORMACIÓN DESPLEGABLE
-    ========================================================== */
-
-    function toggleInfo(id) {
-
-        const box =
-            document.getElementById(id);
-
-        box.classList.toggle("visible");
-
-    }
-
-
-    /* =========================================================
-       CONSUMO MENSUAL
-    ========================================================== */
-
-    const monthlyInputs =
-        document.querySelectorAll(
-            ".monthly-consumption"
-        );
-
-
-    monthlyInputs.forEach(function(input) {
-
-        input.addEventListener(
-            "input",
-            calculateAnnualConsumption
-        );
-
-    });
-
-
-    function calculateAnnualConsumption() {
-
-        let total = 0;
-
-        let complete = true;
-
-
-        monthlyInputs.forEach(function(input) {
-
-            if (input.value === "") {
-
-                complete = false;
-
-            } else {
-
-                total += Number(input.value);
-
-            }
-
-        });
-
-
-        const annual =
-            document.getElementById(
-                "annualConsumption"
-            );
-
-
-        const error =
-            document.getElementById(
-                "consumptionError"
-            );
-
-
-        if (complete) {
-
-            annual.textContent =
-                total.toLocaleString(
-                    "es-MX",
-                    {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    }
-                );
-
-            error.classList.remove(
-                "visible"
-            );
-
-        } else {
-
-            annual.textContent = "0";
-
-        }
-
-    }
-
-
-    function validateConsumption() {
-
-        let complete = true;
-
-
-        monthlyInputs.forEach(function(input) {
-
-            input.classList.remove("invalid");
-
-
-            if (
-                input.value === "" ||
-                Number(input.value) < 0
-            ) {
-
-                input.classList.add("invalid");
-
-                complete = false;
-
-            }
-
-        });
-
-
-        const error =
-            document.getElementById(
-                "consumptionError"
-            );
-
-
-        if (!complete) {
-
-            error.classList.add("visible");
-
-        } else {
-
-            error.classList.remove("visible");
-
-        }
-
-
-        return complete;
-
-    }
-
-
-    /* =========================================================
-       RESUMEN
-    ========================================================== */
-
-    function generateSummary() {
-
-        const summary =
-            document.getElementById(
-                "summaryBody"
-            );
-
-
-        const tipo =
-            document.querySelector(
-                'input[name="tipoEdificio"]:checked'
-            );
-
-
-        const annual =
-            document.getElementById(
-                "annualConsumption"
-            ).textContent;
-
-
-        const data = [
-
-            [
-                "ID del inmueble",
-                document.getElementById(
-                    "idInmueble"
-                ).value
-            ],
-
-            [
-                "Entidad federativa",
-                document.getElementById(
-                    "entidad"
-                ).value
-            ],
-
-            [
-                "Municipio o alcaldía",
-                document.getElementById(
-                    "municipio"
-                ).value
-            ],
-
-            [
-                "Tipo de edificio",
-                tipo ? tipo.value : ""
-            ],
-
-            [
-                "Área construida",
-                document.getElementById(
-                    "area"
-                ).value + " m²"
-            ],
-
-            [
-                "Ocupación",
-                document.getElementById(
-                    "ocupacion"
-                ).value + " %"
-            ],
-
-            [
-                "Año de construcción",
-                document.getElementById(
-                    "anio"
-                ).value
-            ],
-
-            [
-                "Número de pisos",
-                document.getElementById(
-                    "pisos"
-                ).value
-            ],
-
-            [
-                "Días de operación",
-                document.getElementById(
-                    "dias"
-                ).value
-            ],
-
-            [
-                "Horas de operación",
-                document.getElementById(
-                    "horas"
-                ).value + " h/semana"
-            ],
-
-            [
-                "Consumo anual",
-                annual + " kWh"
-            ],
-
-            [
-                "Número de empleados",
-                document.getElementById(
-                    "empleados"
-                ).value
-            ],
-
-            [
-                "Personas usuarias",
-                document.getElementById(
-                    "usuarios"
-                ).value
-            ],
-
-            [
-                "Número de computadoras",
-                document.getElementById(
-                    "computadoras"
-                ).value
-            ],
-
-            [
-                "Capacidad de aire acondicionado",
-                document.getElementById(
-                    "aire"
-                ).value + " TR"
-            ]
-
-        ];
-
-
-        summary.innerHTML = "";
-
-
-        data.forEach(function(row) {
-
-            const tr =
-                document.createElement("tr");
-
-
-            const td1 =
-                document.createElement("td");
-
-            const td2 =
-                document.createElement("td");
-
-
-            td1.textContent = row[0];
-
-            td2.textContent = row[1];
-
-
-            tr.appendChild(td1);
-
-            tr.appendChild(td2);
-
-
-            summary.appendChild(tr);
-
-        });
-
-    }
-
-
-    /* =========================================================
-       DESCARGA DE DATOS
-    ========================================================== */
-
-    function downloadData() {
-
-        const tipo =
-            document.querySelector(
-                'input[name="tipoEdificio"]:checked'
-            );
-
-
-        const monthlyValues = [];
-
-
-        monthlyInputs.forEach(function(input) {
-
-            monthlyValues.push(
-                Number(input.value)
-            );
-
-        });
-
-
-        const data = {
-
-            idInmueble:
-                document.getElementById(
-                    "idInmueble"
-                ).value,
-
-            entidad:
-                document.getElementById(
-                    "entidad"
-                ).value,
-
-            municipio:
-                document.getElementById(
-                    "municipio"
-                ).value,
-
-            tipoEdificio:
-                tipo ? tipo.value : "",
-
-            areaConstruida:
-                document.getElementById(
-                    "area"
-                ).value,
-
-            ocupacion:
-                document.getElementById(
-                    "ocupacion"
-                ).value,
-
-            anioConstruccion:
-                document.getElementById(
-                    "anio"
-                ).value,
-
-            pisos:
-                document.getElementById(
-                    "pisos"
-                ).value,
-
-            diasOperacion:
-                document.getElementById(
-                    "dias"
-                ).value,
-
-            horasOperacion:
-                document.getElementById(
-                    "horas"
-                ).value,
-
-            consumosMensuales:
-                monthlyValues,
-
-            consumoAnual:
-                monthlyValues.reduce(
-                    (a, b) => a + b,
-                    0
-                ),
-
-            empleados:
-                document.getElementById(
-                    "empleados"
-                ).value,
-
-            usuarios:
-                document.getElementById(
-                    "usuarios"
-                ).value,
-
-            computadoras:
-                document.getElementById(
-                    "computadoras"
-                ).value,
-
-            capacidadAire:
-                document.getElementById(
-                    "aire"
-                ).value,
-
-            porcentajeAreaFria:
-                document.getElementById(
-                    "areaFria"
-                ).value,
-
-            porcentajeAreaCaliente:
-                document.getElementById(
-                    "areaCaliente"
-                ).value,
-
-            porcentajeIluminacion:
-                document.getElementById(
-                    "iluminacion"
-                ).value
-
-        };
-
-
-        const json =
-            JSON.stringify(
-                data,
-                null,
-                4
-            );
-
-
-        const blob =
-            new Blob(
-                [json],
-                {
-                    type:
-                        "application/json"
-                }
-            );
-
-
-        const url =
-            URL.createObjectURL(blob);
-
-
-        const link =
-            document.createElement("a");
-
-
-        link.href = url;
-
-        link.download =
-            "captura_benchmarking.json";
-
-
-        link.click();
-
-
-        URL.revokeObjectURL(url);
-
-    }
-
-    /* =========================================================
-   VALIDACIÓN INMEDIATA DE DÍAS DE OPERACIÓN
-========================================================= */
-
-const diasInput =
-    document.getElementById("dias");
-
-const diasError =
-    document.getElementById("diasError");
-
-
-diasInput.addEventListener("input", function() {
-
-    const valor = Number(this.value);
-
-    this.classList.remove("invalid");
-
-    diasError.classList.remove("visible");
-
-
-    if (
-        this.value !== "" &&
-        (valor < 1 || valor > 7)
-    ) {
-
-        this.classList.add("invalid");
-
-        diasError.classList.add("visible");
-
-    }
-
-});
-
-    /* =========================================================
-   CAPACIDAD DE AIRE ACONDICIONADO
-========================================================= */
-
-const aireInput = document.getElementById("aire");
-const unidadAire = document.getElementById("unidadAire");
-const aireEquivalente = document.getElementById("aireEquivalente");
-const aireWarningAlto = document.getElementById("aireWarningAlto");
-const aireWarningBajo = document.getElementById("aireWarningBajo");
-
-function calcularEquivalenteAire() {
-
-    const valor = Number(aireInput.value);
-    const unidad = unidadAire.value;
-
-    aireWarningAlto.classList.remove("visible");
-    aireWarningBajo.classList.remove("visible");
-
-    if (
-        aireInput.value === "" ||
-        !Number.isFinite(valor) ||
-        valor <= 0
-    ) {
-        aireEquivalente.textContent = "0.00";
-        return;
-    }
-
-    let equivalenteTR = 0;
-
-    if (unidad === "TR") {
-
-        equivalenteTR = valor;
-
-        if (valor >= 100) {
-            aireWarningAlto.classList.add("visible");
-        }
-
-    } else if (unidad === "BTU_H") {
-
-        equivalenteTR = valor / 12000;
-
-        if (valor > 0 && valor < 12000) {
-            aireWarningBajo.classList.add("visible");
-        }
-    }
-
-    aireEquivalente.textContent =
-        equivalenteTR.toLocaleString(
-            "es-MX",
-            {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
-            }
-        );
-}
-
-aireInput.addEventListener(
-    "input",
-    calcularEquivalenteAire
-);
-
-unidadAire.addEventListener(
-    "change",
-    calcularEquivalenteAire
-);
-    
-    /* =========================================================
-       INICIO
-    ========================================================== */
+    aireInput.addEventListener("input", calcularEquivalenteAire);
+    unidadAire.addEventListener("change", calcularEquivalenteAire);
 
     showSection(1);
-
 </script>
 
 </body>
