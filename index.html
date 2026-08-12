@@ -434,6 +434,11 @@
             background: #c6ccd0;
         }
 
+        button.nav-button:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
         /* =========================================================
            RESUMEN
         ========================================================= */
@@ -464,6 +469,33 @@
             border-radius: 5px;
             cursor: pointer;
             font-weight: bold;
+        }
+
+        /* =========================================================
+           MENSAJES DE SUPABASE
+        ========================================================= */
+
+        .save-message {
+            display: none;
+            margin-top: 20px;
+            padding: 15px 18px;
+            border-radius: 6px;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .save-message.success {
+            display: block;
+            background: #eef7e8;
+            border-left: 5px solid #5b7f3a;
+            color: #31501f;
+        }
+
+        .save-message.error {
+            display: block;
+            background: #ffebee;
+            border-left: 5px solid #c62828;
+            color: #8e0000;
         }
 
         /* =========================================================
@@ -599,8 +631,6 @@
 
             <div class="form-grid">
 
-                <!-- P001 -->
-
                 <div class="form-group">
 
                     <label for="p001">
@@ -608,16 +638,10 @@
                         <span class="required">*</span>
                     </label>
 
-                    <input
-                        type="text"
-                        id="p001"
-                        required
-                    >
+                    <input type="text" id="p001" required>
 
                 </div>
 
-
-                <!-- P002 -->
 
                 <div class="form-group">
 
@@ -670,8 +694,6 @@
                 </div>
 
 
-                <!-- P003 -->
-
                 <div class="form-group">
 
                     <label for="p003">
@@ -679,16 +701,10 @@
                         <span class="required">*</span>
                     </label>
 
-                    <input
-                        type="text"
-                        id="p003"
-                        required
-                    >
+                    <input type="text" id="p003" required>
 
                 </div>
 
-
-                <!-- P007 -->
 
                 <div class="form-group">
 
@@ -706,17 +722,12 @@
                         required
                     >
 
-                    <div
-                        class="field-error"
-                        id="anioError"
-                    >
+                    <div class="field-error" id="anioError">
                         El año de construcción debe contener exactamente 4 cifras.
                     </div>
 
                 </div>
 
-
-                <!-- P005 -->
 
                 <div class="form-group">
 
@@ -741,8 +752,6 @@
 
                 </div>
 
-
-                <!-- P006 -->
 
                 <div class="form-group">
 
@@ -777,10 +786,7 @@
 
                     </div>
 
-                    <div
-                        class="info-box"
-                        id="infoOcupacion"
-                    >
+                    <div class="info-box" id="infoOcupacion">
                         Corresponde al porcentaje del área total construida
                         del inmueble que es utilizada de manera habitual
                         por el personal y las personas usuarias.
@@ -788,8 +794,6 @@
 
                 </div>
 
-
-                <!-- P008 -->
 
                 <div class="form-group">
 
@@ -808,8 +812,6 @@
 
                 </div>
 
-
-                <!-- P009 -->
 
                 <div class="form-group">
 
@@ -833,17 +835,12 @@
 
                     </div>
 
-                    <div
-                        class="field-error"
-                        id="diasError"
-                    >
+                    <div class="field-error" id="diasError">
                         El número de días de operación debe estar entre 1 y 7 días por semana.
                     </div>
 
                 </div>
 
-
-                <!-- P010 -->
 
                 <div class="form-group">
 
@@ -870,8 +867,6 @@
                 </div>
 
 
-                <!-- P004 -->
-
                 <div class="form-group full">
 
                     <label>
@@ -882,65 +877,37 @@
                     <div class="radio-group">
 
                         <label class="radio-option">
-                            <input
-                                type="radio"
-                                name="p004"
-                                value="Oficinas administrativas"
-                            >
+                            <input type="radio" name="p004" value="Oficinas administrativas">
                             Oficinas administrativas
                         </label>
 
                         <label class="radio-option">
-                            <input
-                                type="radio"
-                                name="p004"
-                                value="Hospitales y centros de salud"
-                            >
+                            <input type="radio" name="p004" value="Hospitales y centros de salud">
                             Hospitales y centros de salud
                         </label>
 
                         <label class="radio-option">
-                            <input
-                                type="radio"
-                                name="p004"
-                                value="Centros educativos y de investigación"
-                            >
+                            <input type="radio" name="p004" value="Centros educativos y de investigación">
                             Centros educativos y de investigación
                         </label>
 
                         <label class="radio-option">
-                            <input
-                                type="radio"
-                                name="p004"
-                                value="Espacios culturales y recreativos"
-                            >
+                            <input type="radio" name="p004" value="Espacios culturales y recreativos">
                             Espacios culturales y recreativos
                         </label>
 
                         <label class="radio-option">
-                            <input
-                                type="radio"
-                                name="p004"
-                                value="Instalaciones de seguridad y defensa"
-                            >
+                            <input type="radio" name="p004" value="Instalaciones de seguridad y defensa">
                             Instalaciones de seguridad y defensa
                         </label>
 
                         <label class="radio-option">
-                            <input
-                                type="radio"
-                                name="p004"
-                                value="Infraestructura aduanal y fronteriza"
-                            >
+                            <input type="radio" name="p004" value="Infraestructura aduanal y fronteriza">
                             Infraestructura aduanal y fronteriza
                         </label>
 
                         <label class="radio-option">
-                            <input
-                                type="radio"
-                                name="p004"
-                                value="Otro tipo de inmueble"
-                            >
+                            <input type="radio" name="p004" value="Otro tipo de inmueble">
                             Otro tipo de inmueble
                         </label>
 
@@ -967,8 +934,6 @@
 
         <div class="section-content">
 
-            <!-- P023 -->
-
             <div class="form-group">
 
                 <h3 class="consumption-title">
@@ -985,10 +950,7 @@
 
                 </h3>
 
-                <div
-                    class="info-box"
-                    id="infoConsumo"
-                >
+                <div class="info-box" id="infoConsumo">
 
                     <strong>
                         Instrucciones para obtener el consumo:
@@ -1115,10 +1077,7 @@
                 </div>
 
 
-                <div
-                    class="error-message"
-                    id="consumptionError"
-                >
+                <div class="error-message" id="consumptionError">
                     Debe capturar los 12 consumos mensuales para
                     calcular el consumo anual.
                 </div>
@@ -1126,14 +1085,7 @@
             </div>
 
 
-            <!-- P024-P030 -->
-
-            <div
-                class="form-grid"
-                style="margin-top:35px;"
-            >
-
-                <!-- P024 -->
+            <div class="form-grid" style="margin-top:35px;">
 
                 <div class="form-group">
 
@@ -1152,8 +1104,6 @@
 
                 </div>
 
-
-                <!-- P025 -->
 
                 <div class="form-group">
 
@@ -1182,10 +1132,7 @@
                         required
                     >
 
-                    <div
-                        class="info-box"
-                        id="infoUsuarios"
-                    >
+                    <div class="info-box" id="infoUsuarios">
                         Corresponde al número promedio de personas
                         que hacen uso de las instalaciones de forma
                         temporal durante un día, excluyendo al personal
@@ -1197,8 +1144,6 @@
 
                 </div>
 
-
-                <!-- P026 -->
 
                 <div class="form-group">
 
@@ -1218,11 +1163,10 @@
                 </div>
 
 
-                <!-- P027 -->
-
                 <div class="form-group">
 
                     <label for="p027a">
+
                         Capacidad total instalada de aire acondicionado
 
                         <button
@@ -1245,10 +1189,7 @@
                             placeholder="Ingrese el total"
                         >
 
-                        <select
-                            id="p027b"
-                            class="unit-select"
-                        >
+                        <select id="p027b" class="unit-select">
                             <option value="TR">TR</option>
                             <option value="BTU_H">BTU/h</option>
                         </select>
@@ -1264,26 +1205,18 @@
 
                     </div>
 
-                    <div
-                        class="field-error"
-                        id="aireWarningAlto"
-                    >
+                    <div class="field-error" id="aireWarningAlto">
                         ⚠️ El valor ingresado parece elevado para la unidad seleccionada.
                         ¿Está seguro de que la unidad es TR y no BTU/h?
                     </div>
 
-                    <div
-                        class="field-error"
-                        id="aireWarningBajo"
-                    >
+                    <div class="field-error" id="aireWarningBajo">
                         ⚠️ El valor ingresado parece corresponder a una capacidad
                         expresada en TR. Verifique que la unidad seleccionada sea correcta.
                     </div>
 
-                    <div
-                        class="info-box"
-                        id="infoAire"
-                    >
+                    <div class="info-box" id="infoAire">
+
                         Reporte la <strong>capacidad total instalada</strong> de aire
                         acondicionado del inmueble, considerando la suma de la capacidad
                         de todos los equipos en uso.
@@ -1298,12 +1231,11 @@
                         El sistema calculará automáticamente el equivalente en
                         <strong>TR</strong>. No es necesario realizar conversiones
                         manualmente.
+
                     </div>
 
                 </div>
 
-
-                <!-- P028 -->
 
                 <div class="form-group">
 
@@ -1329,8 +1261,6 @@
                 </div>
 
 
-                <!-- P029 -->
-
                 <div class="form-group">
 
                     <label for="p029">
@@ -1354,8 +1284,6 @@
 
                 </div>
 
-
-                <!-- P030 -->
 
                 <div class="form-group">
 
@@ -1417,9 +1345,19 @@
 
             </table>
 
+
+            <!-- MENSAJE DE GUARDADO -->
+
+            <div
+                id="saveMessage"
+                class="save-message"
+            ></div>
+
+
             <button
                 class="download-button"
                 onclick="downloadData()"
+                type="button"
             >
                 Descargar información
             </button>
@@ -1439,6 +1377,7 @@
             class="nav-button previous"
             id="previousButton"
             onclick="previousSection()"
+            type="button"
         >
             ← Anterior
         </button>
@@ -1447,6 +1386,7 @@
             class="nav-button next"
             id="nextButton"
             onclick="nextSection()"
+            type="button"
         >
             Siguiente →
         </button>
@@ -1456,7 +1396,31 @@
 </main>
 
 
+<!-- =============================================================
+     SUPABASE
+============================================================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
 <script>
+
+    /* =========================================================
+       CONFIGURACIÓN DE SUPABASE
+    ========================================================= */
+
+    const SUPABASE_URL =
+        "https://cixxmvdippishbpvauul.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+        "sb_publishable_EcEVneud0En4wNVzYsFGaQ_mSzzZKtf";
+
+    const supabaseClient =
+        window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_PUBLISHABLE_KEY
+        );
+
 
     /* =========================================================
        VARIABLES PRINCIPALES
@@ -1464,6 +1428,8 @@
 
     let currentSection = 1;
     const totalSections = 4;
+
+    let isSaving = false;
 
 
     /* =========================================================
@@ -1506,7 +1472,7 @@
 
     /* =========================================================
        BARRA DE PROGRESO
-    ========================================================== */
+    ========================================================= */
 
     function updateProgress() {
 
@@ -1533,10 +1499,10 @@
 
 
     /* =========================================================
-       SIGUIENTE
-    ========================================================== */
+       SIGUIENTE / FINALIZAR
+    ========================================================= */
 
-    function nextSection() {
+    async function nextSection() {
 
         if (!validateCurrentSection()) {
             return;
@@ -1555,9 +1521,7 @@
 
         } else {
 
-            alert(
-                "La información ha sido validada correctamente."
-            );
+            await saveRecordToSupabase();
 
         }
     }
@@ -1565,7 +1529,7 @@
 
     /* =========================================================
        ANTERIOR
-    ========================================================== */
+    ========================================================= */
 
     function previousSection() {
 
@@ -1585,7 +1549,7 @@
 
     /* =========================================================
        VALIDACIÓN
-    ========================================================== */
+    ========================================================= */
 
     function validateCurrentSection() {
 
@@ -1630,8 +1594,6 @@
             });
 
 
-            /* Tipo de edificio */
-
             const tipo =
                 document.querySelector(
                     'input[name="p004"]:checked'
@@ -1646,8 +1608,6 @@
                 valid = false;
             }
 
-
-            /* Año de construcción */
 
             const anio =
                 document.getElementById("p007");
@@ -1669,8 +1629,6 @@
                 valid = false;
             }
 
-
-            /* Ocupación */
 
             const ocupacion =
                 Number(
@@ -1694,8 +1652,6 @@
             }
 
 
-            /* Días de operación */
-
             const dias =
                 Number(
                     document.getElementById("p009").value
@@ -1717,8 +1673,6 @@
                 valid = false;
             }
 
-
-            /* Horas de operación */
 
             const horas =
                 Number(
@@ -1781,8 +1735,6 @@
             });
 
 
-            /* Validación de porcentajes */
-
             const percentageFields = [
                 "p028",
                 "p029",
@@ -1798,8 +1750,10 @@
 
                 if (
                     field.value !== "" &&
-                    (Number(field.value) < 0 ||
-                     Number(field.value) > 100)
+                    (
+                        Number(field.value) < 0 ||
+                        Number(field.value) > 100
+                    )
                 ) {
 
                     field.classList.add("invalid");
@@ -1837,7 +1791,7 @@
 
     /* =========================================================
        CONSUMO MENSUAL
-    ========================================================== */
+    ========================================================= */
 
     const monthlyInputs =
         document.querySelectorAll(
@@ -1940,6 +1894,49 @@
 
 
     /* =========================================================
+       OBTENER EQUIVALENTE TR DE P027
+    ========================================================= */
+
+    function getP027EquivalentTR() {
+
+        const valor =
+            Number(
+                document.getElementById("p027a").value
+            );
+
+        const unidad =
+            document.getElementById("p027b").value;
+
+
+        if (
+            !document.getElementById("p027a").value ||
+            !Number.isFinite(valor) ||
+            valor <= 0
+        ) {
+
+            return null;
+        }
+
+
+        if (unidad === "TR") {
+
+            return valor;
+
+        }
+
+
+        if (unidad === "BTU_H") {
+
+            return valor / 12000;
+
+        }
+
+
+        return null;
+    }
+
+
+    /* =========================================================
        RESUMEN
     ========================================================== */
 
@@ -1962,7 +1959,7 @@
             document.getElementById("p027b").value;
 
         const aireTR =
-            document.getElementById("p027c").textContent;
+            getP027EquivalentTR();
 
         const annual =
             document.getElementById("p023").textContent;
@@ -2019,15 +2016,31 @@
              aireValor === ""
                 ? ""
                 : aireValor + " " +
-                  (aireUnidad === "BTU_H" ? "BTU/h" : "TR")],
+                  (
+                    aireUnidad === "BTU_H"
+                        ? "BTU/h"
+                        : "TR"
+                  )],
 
             ["P027b — Unidad reportada",
              aireValor === ""
                 ? ""
-                : (aireUnidad === "BTU_H" ? "BTU/h" : "TR")],
+                : (
+                    aireUnidad === "BTU_H"
+                        ? "BTU/h"
+                        : "TR"
+                  )],
 
             ["P027c — Equivalente en TR",
-             aireTR + " TR"],
+             aireTR === null
+                ? ""
+                : aireTR.toLocaleString(
+                    "es-MX",
+                    {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2
+                    }
+                  ) + " TR"],
 
             ["P028 — Área enfriada mediante equipos eléctricos",
              document.getElementById("p028").value === ""
@@ -2073,6 +2086,333 @@
 
 
     /* =========================================================
+       GUARDAR REGISTRO EN SUPABASE
+    ========================================================= */
+
+    async function saveRecordToSupabase() {
+
+        if (isSaving) {
+            return;
+        }
+
+
+        isSaving = true;
+
+
+        const saveButton =
+            document.getElementById("nextButton");
+
+        const previousButton =
+            document.getElementById("previousButton");
+
+        const saveMessage =
+            document.getElementById("saveMessage");
+
+
+        saveButton.disabled = true;
+        previousButton.disabled = true;
+
+        saveButton.textContent =
+            "Guardando...";
+
+        saveMessage.className =
+            "save-message";
+
+        saveMessage.textContent = "";
+
+
+        try {
+
+            /* -------------------------------------------------
+               TIPO DE EDIFICIO
+            ------------------------------------------------- */
+
+            const tipo =
+                document.querySelector(
+                    'input[name="p004"]:checked'
+                );
+
+
+            /* -------------------------------------------------
+               CONSUMOS MENSUALES
+            ------------------------------------------------- */
+
+            const monthlyValues = [];
+
+            monthlyInputs.forEach(function(input) {
+
+                monthlyValues.push(
+                    Number(input.value)
+                );
+
+            });
+
+
+            /* -------------------------------------------------
+               P027
+            ------------------------------------------------- */
+
+            const aireValorTexto =
+                document.getElementById("p027a").value;
+
+            const aireValor =
+                aireValorTexto === ""
+                    ? null
+                    : Number(aireValorTexto);
+
+            const aireUnidad =
+                aireValor === null
+                    ? null
+                    : document.getElementById("p027b").value;
+
+            const aireTR =
+                getP027EquivalentTR();
+
+
+            /* -------------------------------------------------
+               PAYLOAD
+               
+               IMPORTANTE:
+               P023 NO SE ENVÍA.
+               La base de datos lo calcula.
+            ------------------------------------------------- */
+
+            const record = {
+
+                id_registro:
+                    crypto.randomUUID(),
+
+                fecha_registro:
+                    new Date().toISOString(),
+
+                p001_id_inmueble:
+                    document.getElementById("p001").value.trim(),
+
+                p002_entidad_federativa:
+                    document.getElementById("p002").value,
+
+                p003_municipio_alcaldia:
+                    document.getElementById("p003").value.trim(),
+
+                p004_tipo_edificio:
+                    tipo ? tipo.value : null,
+
+                p005_area_total_construida:
+                    Number(
+                        document.getElementById("p005").value
+                    ),
+
+                p006_ocupacion:
+                    Number(
+                        document.getElementById("p006").value
+                    ),
+
+                p007_anio_construccion:
+                    Number(
+                        document.getElementById("p007").value
+                    ),
+
+                p008_numero_pisos:
+                    Number(
+                        document.getElementById("p008").value
+                    ),
+
+                p009_dias_operacion_semana:
+                    Number(
+                        document.getElementById("p009").value
+                    ),
+
+                p010_horas_operacion_semana:
+                    Number(
+                        document.getElementById("p010").value
+                    ),
+
+                p011_consumo_mensual_1:
+                    monthlyValues[0],
+
+                p012_consumo_mensual_2:
+                    monthlyValues[1],
+
+                p013_consumo_mensual_3:
+                    monthlyValues[2],
+
+                p014_consumo_mensual_4:
+                    monthlyValues[3],
+
+                p015_consumo_mensual_5:
+                    monthlyValues[4],
+
+                p016_consumo_mensual_6:
+                    monthlyValues[5],
+
+                p017_consumo_mensual_7:
+                    monthlyValues[6],
+
+                p018_consumo_mensual_8:
+                    monthlyValues[7],
+
+                p019_consumo_mensual_9:
+                    monthlyValues[8],
+
+                p020_consumo_mensual_10:
+                    monthlyValues[9],
+
+                p021_consumo_mensual_11:
+                    monthlyValues[10],
+
+                p022_consumo_mensual_12:
+                    monthlyValues[11],
+
+                /*
+                 * P023 SE OMITE INTENCIONALMENTE.
+                 * La BD debe calcularlo.
+                 */
+
+                p024_empleados_turno_principal:
+                    Number(
+                        document.getElementById("p024").value
+                    ),
+
+                p025_personas_usuarias_promedio_dia:
+                    Number(
+                        document.getElementById("p025").value
+                    ),
+
+                p026_numero_computadoras:
+                    Number(
+                        document.getElementById("p026").value
+                    ),
+
+                p027a_capacidad_aire_valor:
+                    aireValor,
+
+                p027b_capacidad_aire_unidad:
+                    aireUnidad,
+
+                p027c_capacidad_aire_tr:
+                    aireTR,
+
+                p028_area_enfriada_electrica:
+                    document.getElementById("p028").value === ""
+                        ? null
+                        : Number(
+                            document.getElementById("p028").value
+                          ),
+
+                p029_area_calentada_electrica:
+                    document.getElementById("p029").value === ""
+                        ? null
+                        : Number(
+                            document.getElementById("p029").value
+                          ),
+
+                p030_area_iluminada_artificialmente:
+                    document.getElementById("p030").value === ""
+                        ? null
+                        : Number(
+                            document.getElementById("p030").value
+                          )
+
+            };
+
+
+            /* -------------------------------------------------
+               INSERT
+            ------------------------------------------------- */
+
+            const { data, error } =
+                await supabaseClient
+                    .from("registros_inmuebles")
+                    .insert([record])
+                    .select()
+                    .single();
+
+
+            if (error) {
+
+                console.error(
+                    "Error de Supabase:",
+                    error
+                );
+
+                throw error;
+            }
+
+
+            /* -------------------------------------------------
+               ÉXITO
+            ------------------------------------------------- */
+
+            saveMessage.className =
+                "save-message success";
+
+            saveMessage.innerHTML =
+                "<strong>Registro guardado correctamente.</strong><br>" +
+                "La información del inmueble fue almacenada exitosamente.";
+
+            saveButton.textContent =
+                "Registro guardado";
+
+            saveButton.disabled = true;
+
+
+            /*
+             * Si la BD devolvió P023, actualizamos
+             * el valor mostrado en el resumen.
+             */
+
+            if (
+                data &&
+                data.p023_consumo_anual !== null &&
+                data.p023_consumo_anual !== undefined
+            ) {
+
+                document.getElementById("p023").textContent =
+                    Number(
+                        data.p023_consumo_anual
+                    ).toLocaleString(
+                        "es-MX",
+                        {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }
+                    );
+
+            }
+
+
+        } catch (error) {
+
+            console.error(
+                "No fue posible guardar el registro:",
+                error
+            );
+
+
+            saveMessage.className =
+                "save-message error";
+
+            saveMessage.innerHTML =
+                "<strong>No fue posible guardar el registro.</strong><br>" +
+                "Verifique su conexión a Internet e intente nuevamente.";
+
+
+            saveButton.textContent =
+                "Reintentar guardado";
+
+            saveButton.disabled = false;
+
+        } finally {
+
+            isSaving = false;
+
+            previousButton.disabled = false;
+
+        }
+    }
+
+
+    /* =========================================================
        DESCARGA DE DATOS
     ========================================================== */
 
@@ -2102,7 +2442,7 @@
             document.getElementById("p027b").value;
 
         const aireTR =
-            document.getElementById("p027c").textContent;
+            getP027EquivalentTR();
 
 
         const data = {
@@ -2195,7 +2535,7 @@
                 aireUnidad,
 
             P027c_capacidad_aire_tr:
-                aireValor === "" ? null : Number(aireTR.replace(",", "")),
+                aireTR,
 
             P028_area_enfriada_electrica:
                 document.getElementById("p028").value,
