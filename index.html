@@ -177,7 +177,8 @@
             grid-column: 1 / -1;
         }
 
-        label {
+        label,
+        .form-field-label {
             font-weight: bold;
             margin-bottom: 7px;
             font-size: 14px;
@@ -869,10 +870,10 @@
 
                 <div class="form-group full">
 
-                    <label>
+                    <div class="form-field-label">
                         Tipo de edificio
                         <span class="required">*</span>
-                    </label>
+                    </div>
 
                     <div class="radio-group">
 
@@ -2089,6 +2090,45 @@
        GUARDAR REGISTRO EN SUPABASE
     ========================================================= */
 
+    async function obtenerCodigoCatalogo(tabla, valor, nombreCampo) {
+
+        if (!valor) {
+            throw new Error(
+                "No se recibió un valor para " + nombreCampo + "."
+            );
+        }
+
+        const { data, error } = await supabaseClient
+            .from(tabla)
+            .select("codigo")
+            .eq("valor", valor)
+            .maybeSingle();
+
+        if (error) {
+            throw new Error(
+                "No fue posible consultar " +
+                nombreCampo +
+                " en " +
+                tabla +
+                ": " +
+                error.message
+            );
+        }
+
+        if (!data || !data.codigo) {
+            throw new Error(
+                'El valor "' +
+                valor +
+                '" no existe en el catálogo ' +
+                tabla +
+                "."
+            );
+        }
+
+        return data.codigo;
+    }
+
+
     async function saveRecordToSupabase() {
 
         if (isSaving) {
@@ -2130,6 +2170,25 @@
             const tipo =
                 document.querySelector(
                     'input[name="p004"]:checked'
+                );
+
+            /*
+             * P002 y P004 son llaves foráneas al campo "codigo"
+             * de sus respectivos catálogos. La interfaz muestra
+             * "valor", así que resolvemos el código antes del INSERT.
+             */
+            const codigoEntidad =
+                await obtenerCodigoCatalogo(
+                    "catalogo_entidades_federativas",
+                    document.getElementById("p002").value,
+                    "Entidad federativa"
+                );
+
+            const codigoTipoEdificio =
+                await obtenerCodigoCatalogo(
+                    "catalogo_tipos_edificio",
+                    tipo ? tipo.value : "",
+                    "Tipo de edificio"
                 );
 
 
@@ -2189,13 +2248,13 @@
                     document.getElementById("p001").value.trim(),
 
                 p002_entidad_federativa:
-                    document.getElementById("p002").value,
+                    codigoEntidad,
 
                 p003_municipio_alcaldia:
                     document.getElementById("p003").value.trim(),
 
                 p004_tipo_edificio:
-                    tipo ? tipo.value : null,
+                    codigoTipoEdificio,
 
                 p005_area_total_construida:
                     Number(
@@ -2320,12 +2379,10 @@
                INSERT
             ------------------------------------------------- */
 
-            const { data, error } =
+            const { error } =
                 await supabaseClient
                     .from("registros_inmuebles")
-                    .insert([record])
-                    .select()
-                    .single();
+                    .insert([record]);
 
 
             if (error) {
@@ -2357,28 +2414,10 @@
 
 
             /*
-             * Si la BD devolvió P023, actualizamos
-             * el valor mostrado en el resumen.
+             * No usamos .select() después del INSERT.
+             * Así guardar no requiere una política SELECT sobre
+             * registros_inmuebles.
              */
-
-            if (
-                data &&
-                data.p023_consumo_anual !== null &&
-                data.p023_consumo_anual !== undefined
-            ) {
-
-                document.getElementById("p023").textContent =
-                    Number(
-                        data.p023_consumo_anual
-                    ).toLocaleString(
-                        "es-MX",
-                        {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        }
-                    );
-
-            }
 
 
         } catch (error) {
@@ -2392,9 +2431,16 @@
             saveMessage.className =
                 "save-message error";
 
+            const detalle =
+                error && error.message
+                    ? error.message
+                    : "Error desconocido.";
+
             saveMessage.innerHTML =
                 "<strong>No fue posible guardar el registro.</strong><br>" +
-                "Verifique su conexión a Internet e intente nuevamente.";
+                "<span>Detalle: " +
+                detalle.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
+                "</span>";
 
 
             saveButton.textContent =
