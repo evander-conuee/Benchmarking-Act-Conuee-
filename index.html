@@ -657,38 +657,38 @@
                             Seleccione una opción
                         </option>
 
-                        <option>Aguascalientes</option>
-                        <option>Baja California</option>
-                        <option>Baja California Sur</option>
-                        <option>Campeche</option>
-                        <option>Chiapas</option>
-                        <option>Chihuahua</option>
-                        <option>Ciudad de México</option>
-                        <option>Coahuila</option>
-                        <option>Colima</option>
-                        <option>Durango</option>
-                        <option>Estado de México</option>
-                        <option>Guanajuato</option>
-                        <option>Guerrero</option>
-                        <option>Hidalgo</option>
-                        <option>Jalisco</option>
-                        <option>Michoacán</option>
-                        <option>Morelos</option>
-                        <option>Nayarit</option>
-                        <option>Nuevo León</option>
-                        <option>Oaxaca</option>
-                        <option>Puebla</option>
-                        <option>Querétaro</option>
-                        <option>Quintana Roo</option>
-                        <option>San Luis Potosí</option>
-                        <option>Sinaloa</option>
-                        <option>Sonora</option>
-                        <option>Tabasco</option>
-                        <option>Tamaulipas</option>
-                        <option>Tlaxcala</option>
-                        <option>Veracruz</option>
-                        <option>Yucatán</option>
-                        <option>Zacatecas</option>
+                        <option value="01">Aguascalientes</option>
+                        <option value="02">Baja California</option>
+                        <option value="03">Baja California Sur</option>
+                        <option value="04">Campeche</option>
+                        <option value="05">Chiapas</option>
+                        <option value="06">Chihuahua</option>
+                        <option value="07">Ciudad de México</option>
+                        <option value="08">Coahuila</option>
+                        <option value="09">Colima</option>
+                        <option value="10">Durango</option>
+                        <option value="11">Estado de México</option>
+                        <option value="12">Guanajuato</option>
+                        <option value="13">Guerrero</option>
+                        <option value="14">Hidalgo</option>
+                        <option value="15">Jalisco</option>
+                        <option value="16">Michoacán</option>
+                        <option value="17">Morelos</option>
+                        <option value="18">Nayarit</option>
+                        <option value="19">Nuevo León</option>
+                        <option value="20">Oaxaca</option>
+                        <option value="21">Puebla</option>
+                        <option value="22">Querétaro</option>
+                        <option value="23">Quintana Roo</option>
+                        <option value="24">San Luis Potosí</option>
+                        <option value="25">Sinaloa</option>
+                        <option value="26">Sonora</option>
+                        <option value="27">Tabasco</option>
+                        <option value="28">Tamaulipas</option>
+                        <option value="29">Tlaxcala</option>
+                        <option value="30">Veracruz</option>
+                        <option value="31">Yucatán</option>
+                        <option value="32">Zacatecas</option>
 
                     </select>
 
@@ -878,37 +878,37 @@
                     <div class="radio-group">
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="Oficinas administrativas">
+                            <input type="radio" name="p004" value="01">
                             Oficinas administrativas
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="Hospitales y centros de salud">
+                            <input type="radio" name="p004" value="02">
                             Hospitales y centros de salud
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="Centros educativos y de investigación">
+                            <input type="radio" name="p004" value="03">
                             Centros educativos y de investigación
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="Espacios culturales y recreativos">
+                            <input type="radio" name="p004" value="04">
                             Espacios culturales y recreativos
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="Instalaciones de seguridad y defensa">
+                            <input type="radio" name="p004" value="05">
                             Instalaciones de seguridad y defensa
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="Infraestructura aduanal y fronteriza">
+                            <input type="radio" name="p004" value="06">
                             Infraestructura aduanal y fronteriza
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="Otro tipo de inmueble">
+                            <input type="radio" name="p004" value="07">
                             Otro tipo de inmueble
                         </label>
 
@@ -2090,45 +2090,6 @@
        GUARDAR REGISTRO EN SUPABASE
     ========================================================= */
 
-    async function obtenerCodigoCatalogo(tabla, valor, nombreCampo) {
-
-        if (!valor) {
-            throw new Error(
-                "No se recibió un valor para " + nombreCampo + "."
-            );
-        }
-
-        const { data, error } = await supabaseClient
-            .from(tabla)
-            .select("codigo")
-            .eq("valor", valor)
-            .maybeSingle();
-
-        if (error) {
-            throw new Error(
-                "No fue posible consultar " +
-                nombreCampo +
-                " en " +
-                tabla +
-                ": " +
-                error.message
-            );
-        }
-
-        if (!data || !data.codigo) {
-            throw new Error(
-                'El valor "' +
-                valor +
-                '" no existe en el catálogo ' +
-                tabla +
-                "."
-            );
-        }
-
-        return data.codigo;
-    }
-
-
     async function saveRecordToSupabase() {
 
         if (isSaving) {
@@ -2171,26 +2132,6 @@
                 document.querySelector(
                     'input[name="p004"]:checked'
                 );
-
-            /*
-             * P002 y P004 son llaves foráneas al campo "codigo"
-             * de sus respectivos catálogos. La interfaz muestra
-             * "valor", así que resolvemos el código antes del INSERT.
-             */
-            const codigoEntidad =
-                await obtenerCodigoCatalogo(
-                    "catalogo_entidades_federativas",
-                    document.getElementById("p002").value,
-                    "Entidad federativa"
-                );
-
-            const codigoTipoEdificio =
-                await obtenerCodigoCatalogo(
-                    "catalogo_tipos_edificio",
-                    tipo ? tipo.value : "",
-                    "Tipo de edificio"
-                );
-
 
             /* -------------------------------------------------
                CONSUMOS MENSUALES
@@ -2248,13 +2189,13 @@
                     document.getElementById("p001").value.trim(),
 
                 p002_entidad_federativa:
-                    codigoEntidad,
+                    document.getElementById("p002").value,
 
                 p003_municipio_alcaldia:
                     document.getElementById("p003").value.trim(),
 
                 p004_tipo_edificio:
-                    codigoTipoEdificio,
+                    tipo ? tipo.value : null,
 
                 p005_area_total_construida:
                     Number(
@@ -2497,13 +2438,13 @@
                 document.getElementById("p001").value,
 
             P002_entidad_federativa:
-                document.getElementById("p002").value,
+                document.getElementById("p002").options[document.getElementById("p002").selectedIndex].text,
 
             P003_municipio_alcaldia:
                 document.getElementById("p003").value,
 
             P004_tipo_edificio:
-                tipo ? tipo.value : "",
+                tipo ? tipo.nextSibling.textContent.trim() : "",
 
             P005_area_total_construida:
                 document.getElementById("p005").value,
