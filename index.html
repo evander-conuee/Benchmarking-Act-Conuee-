@@ -656,38 +656,38 @@
                             Seleccione una opción
                         </option>
 
-                        <option>Aguascalientes</option>
-                        <option>Baja California</option>
-                        <option>Baja California Sur</option>
-                        <option>Campeche</option>
-                        <option>Chiapas</option>
-                        <option>Chihuahua</option>
-                        <option>Ciudad de México</option>
-                        <option>Coahuila</option>
-                        <option>Colima</option>
-                        <option>Durango</option>
-                        <option>Estado de México</option>
-                        <option>Guanajuato</option>
-                        <option>Guerrero</option>
-                        <option>Hidalgo</option>
-                        <option>Jalisco</option>
-                        <option>Michoacán</option>
-                        <option>Morelos</option>
-                        <option>Nayarit</option>
-                        <option>Nuevo León</option>
-                        <option>Oaxaca</option>
-                        <option>Puebla</option>
-                        <option>Querétaro</option>
-                        <option>Quintana Roo</option>
-                        <option>San Luis Potosí</option>
-                        <option>Sinaloa</option>
-                        <option>Sonora</option>
-                        <option>Tabasco</option>
-                        <option>Tamaulipas</option>
-                        <option>Tlaxcala</option>
-                        <option>Veracruz</option>
-                        <option>Yucatán</option>
-                        <option>Zacatecas</option>
+                        <option value="AGS">Aguascalientes</option>
+                        <option value="BC">Baja California</option>
+                        <option value="BCS">Baja California Sur</option>
+                        <option value="CAM">Campeche</option>
+                        <option value="CHP">Chiapas</option>
+                        <option value="CHH">Chihuahua</option>
+                        <option value="CDMX">Ciudad de México</option>
+                        <option value="COA">Coahuila</option>
+                        <option value="COL">Colima</option>
+                        <option value="DUR">Durango</option>
+                        <option value="MEX">Estado de México</option>
+                        <option value="GUA">Guanajuato</option>
+                        <option value="GRO">Guerrero</option>
+                        <option value="HID">Hidalgo</option>
+                        <option value="JAL">Jalisco</option>
+                        <option value="MIC">Michoacán</option>
+                        <option value="MOR">Morelos</option>
+                        <option value="NAY">Nayarit</option>
+                        <option value="NLE">Nuevo León</option>
+                        <option value="OAX">Oaxaca</option>
+                        <option value="PUE">Puebla</option>
+                        <option value="QUE">Querétaro</option>
+                        <option value="ROO">Quintana Roo</option>
+                        <option value="SLP">San Luis Potosí</option>
+                        <option value="SIN">Sinaloa</option>
+                        <option value="SON">Sonora</option>
+                        <option value="TAB">Tabasco</option>
+                        <option value="TAM">Tamaulipas</option>
+                        <option value="TLA">Tlaxcala</option>
+                        <option value="VER">Veracruz</option>
+                        <option value="YUC">Yucatán</option>
+                        <option value="ZAC">Zacatecas</option>
 
                     </select>
 
@@ -877,37 +877,37 @@
                     <div class="radio-group">
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="Oficinas administrativas">
+                            <input type="radio" name="p004" value="OFI">
                             Oficinas administrativas
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="Hospitales y centros de salud">
+                            <input type="radio" name="p004" value="HOS">
                             Hospitales y centros de salud
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="Centros educativos y de investigación">
+                            <input type="radio" name="p004" value="EDU">
                             Centros educativos y de investigación
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="Espacios culturales y recreativos">
+                            <input type="radio" name="p004" value="CUL">
                             Espacios culturales y recreativos
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="Instalaciones de seguridad y defensa">
+                            <input type="radio" name="p004" value="SEG">
                             Instalaciones de seguridad y defensa
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="Infraestructura aduanal y fronteriza">
+                            <input type="radio" name="p004" value="ADU">
                             Infraestructura aduanal y fronteriza
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="Otro tipo de inmueble">
+                            <input type="radio" name="p004" value="OTR">
                             Otro tipo de inmueble
                         </label>
 
@@ -2387,10 +2387,14 @@
             saveMessage.className =
                 "save-message error";
 
+            const detalle =
+                error && error.message
+                    ? error.message
+                    : "Error desconocido.";
+
             saveMessage.innerHTML =
                 "<strong>No fue posible guardar el registro.</strong><br>" +
-                "Detalle: " +
-                (error && error.message ? error.message : "Error desconocido.");
+                "Detalle: " + detalle;
 
 
             saveButton.textContent =
@@ -2725,7 +2729,7 @@
 
             if (
                 valor > 0 &&
-                valor < 12000
+                valor < 9000
             ) {
 
                 aireWarningBajo.classList.add(
