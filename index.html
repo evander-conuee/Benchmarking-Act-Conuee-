@@ -177,8 +177,7 @@
             grid-column: 1 / -1;
         }
 
-        label,
-        .form-field-label {
+        label {
             font-weight: bold;
             margin-bottom: 7px;
             font-size: 14px;
@@ -657,38 +656,38 @@
                             Seleccione una opción
                         </option>
 
-                        <option value="01">Aguascalientes</option>
-                        <option value="02">Baja California</option>
-                        <option value="03">Baja California Sur</option>
-                        <option value="04">Campeche</option>
-                        <option value="05">Chiapas</option>
-                        <option value="06">Chihuahua</option>
-                        <option value="07">Ciudad de México</option>
-                        <option value="08">Coahuila</option>
-                        <option value="09">Colima</option>
-                        <option value="10">Durango</option>
-                        <option value="11">Estado de México</option>
-                        <option value="12">Guanajuato</option>
-                        <option value="13">Guerrero</option>
-                        <option value="14">Hidalgo</option>
-                        <option value="15">Jalisco</option>
-                        <option value="16">Michoacán</option>
-                        <option value="17">Morelos</option>
-                        <option value="18">Nayarit</option>
-                        <option value="19">Nuevo León</option>
-                        <option value="20">Oaxaca</option>
-                        <option value="21">Puebla</option>
-                        <option value="22">Querétaro</option>
-                        <option value="23">Quintana Roo</option>
-                        <option value="24">San Luis Potosí</option>
-                        <option value="25">Sinaloa</option>
-                        <option value="26">Sonora</option>
-                        <option value="27">Tabasco</option>
-                        <option value="28">Tamaulipas</option>
-                        <option value="29">Tlaxcala</option>
-                        <option value="30">Veracruz</option>
-                        <option value="31">Yucatán</option>
-                        <option value="32">Zacatecas</option>
+                        <option>Aguascalientes</option>
+                        <option>Baja California</option>
+                        <option>Baja California Sur</option>
+                        <option>Campeche</option>
+                        <option>Chiapas</option>
+                        <option>Chihuahua</option>
+                        <option>Ciudad de México</option>
+                        <option>Coahuila</option>
+                        <option>Colima</option>
+                        <option>Durango</option>
+                        <option>Estado de México</option>
+                        <option>Guanajuato</option>
+                        <option>Guerrero</option>
+                        <option>Hidalgo</option>
+                        <option>Jalisco</option>
+                        <option>Michoacán</option>
+                        <option>Morelos</option>
+                        <option>Nayarit</option>
+                        <option>Nuevo León</option>
+                        <option>Oaxaca</option>
+                        <option>Puebla</option>
+                        <option>Querétaro</option>
+                        <option>Quintana Roo</option>
+                        <option>San Luis Potosí</option>
+                        <option>Sinaloa</option>
+                        <option>Sonora</option>
+                        <option>Tabasco</option>
+                        <option>Tamaulipas</option>
+                        <option>Tlaxcala</option>
+                        <option>Veracruz</option>
+                        <option>Yucatán</option>
+                        <option>Zacatecas</option>
 
                     </select>
 
@@ -870,45 +869,45 @@
 
                 <div class="form-group full">
 
-                    <div class="form-field-label">
+                    <label>
                         Tipo de edificio
                         <span class="required">*</span>
-                    </div>
+                    </label>
 
                     <div class="radio-group">
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="01">
+                            <input type="radio" name="p004" value="Oficinas administrativas">
                             Oficinas administrativas
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="02">
+                            <input type="radio" name="p004" value="Hospitales y centros de salud">
                             Hospitales y centros de salud
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="03">
+                            <input type="radio" name="p004" value="Centros educativos y de investigación">
                             Centros educativos y de investigación
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="04">
+                            <input type="radio" name="p004" value="Espacios culturales y recreativos">
                             Espacios culturales y recreativos
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="05">
+                            <input type="radio" name="p004" value="Instalaciones de seguridad y defensa">
                             Instalaciones de seguridad y defensa
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="06">
+                            <input type="radio" name="p004" value="Infraestructura aduanal y fronteriza">
                             Infraestructura aduanal y fronteriza
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="07">
+                            <input type="radio" name="p004" value="Otro tipo de inmueble">
                             Otro tipo de inmueble
                         </label>
 
@@ -2133,6 +2132,7 @@
                     'input[name="p004"]:checked'
                 );
 
+
             /* -------------------------------------------------
                CONSUMOS MENSUALES
             ------------------------------------------------- */
@@ -2317,7 +2317,7 @@
                INSERT
             ------------------------------------------------- */
 
-            const { error } =
+            const { data, error } =
                 await supabaseClient
                     .from("registros_inmuebles")
                     .insert([record]);
@@ -2352,10 +2352,28 @@
 
 
             /*
-             * No usamos .select() después del INSERT.
-             * Así guardar no requiere una política SELECT sobre
-             * registros_inmuebles.
+             * Si la BD devolvió P023, actualizamos
+             * el valor mostrado en el resumen.
              */
+
+            if (
+                data &&
+                data.p023_consumo_anual !== null &&
+                data.p023_consumo_anual !== undefined
+            ) {
+
+                document.getElementById("p023").textContent =
+                    Number(
+                        data.p023_consumo_anual
+                    ).toLocaleString(
+                        "es-MX",
+                        {
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2
+                        }
+                    );
+
+            }
 
 
         } catch (error) {
@@ -2369,16 +2387,10 @@
             saveMessage.className =
                 "save-message error";
 
-            const detalle =
-                error && error.message
-                    ? error.message
-                    : "Error desconocido.";
-
             saveMessage.innerHTML =
                 "<strong>No fue posible guardar el registro.</strong><br>" +
-                "<span>Detalle: " +
-                detalle.replace(/</g, "&lt;").replace(/>/g, "&gt;") +
-                "</span>";
+                "Detalle: " +
+                (error && error.message ? error.message : "Error desconocido.");
 
 
             saveButton.textContent =
@@ -2435,13 +2447,13 @@
                 document.getElementById("p001").value,
 
             P002_entidad_federativa:
-                document.getElementById("p002").options[document.getElementById("p002").selectedIndex].text,
+                document.getElementById("p002").value,
 
             P003_municipio_alcaldia:
                 document.getElementById("p003").value,
 
             P004_tipo_edificio:
-                tipo ? tipo.nextSibling.textContent.trim() : "",
+                tipo ? tipo.value : "",
 
             P005_area_total_construida:
                 document.getElementById("p005").value,
