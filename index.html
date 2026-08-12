@@ -157,7 +157,7 @@
         /* =========================================================
            FORMULARIOS
         ========================================================= */
-        
+
         .form-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -275,12 +275,6 @@
             display: block;
         }
 
-        .unit {
-            margin-top: 5px;
-            font-size: 12px;
-            color: #666;
-        }
-
         /* =========================================================
            OPCIONES DE TIPO DE INMUEBLE
         ========================================================= */
@@ -353,11 +347,10 @@
            CONSUMO ELÉCTRICO
         ========================================================= */
 
-        .consumption-help {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .consumption-title {
+            margin-top: 0;
             margin-bottom: 18px;
+            font-size: 19px;
         }
 
         .monthly-grid {
@@ -491,13 +484,22 @@
                 grid-template-columns: 1fr;
             }
 
+            .monthly-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
             .monthly-item label {
-                min-width: 120px;
+                min-width: auto;
             }
 
             .header-container {
                 flex-direction: column;
                 align-items: flex-start;
+            }
+
+            .input-with-unit input {
+                width: 100%;
             }
         }
     </style>
@@ -509,8 +511,8 @@
     <div class="header-container">
 
         <div class="logo-placeholder">
-            <img 
-                src="Conuee.png" 
+            <img
+                src="Conuee.png"
                 alt="Logo de la CONUEE"
             >
         </div>
@@ -545,7 +547,7 @@
 
 
     <!-- =========================================================
-         SECCIÓN 1: INSTRUCCIONES
+         SECCIÓN 1
     ========================================================== -->
 
     <section class="section active" id="section1">
@@ -584,7 +586,7 @@
 
 
     <!-- =========================================================
-         SECCIÓN 2: DATOS GENERALES
+         SECCIÓN 2
     ========================================================== -->
 
     <section class="section" id="section2">
@@ -597,34 +599,34 @@
 
             <div class="form-grid">
 
-                <!-- ID DEL INMUEBLE -->
+                <!-- P001 -->
 
                 <div class="form-group">
 
-                    <label for="idInmueble">
+                    <label for="p001">
                         ID del inmueble
                         <span class="required">*</span>
                     </label>
 
                     <input
                         type="text"
-                        id="idInmueble"
+                        id="p001"
                         required
                     >
 
                 </div>
 
 
-                <!-- ENTIDAD FEDERATIVA -->
+                <!-- P002 -->
 
                 <div class="form-group">
 
-                    <label for="entidad">
+                    <label for="p002">
                         Entidad federativa
                         <span class="required">*</span>
                     </label>
 
-                    <select id="entidad" required>
+                    <select id="p002" required>
 
                         <option value="">
                             Seleccione una opción
@@ -668,50 +670,57 @@
                 </div>
 
 
-                <!-- MUNICIPIO / ALCALDÍA -->
+                <!-- P003 -->
 
                 <div class="form-group">
 
-                    <label for="municipio">
+                    <label for="p003">
                         Municipio o alcaldía
                         <span class="required">*</span>
                     </label>
 
                     <input
                         type="text"
-                        id="municipio"
+                        id="p003"
                         required
                     >
 
                 </div>
 
 
-                <!-- AÑO DE CONSTRUCCIÓN -->
+                <!-- P007 -->
 
                 <div class="form-group">
 
-                    <label for="anio">
+                    <label for="p007">
                         Año de construcción
                         <span class="required">*</span>
                     </label>
 
                     <input
                         type="number"
-                        id="anio"
+                        id="p007"
                         min="1800"
                         max="2100"
                         step="1"
                         required
                     >
 
+                    <div
+                        class="field-error"
+                        id="anioError"
+                    >
+                        El año de construcción debe contener exactamente 4 cifras.
+                    </div>
+
                 </div>
 
 
-                <!-- ÁREA TOTAL CONSTRUIDA -->
+                <!-- P005 -->
 
                 <div class="form-group">
 
-                    <label for="area">
+                    <label for="p005">
                         Área total construida del inmueble
                         <span class="required">*</span>
                     </label>
@@ -720,7 +729,7 @@
 
                         <input
                             type="number"
-                            id="area"
+                            id="p005"
                             min="0"
                             step="0.01"
                             required
@@ -733,11 +742,11 @@
                 </div>
 
 
-                <!-- OCUPACIÓN -->
+                <!-- P006 -->
 
                 <div class="form-group">
 
-                    <label for="ocupacion">
+                    <label for="p006">
 
                         Ocupación
 
@@ -757,7 +766,7 @@
 
                         <input
                             type="number"
-                            id="ocupacion"
+                            id="p006"
                             min="0"
                             max="100"
                             step="0.01"
@@ -780,18 +789,18 @@
                 </div>
 
 
-                <!-- NÚMERO DE PISOS -->
+                <!-- P008 -->
 
                 <div class="form-group">
 
-                    <label for="pisos">
+                    <label for="p008">
                         Número de pisos
                         <span class="required">*</span>
                     </label>
 
                     <input
                         type="number"
-                        id="pisos"
+                        id="p008"
                         min="1"
                         step="1"
                         required
@@ -800,11 +809,11 @@
                 </div>
 
 
-                <!-- DÍAS DE OPERACIÓN -->
+                <!-- P009 -->
 
                 <div class="form-group">
 
-                    <label for="dias">
+                    <label for="p009">
                         Días de operación a la semana
                         <span class="required">*</span>
                     </label>
@@ -813,7 +822,7 @@
 
                         <input
                             type="number"
-                            id="dias"
+                            id="p009"
                             min="1"
                             max="7"
                             step="1"
@@ -834,11 +843,11 @@
                 </div>
 
 
-                <!-- HORAS DE OPERACIÓN -->
+                <!-- P010 -->
 
                 <div class="form-group">
 
-                    <label for="horas">
+                    <label for="p010">
                         Horas de operación a la semana
                         <span class="required">*</span>
                     </label>
@@ -847,7 +856,7 @@
 
                         <input
                             type="number"
-                            id="horas"
+                            id="p010"
                             min="0"
                             max="168"
                             step="0.5"
@@ -861,7 +870,7 @@
                 </div>
 
 
-                <!-- TIPO DE EDIFICIO -->
+                <!-- P004 -->
 
                 <div class="form-group full">
 
@@ -873,93 +882,66 @@
                     <div class="radio-group">
 
                         <label class="radio-option">
-
                             <input
                                 type="radio"
-                                name="tipoEdificio"
+                                name="p004"
                                 value="Oficinas administrativas"
                             >
-
                             Oficinas administrativas
-
                         </label>
 
-
                         <label class="radio-option">
-
                             <input
                                 type="radio"
-                                name="tipoEdificio"
+                                name="p004"
                                 value="Hospitales y centros de salud"
                             >
-
                             Hospitales y centros de salud
-
                         </label>
 
-
                         <label class="radio-option">
-
                             <input
                                 type="radio"
-                                name="tipoEdificio"
+                                name="p004"
                                 value="Centros educativos y de investigación"
                             >
-
                             Centros educativos y de investigación
-
                         </label>
 
-
                         <label class="radio-option">
-
                             <input
                                 type="radio"
-                                name="tipoEdificio"
+                                name="p004"
                                 value="Espacios culturales y recreativos"
                             >
-
                             Espacios culturales y recreativos
-
                         </label>
 
-
                         <label class="radio-option">
-
                             <input
                                 type="radio"
-                                name="tipoEdificio"
+                                name="p004"
                                 value="Instalaciones de seguridad y defensa"
                             >
-
                             Instalaciones de seguridad y defensa
-
                         </label>
 
-
                         <label class="radio-option">
-
                             <input
                                 type="radio"
-                                name="tipoEdificio"
+                                name="p004"
                                 value="Infraestructura aduanal y fronteriza"
                             >
-
                             Infraestructura aduanal y fronteriza
-
                         </label>
 
-
                         <label class="radio-option">
-
                             <input
                                 type="radio"
-                                name="tipoEdificio"
+                                name="p004"
                                 value="Otro tipo de inmueble"
                             >
-
                             Otro tipo de inmueble
-
                         </label>
 
                     </div>
@@ -974,7 +956,7 @@
 
 
     <!-- =========================================================
-         SECCIÓN 3: CAPTURA DE DATOS
+         SECCIÓN 3
     ========================================================== -->
 
     <section class="section" id="section3">
@@ -984,6 +966,8 @@
         </div>
 
         <div class="section-content">
+
+            <!-- P023 -->
 
             <div class="form-group">
 
@@ -1000,9 +984,6 @@
                     </button>
 
                 </h3>
-
-
-                <!-- INFORMACIÓN DEL RECIBO -->
 
                 <div
                     class="info-box"
@@ -1028,7 +1009,7 @@
 
                     <div style="margin-top:15px; text-align:center;">
 
-                        <img 
+                        <img
                             src="recibo_cfe.jpg"
                             alt="Ejemplo de recibo CFE GDMTH con consumo histórico anual"
                             style="
@@ -1044,8 +1025,6 @@
                 </div>
 
 
-                <!-- CONSUMOS MENSUALES -->
-
                 <h3 style="margin-top:30px;">
                     Consumos mensuales
                 </h3>
@@ -1060,129 +1039,67 @@
                 <div class="monthly-grid">
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 1 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
+                        <label for="p011">Consumo mensual 1 [kWh]:</label>
+                        <input type="number" id="p011" class="monthly-consumption" min="0" step="0.01">
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 2 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
+                        <label for="p012">Consumo mensual 2 [kWh]:</label>
+                        <input type="number" id="p012" class="monthly-consumption" min="0" step="0.01">
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 3 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
+                        <label for="p013">Consumo mensual 3 [kWh]:</label>
+                        <input type="number" id="p013" class="monthly-consumption" min="0" step="0.01">
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 4 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
+                        <label for="p014">Consumo mensual 4 [kWh]:</label>
+                        <input type="number" id="p014" class="monthly-consumption" min="0" step="0.01">
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 5 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
+                        <label for="p015">Consumo mensual 5 [kWh]:</label>
+                        <input type="number" id="p015" class="monthly-consumption" min="0" step="0.01">
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 6 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
+                        <label for="p016">Consumo mensual 6 [kWh]:</label>
+                        <input type="number" id="p016" class="monthly-consumption" min="0" step="0.01">
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 7 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
+                        <label for="p017">Consumo mensual 7 [kWh]:</label>
+                        <input type="number" id="p017" class="monthly-consumption" min="0" step="0.01">
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 8 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
+                        <label for="p018">Consumo mensual 8 [kWh]:</label>
+                        <input type="number" id="p018" class="monthly-consumption" min="0" step="0.01">
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 9 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
+                        <label for="p019">Consumo mensual 9 [kWh]:</label>
+                        <input type="number" id="p019" class="monthly-consumption" min="0" step="0.01">
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 10 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
+                        <label for="p020">Consumo mensual 10 [kWh]:</label>
+                        <input type="number" id="p020" class="monthly-consumption" min="0" step="0.01">
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 11 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
+                        <label for="p021">Consumo mensual 11 [kWh]:</label>
+                        <input type="number" id="p021" class="monthly-consumption" min="0" step="0.01">
                     </div>
 
                     <div class="monthly-item">
-                        <label>Consumo mensual 12 [kWh]:</label>
-                        <input
-                            type="number"
-                            class="monthly-consumption"
-                            min="0"
-                            step="0.01"
-                        >
+                        <label for="p022">Consumo mensual 12 [kWh]:</label>
+                        <input type="number" id="p022" class="monthly-consumption" min="0" step="0.01">
                     </div>
 
                 </div>
 
-
-                <!-- RESULTADO -->
 
                 <div class="annual-result">
 
@@ -1191,9 +1108,7 @@
                     <br>
 
                     <strong>
-                        <span id="annualConsumption">
-                            0
-                        </span>
+                        <span id="p023">0.00</span>
                         kWh
                     </strong>
 
@@ -1211,26 +1126,25 @@
             </div>
 
 
-            <!-- OTROS DATOS -->
+            <!-- P024-P030 -->
 
             <div
                 class="form-grid"
                 style="margin-top:35px;"
             >
 
+                <!-- P024 -->
+
                 <div class="form-group">
 
-                    <label for="empleados">
-
+                    <label for="p024">
                         Número de empleados en el turno principal
-
                         <span class="required">*</span>
-
                     </label>
 
                     <input
                         type="number"
-                        id="empleados"
+                        id="p024"
                         min="0"
                         step="1"
                         required
@@ -1239,12 +1153,14 @@
                 </div>
 
 
+                <!-- P025 -->
+
                 <div class="form-group">
 
-                    <label for="usuarios">
+                    <label for="p025">
 
-                        Número promedio al día, de personas atendidas
-                        o usuarias de las instalaciones
+                        Número promedio de personas atendidas
+                        o usuarias de las instalaciones al día
 
                         <button
                             type="button"
@@ -1260,7 +1176,7 @@
 
                     <input
                         type="number"
-                        id="usuarios"
+                        id="p025"
                         min="0"
                         step="1"
                         required
@@ -1272,8 +1188,8 @@
                     >
                         Corresponde al número promedio de personas
                         que hacen uso de las instalaciones de forma
-                        temporal durante un día, excluyendo al personal que labora
-                        en el inmueble. Ejemplos: visitantes,
+                        temporal durante un día, excluyendo al personal
+                        que labora en el inmueble. Ejemplos: visitantes,
                         pacientes, alumnos, personas privadas de
                         la libertad, personas en resguardo o custodia,
                         entre otros.
@@ -1282,16 +1198,18 @@
                 </div>
 
 
+                <!-- P026 -->
+
                 <div class="form-group">
 
-                    <label for="computadoras">
+                    <label for="p026">
                         Número de computadoras
                         <span class="required">*</span>
                     </label>
 
                     <input
                         type="number"
-                        id="computadoras"
+                        id="p026"
                         min="0"
                         step="1"
                         required
@@ -1300,11 +1218,11 @@
                 </div>
 
 
-                <!-- CAPACIDAD TOTAL INSTALADA DE AIRE ACONDICIONADO -->
+                <!-- P027 -->
 
                 <div class="form-group">
 
-                    <label for="aire">
+                    <label for="p027a">
                         Capacidad total instalada de aire acondicionado
 
                         <button
@@ -1321,14 +1239,14 @@
 
                         <input
                             type="number"
-                            id="aire"
+                            id="p027a"
                             min="0"
                             step="0.01"
                             placeholder="Ingrese el total"
                         >
 
                         <select
-                            id="unidadAire"
+                            id="p027b"
                             class="unit-select"
                         >
                             <option value="TR">TR</option>
@@ -1338,10 +1256,12 @@
                     </div>
 
                     <div class="aire-equivalente">
+
                         Equivalente a:
                         <strong>
-                            <span id="aireEquivalente">0.00</span> TR
+                            <span id="p027c">0.00</span> TR
                         </strong>
+
                     </div>
 
                     <div
@@ -1349,15 +1269,15 @@
                         id="aireWarningAlto"
                     >
                         ⚠️ El valor ingresado parece elevado para la unidad seleccionada.
-                        Verifique que la unidad sea correcta.
+                        ¿Está seguro de que la unidad es TR y no BTU/h?
                     </div>
 
                     <div
                         class="field-error"
                         id="aireWarningBajo"
                     >
-                        ⚠️ El valor ingresado parece corresponder a una capacidad expresada
-                        en TR. Verifique que la unidad seleccionada sea correcta.
+                        ⚠️ El valor ingresado parece corresponder a una capacidad
+                        expresada en TR. Verifique que la unidad seleccionada sea correcta.
                     </div>
 
                     <div
@@ -1383,9 +1303,11 @@
                 </div>
 
 
+                <!-- P028 -->
+
                 <div class="form-group">
 
-                    <label for="areaFria">
+                    <label for="p028">
                         Porcentaje del área total construida
                         que se enfría mediante equipos eléctricos
                     </label>
@@ -1394,7 +1316,7 @@
 
                         <input
                             type="number"
-                            id="areaFria"
+                            id="p028"
                             min="0"
                             max="100"
                             step="0.01"
@@ -1407,9 +1329,11 @@
                 </div>
 
 
+                <!-- P029 -->
+
                 <div class="form-group">
 
-                    <label for="areaCaliente">
+                    <label for="p029">
                         Porcentaje del área total construida
                         que se calienta mediante equipos eléctricos
                     </label>
@@ -1418,7 +1342,7 @@
 
                         <input
                             type="number"
-                            id="areaCaliente"
+                            id="p029"
                             min="0"
                             max="100"
                             step="0.01"
@@ -1431,9 +1355,11 @@
                 </div>
 
 
+                <!-- P030 -->
+
                 <div class="form-group">
 
-                    <label for="iluminacion">
+                    <label for="p030">
                         Porcentaje del área total construida
                         con iluminación artificial
                     </label>
@@ -1442,7 +1368,7 @@
 
                         <input
                             type="number"
-                            id="iluminacion"
+                            id="p030"
                             min="0"
                             max="100"
                             step="0.01"
@@ -1462,7 +1388,7 @@
 
 
     <!-- =========================================================
-         SECCIÓN 4: RESUMEN
+         SECCIÓN 4
     ========================================================== -->
 
     <section class="section" id="section4">
@@ -1481,7 +1407,7 @@
 
                 <thead>
                     <tr>
-                        <th>Dato</th>
+                        <th>Variable</th>
                         <th>Valor</th>
                     </tr>
                 </thead>
@@ -1504,7 +1430,7 @@
 
 
     <!-- =========================================================
-         BOTONES DE NAVEGACIÓN
+         NAVEGACIÓN
     ========================================================== -->
 
     <div class="navigation">
@@ -1534,16 +1460,15 @@
 
     /* =========================================================
        VARIABLES PRINCIPALES
-    ========================================================== */
+    ========================================================= */
 
     let currentSection = 1;
-
     const totalSections = 4;
 
 
     /* =========================================================
        CAMBIO DE SECCIÓN
-    ========================================================== */
+    ========================================================= */
 
     function showSection(sectionNumber) {
 
@@ -1559,15 +1484,12 @@
             .getElementById("section" + sectionNumber)
             .classList.add("active");
 
-
         updateProgress();
-
 
         document
             .getElementById("previousButton")
             .style.visibility =
             sectionNumber === 1 ? "hidden" : "visible";
-
 
         document
             .getElementById("nextButton")
@@ -1576,13 +1498,9 @@
                 ? "Finalizar"
                 : "Siguiente →";
 
-
         if (sectionNumber === totalSections) {
-
             generateSummary();
-
         }
-
     }
 
 
@@ -1611,7 +1529,6 @@
             currentSection +
             " de " +
             totalSections;
-
     }
 
 
@@ -1643,7 +1560,6 @@
             );
 
         }
-
     }
 
 
@@ -1663,9 +1579,7 @@
                 top: 0,
                 behavior: "smooth"
             });
-
         }
-
     }
 
 
@@ -1677,28 +1591,28 @@
 
         let valid = true;
 
-
         if (currentSection === 1) {
-
             return true;
-
         }
 
+
+        /* -----------------------------------------------------
+           SECCIÓN 2
+        ----------------------------------------------------- */
 
         if (currentSection === 2) {
 
             const requiredFields = [
-                "idInmueble",
-                "entidad",
-                "municipio",
-                "area",
-                "ocupacion",
-                "anio",
-                "pisos",
-                "dias",
-                "horas"
+                "p001",
+                "p002",
+                "p003",
+                "p005",
+                "p006",
+                "p007",
+                "p008",
+                "p009",
+                "p010"
             ];
-
 
             requiredFields.forEach(function(id) {
 
@@ -1707,26 +1621,21 @@
 
                 field.classList.remove("invalid");
 
-
-                if (
-                    field.value === "" ||
-                    field.value === null
-                ) {
+                if (field.value === "") {
 
                     field.classList.add("invalid");
 
                     valid = false;
-
                 }
-
             });
 
 
+            /* Tipo de edificio */
+
             const tipo =
                 document.querySelector(
-                    'input[name="tipoEdificio"]:checked'
+                    'input[name="p004"]:checked'
                 );
-
 
             if (!tipo) {
 
@@ -1735,23 +1644,46 @@
                 );
 
                 valid = false;
-
             }
 
 
-            const ocupacion =
-                Number(
-                    document.getElementById("ocupacion").value
-                );
+            /* Año de construcción */
 
+            const anio =
+                document.getElementById("p007");
+
+            const anioError =
+                document.getElementById("anioError");
+
+            anio.classList.remove("invalid");
+            anioError.classList.remove("visible");
 
             if (
-                ocupacion < 0 ||
-                ocupacion > 100
+                anio.value !== "" &&
+                !/^\d{4}$/.test(anio.value)
+            ) {
+
+                anio.classList.add("invalid");
+                anioError.classList.add("visible");
+
+                valid = false;
+            }
+
+
+            /* Ocupación */
+
+            const ocupacion =
+                Number(
+                    document.getElementById("p006").value
+                );
+
+            if (
+                document.getElementById("p006").value !== "" &&
+                (ocupacion < 0 || ocupacion > 100)
             ) {
 
                 document
-                    .getElementById("ocupacion")
+                    .getElementById("p006")
                     .classList.add("invalid");
 
                 alert(
@@ -1759,7 +1691,54 @@
                 );
 
                 valid = false;
+            }
 
+
+            /* Días de operación */
+
+            const dias =
+                Number(
+                    document.getElementById("p009").value
+                );
+
+            if (
+                document.getElementById("p009").value !== "" &&
+                (dias < 1 || dias > 7)
+            ) {
+
+                document
+                    .getElementById("p009")
+                    .classList.add("invalid");
+
+                document
+                    .getElementById("diasError")
+                    .classList.add("visible");
+
+                valid = false;
+            }
+
+
+            /* Horas de operación */
+
+            const horas =
+                Number(
+                    document.getElementById("p010").value
+                );
+
+            if (
+                document.getElementById("p010").value !== "" &&
+                (horas < 0 || horas > 168)
+            ) {
+
+                document
+                    .getElementById("p010")
+                    .classList.add("invalid");
+
+                alert(
+                    "Las horas de operación deben estar entre 0 y 168 h/semana."
+                );
+
+                valid = false;
             }
 
 
@@ -1768,24 +1747,23 @@
                 alert(
                     "Complete correctamente los campos obligatorios."
                 );
-
             }
-
         }
 
 
+        /* -----------------------------------------------------
+           SECCIÓN 3
+        ----------------------------------------------------- */
+
         if (currentSection === 3) {
 
-            valid =
-                validateConsumption();
-
+            valid = validateConsumption();
 
             const requiredFields = [
-                "empleados",
-                "usuarios",
-                "computadoras"
+                "p024",
+                "p025",
+                "p026"
             ];
-
 
             requiredFields.forEach(function(id) {
 
@@ -1794,31 +1772,53 @@
 
                 field.classList.remove("invalid");
 
-
                 if (field.value === "") {
 
                     field.classList.add("invalid");
 
                     valid = false;
-
                 }
+            });
 
+
+            /* Validación de porcentajes */
+
+            const percentageFields = [
+                "p028",
+                "p029",
+                "p030"
+            ];
+
+            percentageFields.forEach(function(id) {
+
+                const field =
+                    document.getElementById(id);
+
+                field.classList.remove("invalid");
+
+                if (
+                    field.value !== "" &&
+                    (Number(field.value) < 0 ||
+                     Number(field.value) > 100)
+                ) {
+
+                    field.classList.add("invalid");
+
+                    valid = false;
+                }
             });
 
 
             if (!valid) {
 
                 alert(
-                    "Complete correctamente los campos obligatorios."
+                    "Complete correctamente los campos obligatorios y revise los valores ingresados."
                 );
-
             }
-
         }
 
 
         return valid;
-
     }
 
 
@@ -1832,7 +1832,6 @@
             document.getElementById(id);
 
         box.classList.toggle("visible");
-
     }
 
 
@@ -1852,16 +1851,13 @@
             "input",
             calculateAnnualConsumption
         );
-
     });
 
 
     function calculateAnnualConsumption() {
 
         let total = 0;
-
         let complete = true;
-
 
         monthlyInputs.forEach(function(input) {
 
@@ -1872,22 +1868,15 @@
             } else {
 
                 total += Number(input.value);
-
             }
-
         });
 
 
         const annual =
-            document.getElementById(
-                "annualConsumption"
-            );
-
+            document.getElementById("p023");
 
         const error =
-            document.getElementById(
-                "consumptionError"
-            );
+            document.getElementById("consumptionError");
 
 
         if (complete) {
@@ -1901,16 +1890,12 @@
                     }
                 );
 
-            error.classList.remove(
-                "visible"
-            );
+            error.classList.remove("visible");
 
         } else {
 
-            annual.textContent = "0";
-
+            annual.textContent = "0.00";
         }
-
     }
 
 
@@ -1918,11 +1903,9 @@
 
         let complete = true;
 
-
         monthlyInputs.forEach(function(input) {
 
             input.classList.remove("invalid");
-
 
             if (
                 input.value === "" ||
@@ -1932,9 +1915,7 @@
                 input.classList.add("invalid");
 
                 complete = false;
-
             }
-
         });
 
 
@@ -1951,12 +1932,10 @@
         } else {
 
             error.classList.remove("visible");
-
         }
 
 
         return complete;
-
     }
 
 
@@ -1971,125 +1950,99 @@
                 "summaryBody"
             );
 
-
         const tipo =
             document.querySelector(
-                'input[name="tipoEdificio"]:checked'
+                'input[name="p004"]:checked'
             );
 
+        const aireValor =
+            document.getElementById("p027a").value;
 
-        const annual =
-            document.getElementById(
-                "annualConsumption"
-            ).textContent;
-
+        const aireUnidad =
+            document.getElementById("p027b").value;
 
         const aireTR =
-            document.getElementById(
-                "aireEquivalente"
-            ).textContent;
+            document.getElementById("p027c").textContent;
+
+        const annual =
+            document.getElementById("p023").textContent;
 
 
         const data = [
 
-            [
-                "ID del inmueble",
-                document.getElementById(
-                    "idInmueble"
-                ).value
-            ],
+            ["P001 — ID del inmueble",
+             document.getElementById("p001").value],
 
-            [
-                "Entidad federativa",
-                document.getElementById(
-                    "entidad"
-                ).value
-            ],
+            ["P002 — Entidad federativa",
+             document.getElementById("p002").value],
 
-            [
-                "Municipio o alcaldía",
-                document.getElementById(
-                    "municipio"
-                ).value
-            ],
+            ["P003 — Municipio o alcaldía",
+             document.getElementById("p003").value],
 
-            [
-                "Tipo de edificio",
-                tipo ? tipo.value : ""
-            ],
+            ["P004 — Tipo de edificio",
+             tipo ? tipo.value : ""],
 
-            [
-                "Área construida",
-                document.getElementById(
-                    "area"
-                ).value + " m²"
-            ],
+            ["P005 — Área total construida",
+             document.getElementById("p005").value + " m²"],
 
-            [
-                "Ocupación",
-                document.getElementById(
-                    "ocupacion"
-                ).value + " %"
-            ],
+            ["P006 — Ocupación",
+             document.getElementById("p006").value + " %"],
 
-            [
-                "Año de construcción",
-                document.getElementById(
-                    "anio"
-                ).value
-            ],
+            ["P007 — Año de construcción",
+             document.getElementById("p007").value],
 
-            [
-                "Número de pisos",
-                document.getElementById(
-                    "pisos"
-                ).value
-            ],
+            ["P008 — Número de pisos",
+             document.getElementById("p008").value],
 
-            [
-                "Días de operación",
-                document.getElementById(
-                    "dias"
-                ).value
-            ],
+            ["P009 — Días de operación",
+             document.getElementById("p009").value + " días/semana"],
 
-            [
-                "Horas de operación",
-                document.getElementById(
-                    "horas"
-                ).value + " h/semana"
-            ],
+            ["P010 — Horas de operación",
+             document.getElementById("p010").value + " h/semana"],
 
-            [
-                "Consumo anual",
-                annual + " kWh"
-            ],
+            ["P011–P022 — Consumos mensuales",
+             "12 valores capturados"],
 
-            [
-                "Número de empleados",
-                document.getElementById(
-                    "empleados"
-                ).value
-            ],
+            ["P023 — Consumo anual calculado",
+             annual + " kWh"],
 
-            [
-                "Personas usuarias",
-                document.getElementById(
-                    "usuarios"
-                ).value
-            ],
+            ["P024 — Empleados en turno principal",
+             document.getElementById("p024").value],
 
-            [
-                "Número de computadoras",
-                document.getElementById(
-                    "computadoras"
-                ).value
-            ],
+            ["P025 — Personas usuarias promedio al día",
+             document.getElementById("p025").value + " personas/día"],
 
-            [
-                "Capacidad de aire acondicionado",
-                aireTR + " TR"
-            ]
+            ["P026 — Número de computadoras",
+             document.getElementById("p026").value],
+
+            ["P027a — Capacidad de aire acondicionado",
+             aireValor === ""
+                ? ""
+                : aireValor + " " +
+                  (aireUnidad === "BTU_H" ? "BTU/h" : "TR")],
+
+            ["P027b — Unidad reportada",
+             aireValor === ""
+                ? ""
+                : (aireUnidad === "BTU_H" ? "BTU/h" : "TR")],
+
+            ["P027c — Equivalente en TR",
+             aireTR + " TR"],
+
+            ["P028 — Área enfriada mediante equipos eléctricos",
+             document.getElementById("p028").value === ""
+                ? ""
+                : document.getElementById("p028").value + " %"],
+
+            ["P029 — Área calentada mediante equipos eléctricos",
+             document.getElementById("p029").value === ""
+                ? ""
+                : document.getElementById("p029").value + " %"],
+
+            ["P030 — Área con iluminación artificial",
+             document.getElementById("p030").value === ""
+                ? ""
+                : document.getElementById("p030").value + " %"]
 
         ];
 
@@ -2102,28 +2055,20 @@
             const tr =
                 document.createElement("tr");
 
-
             const td1 =
                 document.createElement("td");
 
             const td2 =
                 document.createElement("td");
 
-
             td1.textContent = row[0];
-
             td2.textContent = row[1];
 
-
             tr.appendChild(td1);
-
             tr.appendChild(td2);
 
-
             summary.appendChild(tr);
-
         });
-
     }
 
 
@@ -2135,7 +2080,7 @@
 
         const tipo =
             document.querySelector(
-                'input[name="tipoEdificio"]:checked'
+                'input[name="p004"]:checked'
             );
 
 
@@ -2147,118 +2092,119 @@
             monthlyValues.push(
                 Number(input.value)
             );
-
         });
 
 
+        const aireValor =
+            document.getElementById("p027a").value;
+
+        const aireUnidad =
+            document.getElementById("p027b").value;
+
         const aireTR =
-            document.getElementById(
-                "aireEquivalente"
-            ).textContent;
+            document.getElementById("p027c").textContent;
 
 
         const data = {
 
-            idInmueble:
-                document.getElementById(
-                    "idInmueble"
-                ).value,
+            P001_id_inmueble:
+                document.getElementById("p001").value,
 
-            entidad:
-                document.getElementById(
-                    "entidad"
-                ).value,
+            P002_entidad_federativa:
+                document.getElementById("p002").value,
 
-            municipio:
-                document.getElementById(
-                    "municipio"
-                ).value,
+            P003_municipio_alcaldia:
+                document.getElementById("p003").value,
 
-            tipoEdificio:
+            P004_tipo_edificio:
                 tipo ? tipo.value : "",
 
-            areaConstruida:
-                document.getElementById(
-                    "area"
-                ).value,
+            P005_area_total_construida:
+                document.getElementById("p005").value,
 
-            ocupacion:
-                document.getElementById(
-                    "ocupacion"
-                ).value,
+            P006_ocupacion:
+                document.getElementById("p006").value,
 
-            anioConstruccion:
-                document.getElementById(
-                    "anio"
-                ).value,
+            P007_anio_construccion:
+                document.getElementById("p007").value,
 
-            pisos:
-                document.getElementById(
-                    "pisos"
-                ).value,
+            P008_numero_pisos:
+                document.getElementById("p008").value,
 
-            diasOperacion:
-                document.getElementById(
-                    "dias"
-                ).value,
+            P009_dias_operacion_semana:
+                document.getElementById("p009").value,
 
-            horasOperacion:
-                document.getElementById(
-                    "horas"
-                ).value,
+            P010_horas_operacion_semana:
+                document.getElementById("p010").value,
 
-            consumosMensuales:
-                monthlyValues,
+            P011_consumo_mensual_1:
+                monthlyValues[0],
 
-            consumoAnual:
+            P012_consumo_mensual_2:
+                monthlyValues[1],
+
+            P013_consumo_mensual_3:
+                monthlyValues[2],
+
+            P014_consumo_mensual_4:
+                monthlyValues[3],
+
+            P015_consumo_mensual_5:
+                monthlyValues[4],
+
+            P016_consumo_mensual_6:
+                monthlyValues[5],
+
+            P017_consumo_mensual_7:
+                monthlyValues[6],
+
+            P018_consumo_mensual_8:
+                monthlyValues[7],
+
+            P019_consumo_mensual_9:
+                monthlyValues[8],
+
+            P020_consumo_mensual_10:
+                monthlyValues[9],
+
+            P021_consumo_mensual_11:
+                monthlyValues[10],
+
+            P022_consumo_mensual_12:
+                monthlyValues[11],
+
+            P023_consumo_anual:
                 monthlyValues.reduce(
                     (a, b) => a + b,
                     0
                 ),
 
-            empleados:
-                document.getElementById(
-                    "empleados"
-                ).value,
+            P024_empleados_turno_principal:
+                document.getElementById("p024").value,
 
-            usuarios:
-                document.getElementById(
-                    "usuarios"
-                ).value,
+            P025_personas_usuarias_promedio_dia:
+                document.getElementById("p025").value,
 
-            computadoras:
-                document.getElementById(
-                    "computadoras"
-                ).value,
+            P026_numero_computadoras:
+                document.getElementById("p026").value,
 
-            capacidadAireIngresada:
-                document.getElementById(
-                    "aire"
-                ).value,
+            P027a_capacidad_aire_valor:
+                aireValor,
 
-            unidadAireIngresada:
-                document.getElementById(
-                    "unidadAire"
-                ).value,
+            P027b_capacidad_aire_unidad:
+                aireUnidad,
 
-            capacidadAireTR:
-                aireTR,
+            P027c_capacidad_aire_tr:
+                aireValor === "" ? null : Number(aireTR.replace(",", "")),
 
-            porcentajeAreaFria:
-                document.getElementById(
-                    "areaFria"
-                ).value,
+            P028_area_enfriada_electrica:
+                document.getElementById("p028").value,
 
-            porcentajeAreaCaliente:
-                document.getElementById(
-                    "areaCaliente"
-                ).value,
+            P029_area_calentada_electrica:
+                document.getElementById("p029").value,
 
-            porcentajeIluminacion:
-                document.getElementById(
-                    "iluminacion"
-                ).value
-
+            P030_area_iluminada_artificialmente:
+                document.getElementById("p030").value
         };
 
 
@@ -2287,118 +2233,194 @@
         const link =
             document.createElement("a");
 
-
         link.href = url;
 
         link.download =
             "captura_benchmarking.json";
 
-
         link.click();
 
-
         URL.revokeObjectURL(url);
-
     }
+
 
     /* =========================================================
-   VALIDACIÓN INMEDIATA DE DÍAS DE OPERACIÓN
-========================================================= */
+       VALIDACIÓN INMEDIATA DE DÍAS
+    ========================================================== */
 
-const diasInput =
-    document.getElementById("dias");
+    const diasInput =
+        document.getElementById("p009");
 
-const diasError =
-    document.getElementById("diasError");
-
-
-diasInput.addEventListener("input", function() {
-
-    const valor = Number(this.value);
-
-    this.classList.remove("invalid");
-
-    diasError.classList.remove("visible");
+    const diasError =
+        document.getElementById("diasError");
 
 
-    if (
-        this.value !== "" &&
-        (valor < 1 || valor > 7)
-    ) {
+    diasInput.addEventListener(
+        "input",
+        function() {
 
-        this.classList.add("invalid");
+            const valor =
+                Number(this.value);
 
-        diasError.classList.add("visible");
+            this.classList.remove("invalid");
 
-    }
+            diasError.classList.remove("visible");
 
-});
 
-    /* =========================================================
-   CAPACIDAD DE AIRE ACONDICIONADO
-========================================================= */
+            if (
+                this.value !== "" &&
+                (valor < 1 || valor > 7)
+            ) {
 
-const aireInput = document.getElementById("aire");
-const unidadAire = document.getElementById("unidadAire");
-const aireEquivalente = document.getElementById("aireEquivalente");
-const aireWarningAlto = document.getElementById("aireWarningAlto");
-const aireWarningBajo = document.getElementById("aireWarningBajo");
+                this.classList.add("invalid");
 
-function calcularEquivalenteAire() {
-
-    const valor = Number(aireInput.value);
-    const unidad = unidadAire.value;
-
-    aireWarningAlto.classList.remove("visible");
-    aireWarningBajo.classList.remove("visible");
-
-    if (
-        aireInput.value === "" ||
-        !Number.isFinite(valor) ||
-        valor <= 0
-    ) {
-        aireEquivalente.textContent = "0.00";
-        return;
-    }
-
-    let equivalenteTR = 0;
-
-    if (unidad === "TR") {
-
-        equivalenteTR = valor;
-
-        if (valor >= 100) {
-            aireWarningAlto.classList.add("visible");
-        }
-
-    } else if (unidad === "BTU_H") {
-
-        equivalenteTR = valor / 12000;
-
-        if (valor > 0 && valor < 12000) {
-            aireWarningBajo.classList.add("visible");
-        }
-    }
-
-    aireEquivalente.textContent =
-        equivalenteTR.toLocaleString(
-            "es-MX",
-            {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2
+                diasError.classList.add("visible");
             }
+        }
+    );
+
+
+    /* =========================================================
+       VALIDACIÓN DEL AÑO
+    ========================================================== */
+
+    const anioInput =
+        document.getElementById("p007");
+
+    const anioError =
+        document.getElementById("anioError");
+
+
+    anioInput.addEventListener(
+        "input",
+        function() {
+
+            const valor =
+                this.value;
+
+            this.classList.remove("invalid");
+            anioError.classList.remove("visible");
+
+
+            if (
+                valor !== "" &&
+                !/^\d{4}$/.test(valor)
+            ) {
+
+                this.classList.add("invalid");
+                anioError.classList.add("visible");
+            }
+        }
+    );
+
+
+    /* =========================================================
+       CAPACIDAD DE AIRE ACONDICIONADO
+    ========================================================== */
+
+    const aireInput =
+        document.getElementById("p027a");
+
+    const unidadAire =
+        document.getElementById("p027b");
+
+    const aireEquivalente =
+        document.getElementById("p027c");
+
+    const aireWarningAlto =
+        document.getElementById("aireWarningAlto");
+
+    const aireWarningBajo =
+        document.getElementById("aireWarningBajo");
+
+
+    function calcularEquivalenteAire() {
+
+        const valor =
+            Number(aireInput.value);
+
+        const unidad =
+            unidadAire.value;
+
+
+        aireWarningAlto.classList.remove(
+            "visible"
         );
-}
 
-aireInput.addEventListener(
-    "input",
-    calcularEquivalenteAire
-);
+        aireWarningBajo.classList.remove(
+            "visible"
+        );
 
-unidadAire.addEventListener(
-    "change",
-    calcularEquivalenteAire
-);
+
+        if (
+            aireInput.value === "" ||
+            !Number.isFinite(valor) ||
+            valor <= 0
+        ) {
+
+            aireEquivalente.textContent =
+                "0.00";
+
+            return;
+        }
+
+
+        let equivalenteTR = 0;
+
+
+        if (unidad === "TR") {
+
+            equivalenteTR = valor;
+
+
+            if (valor >= 100) {
+
+                aireWarningAlto.classList.add(
+                    "visible"
+                );
+            }
+
+
+        } else if (unidad === "BTU_H") {
+
+            equivalenteTR =
+                valor / 12000;
+
+
+            if (
+                valor > 0 &&
+                valor < 12000
+            ) {
+
+                aireWarningBajo.classList.add(
+                    "visible"
+                );
+            }
+        }
+
+
+        aireEquivalente.textContent =
+            equivalenteTR.toLocaleString(
+                "es-MX",
+                {
+                    minimumFractionDigits: 2,
+                    maximumFractionDigits: 2
+                }
+            );
+    }
+
+
+    aireInput.addEventListener(
+        "input",
+        calcularEquivalenteAire
+    );
+
+
+    unidadAire.addEventListener(
+        "change",
+        calcularEquivalenteAire
+    );
+
 
     /* =========================================================
        INICIO
