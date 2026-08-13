@@ -41,19 +41,23 @@
         }
 
         .logo-placeholder {
-            width: 75px;
-            height: 55px;
+            width: 145px;
+            height: 78px;
+            flex: 0 0 145px;
             border: none;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: flex-start;
             background: transparent;
         }
 
         .logo-placeholder img {
-            max-width: 100%;
-            max-height: 100%;
+            display: block;
+            width: 100%;
+            height: 100%;
             object-fit: contain;
+            object-position: left center;
+            image-rendering: auto;
         }
 
         .header-title {
@@ -70,6 +74,25 @@
             margin: 5px 0 0;
             font-size: 14px;
             color: #666;
+        }
+
+
+        /* =========================================================
+           ACCESO ADMINISTRATIVO DISCRETO
+        ========================================================= */
+
+        .admin-access {
+            display: inline-block;
+            margin-top: 8px;
+            color: #777;
+            font-size: 11px;
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        .admin-access:hover {
+            color: #3f5d2a;
+            text-decoration: underline;
         }
 
         /* =========================================================
@@ -552,6 +575,7 @@
         <div class="header-title">
             <h1>Herramienta de Benchmarking en la Administración Pública Federal</h1>
             <p>Instrumento de recolección de información para inmuebles de la APF</p>
+            <a class="admin-access" href="admin.html" aria-label="Acceso administrativo">Acceso administrativo</a>
         </div>
 
     </div>
@@ -656,38 +680,38 @@
                             Seleccione una opción
                         </option>
 
-                        <option value="AGS">Aguascalientes</option>
-                        <option value="BC">Baja California</option>
-                        <option value="BCS">Baja California Sur</option>
-                        <option value="CAM">Campeche</option>
-                        <option value="CHP">Chiapas</option>
-                        <option value="CHH">Chihuahua</option>
-                        <option value="CDMX">Ciudad de México</option>
-                        <option value="COA">Coahuila</option>
-                        <option value="COL">Colima</option>
-                        <option value="DUR">Durango</option>
-                        <option value="MEX">Estado de México</option>
-                        <option value="GUA">Guanajuato</option>
-                        <option value="GRO">Guerrero</option>
-                        <option value="HID">Hidalgo</option>
-                        <option value="JAL">Jalisco</option>
-                        <option value="MIC">Michoacán</option>
-                        <option value="MOR">Morelos</option>
-                        <option value="NAY">Nayarit</option>
-                        <option value="NLE">Nuevo León</option>
-                        <option value="OAX">Oaxaca</option>
-                        <option value="PUE">Puebla</option>
-                        <option value="QUE">Querétaro</option>
-                        <option value="ROO">Quintana Roo</option>
-                        <option value="SLP">San Luis Potosí</option>
-                        <option value="SIN">Sinaloa</option>
-                        <option value="SON">Sonora</option>
-                        <option value="TAB">Tabasco</option>
-                        <option value="TAM">Tamaulipas</option>
-                        <option value="TLA">Tlaxcala</option>
-                        <option value="VER">Veracruz</option>
-                        <option value="YUC">Yucatán</option>
-                        <option value="ZAC">Zacatecas</option>
+                        <option>Aguascalientes</option>
+                        <option>Baja California</option>
+                        <option>Baja California Sur</option>
+                        <option>Campeche</option>
+                        <option>Chiapas</option>
+                        <option>Chihuahua</option>
+                        <option>Ciudad de México</option>
+                        <option>Coahuila</option>
+                        <option>Colima</option>
+                        <option>Durango</option>
+                        <option>Estado de México</option>
+                        <option>Guanajuato</option>
+                        <option>Guerrero</option>
+                        <option>Hidalgo</option>
+                        <option>Jalisco</option>
+                        <option>Michoacán</option>
+                        <option>Morelos</option>
+                        <option>Nayarit</option>
+                        <option>Nuevo León</option>
+                        <option>Oaxaca</option>
+                        <option>Puebla</option>
+                        <option>Querétaro</option>
+                        <option>Quintana Roo</option>
+                        <option>San Luis Potosí</option>
+                        <option>Sinaloa</option>
+                        <option>Sonora</option>
+                        <option>Tabasco</option>
+                        <option>Tamaulipas</option>
+                        <option>Tlaxcala</option>
+                        <option>Veracruz</option>
+                        <option>Yucatán</option>
+                        <option>Zacatecas</option>
 
                     </select>
 
@@ -877,37 +901,37 @@
                     <div class="radio-group">
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="OFI">
+                            <input type="radio" name="p004" value="Oficinas administrativas">
                             Oficinas administrativas
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="HOS">
+                            <input type="radio" name="p004" value="Hospitales y centros de salud">
                             Hospitales y centros de salud
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="EDU">
+                            <input type="radio" name="p004" value="Centros educativos y de investigación">
                             Centros educativos y de investigación
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="CUL">
+                            <input type="radio" name="p004" value="Espacios culturales y recreativos">
                             Espacios culturales y recreativos
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="SEG">
+                            <input type="radio" name="p004" value="Instalaciones de seguridad y defensa">
                             Instalaciones de seguridad y defensa
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="ADU">
+                            <input type="radio" name="p004" value="Infraestructura aduanal y fronteriza">
                             Infraestructura aduanal y fronteriza
                         </label>
 
                         <label class="radio-option">
-                            <input type="radio" name="p004" value="OTR">
+                            <input type="radio" name="p004" value="Otro tipo de inmueble">
                             Otro tipo de inmueble
                         </label>
 
@@ -2289,6 +2313,9 @@
                 p027b_capacidad_aire_unidad:
                     aireUnidad,
 
+                p027c_capacidad_aire_tr:
+                    aireTR,
+
                 p028_area_enfriada_electrica:
                     document.getElementById("p028").value === ""
                         ? null
@@ -2320,7 +2347,9 @@
             const { data, error } =
                 await supabaseClient
                     .from("registros_inmuebles")
-                    .insert([record]);
+                    .insert([record])
+                    .select()
+                    .single();
 
 
             if (error) {
@@ -2387,14 +2416,9 @@
             saveMessage.className =
                 "save-message error";
 
-            const detalle =
-                error && error.message
-                    ? error.message
-                    : "Error desconocido.";
-
             saveMessage.innerHTML =
                 "<strong>No fue posible guardar el registro.</strong><br>" +
-                "Detalle: " + detalle;
+                "Verifique su conexión a Internet e intente nuevamente.";
 
 
             saveButton.textContent =
@@ -2729,7 +2753,7 @@
 
             if (
                 valor > 0 &&
-                valor < 9000
+                valor < 12000
             ) {
 
                 aireWarningBajo.classList.add(
