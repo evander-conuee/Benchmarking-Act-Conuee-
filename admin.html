@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Panel administrativo</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:#f3f5f7;color:#263238}header{background:#fff;border-bottom:4px solid #5b7f3a;padding:18px 30px}.header{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}.title h1{margin:0;color:#3f5d2a;font-size:23px}.title p{margin:5px 0 0;color:#666;font-size:14px}.btn{border:0;border-radius:5px;padding:10px 16px;font-weight:bold;cursor:pointer}.btn-primary{background:#5b7f3a;color:#fff}.btn-secondary{background:#d8dde0;color:#263238}.btn-danger{background:#8e0000;color:#fff}.btn-excel{background:#1f6f43;color:#fff}.btn:disabled{opacity:.55;cursor:not-allowed}.export-card{display:flex;align-items:center;justify-content:space-between;gap:18px}.export-card p{margin:5px 0 0;color:#666;font-size:13px}.export-status{color:#666;font-size:13px}.hidden{display:none!important}main{max-width:1200px;margin:28px auto;padding:0 20px}.card{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:22px;margin-bottom:20px}.login{max-width:430px;margin:70px auto}.login h2{margin-top:0;color:#3f5d2a}label{display:block;font-weight:bold;font-size:14px;margin:14px 0 6px}input,select{width:100%;padding:10px 12px;border:1px solid #b8bec3;border-radius:5px;font-size:15px;background:#fff}input:focus,select:focus{outline:none;border-color:#5b7f3a;box-shadow:0 0 0 2px rgba(91,127,58,.15)}.message{padding:12px;border-radius:5px;margin-top:14px;display:none}.message.error{display:block;background:#ffebee;color:#8e0000;border-left:4px solid #c62828}.message.success{display:block;background:#eef7e8;color:#31501f;border-left:4px solid #5b7f3a}.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr auto auto;gap:10px;align-items:end}.stats{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:18px}.stat{background:#eef4e9;border-left:4px solid #5b7f3a;padding:12px 18px;border-radius:5px}.stat strong{display:block;font-size:22px;color:#3f5d2a}.table-wrap{overflow:auto;border:1px solid #d2d7da;border-radius:6px}table{width:100%;border-collapse:collapse;min-width:1000px}th,td{padding:10px;border-bottom:1px solid #e1e5e8;text-align:left;white-space:nowrap;font-size:13px}th{background:#eef1ed;color:#263238;position:sticky;top:0}tr:hover td{background:#f7f9f6}.actions{display:flex;justify-content:space-between;align-items:center;margin-top:15px;gap:10px}.muted{color:#666;font-size:13px}.loading{text-align:center;padding:30px;color:#666}.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}.modal-card{background:#fff;width:min(1000px,100%);max-height:90vh;overflow:auto;border-radius:8px;padding:22px}.modal-head{display:flex;justify-content:space-between;align-items:center}.detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:15px}.detail{border:1px solid #e1e5e8;padding:10px;border-radius:5px}.detail small{display:block;color:#666;margin-bottom:4px}.detail strong{word-break:break-word}@media(max-width:800px){.toolbar{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.header{align-items:flex-start;flex-direction:column}}
 </style>
@@ -82,18 +82,273 @@ document.getElementById('closeModal').onclick=()=>document.getElementById('modal
 document.getElementById('filterBtn').onclick=()=>{page=0;loadRows()};document.getElementById('clearBtn').onclick=()=>{document.getElementById('search').value='';document.getElementById('entity').value='';document.getElementById('building').value='';page=0;loadRows()};document.getElementById('prevBtn').onclick=()=>{if(page>0){page--;loadRows()}};document.getElementById('nextBtn').onclick=()=>{if((page+1)*PAGE_SIZE<total){page++;loadRows()}};
 /* ============================================================
    EXPORTACIÓN EXCEL ADMINISTRATIVA
-   Descriptor basado en Propuesta Preguntas.xlsx
+   Generación 100% en el navegador con xlsx-js-style
    ============================================================ */
-const EXCEL_DESCRIPTOR=[["p001_id_inmueble", "P001", "ID del inmueble", "Identificador del inmueble proporcionado por el usuario.", "-", "TEXTO", "Obligatorio"], ["p002_entidad_federativa", "P002", "Entidad Federativa", "Valor seleccionado del catálogo de entidades federativas.", "-", "CATÁLOGO", "Una opción"], ["p003_municipio_alcaldia", "P003", "Municipio o alcaldía", "Municipio o alcaldía correspondiente al inmueble.", "-", "TEXTO", "Obligatorio"], ["p004_tipo_edificio", "P004", "Tipo de edificio", "Valor seleccionado del catálogo de tipos de edificio.", "-", "CATÁLOGO", "Una opción"], ["p005_area_total_construida", "P005", "Área total construida del inmueble:", "Superficie total construida del inmueble.", "m²", "DECIMAL", ">0"], ["p006_ocupacion", "P006", "Ocupación", "Porcentaje del área total construida utilizada habitualmente.", "%", "DECIMAL", "0-100"], ["p007_anio_construccion", "P007", "Año de construcción:", "Año expresado en cuatro cifras.", "año", "ENTERO", "Entero de 4 cifras"], ["p008_numero_pisos", "P008", "Número de pisos", "Número de pisos del inmueble.", "pisos", "ENTERO", "≥1"], ["p009_dias_operacion_semana", "P009", "Días de operación a la semana:", "Número de días que opera el inmueble por semana.", "días/semana", "ENTERO", "1-7"], ["p010_horas_operacion_semana", "P010", "Horas de operación a la semana:", "Número de horas de operación del inmueble por semana.", "h/semana", "DECIMAL", "0-168"], ["p011_consumo_mensual_1", "P011", "Consumo mensual 1", "Consumo correspondiente al periodo 1.", "kWh", "DECIMAL", "Obligatorio"], ["p012_consumo_mensual_2", "P012", "Consumo mensual 2", "Consumo correspondiente al periodo 2.", "kWh", "DECIMAL", "Obligatorio"], ["p013_consumo_mensual_3", "P013", "Consumo mensual 3", "Consumo correspondiente al periodo 3.", "kWh", "DECIMAL", "Obligatorio"], ["p014_consumo_mensual_4", "P014", "Consumo mensual 4", "Consumo correspondiente al periodo 4.", "kWh", "DECIMAL", "Obligatorio"], ["p015_consumo_mensual_5", "P015", "Consumo mensual 5", "Consumo correspondiente al periodo 5.", "kWh", "DECIMAL", "Obligatorio"], ["p016_consumo_mensual_6", "P016", "Consumo mensual 6", "Consumo correspondiente al periodo 6.", "kWh", "DECIMAL", "Obligatorio"], ["p017_consumo_mensual_7", "P017", "Consumo mensual 7", "Consumo correspondiente al periodo 7.", "kWh", "DECIMAL", "Obligatorio"], ["p018_consumo_mensual_8", "P018", "Consumo mensual 8", "Consumo correspondiente al periodo 8.", "kWh", "DECIMAL", "Obligatorio"], ["p019_consumo_mensual_9", "P019", "Consumo mensual 9", "Consumo correspondiente al periodo 9.", "kWh", "DECIMAL", "Obligatorio"], ["p020_consumo_mensual_10", "P020", "Consumo mensual 10", "Consumo correspondiente al periodo 10.", "kWh", "DECIMAL", "Obligatorio"], ["p021_consumo_mensual_11", "P021", "Consumo mensual 11", "Consumo correspondiente al periodo 11.", "kWh", "DECIMAL", "Obligatorio"], ["p022_consumo_mensual_12", "P022", "Consumo mensual 12", "Consumo correspondiente al periodo 12.", "kWh", "DECIMAL", "Obligatorio"], ["p023_consumo_anual", "P023", "Consumo anual calculado", "Variable calculada automáticamente como suma de P011 a P022. No es capturada directamente por el usuario.", "kWh", "DECIMAL", "Suma automática de P011:P022"], ["p024_empleados_turno_principal", "P024", "Número de empleados en el turno principal:", "Número de empleados correspondiente al turno principal.", "personas", "ENTERO", "≥0"], ["p025_personas_usuarias_promedio_dia", "P025", "Número promedio al día de personas atendidas o usuarias de las instalaciones:", "Promedio diario de personas usuarias o atendidas, excluyendo al personal que labora en el inmueble.", "personas/día", "ENTERO", "≥0"], ["p026_numero_computadoras", "P026", "Número de computadoras:", "Número de computadoras existentes en el inmueble.", "equipos", "ENTERO", "≥0"], ["p027a_capacidad_aire_valor", "P027A", "Capacidad total instalada de aire acondicionado - valor reportado", "Valor de capacidad reportado por el usuario. La unidad se registra por separado en P027B.", "-", "DECIMAL", ">0"], ["p027b_capacidad_aire_unidad", "P027B", "Unidad de capacidad instalada de aire acondicionado", "Unidad seleccionada por el usuario: TR o BTU/h.", "-", "CATÁLOGO", "TR o BTU/h"], ["p027c_capacidad_aire_tr", "P027C", "Capacidad total instalada de aire acondicionado - equivalente", "Valor calculado automáticamente en TR; si P027B=BTU_H, se convierte dividiendo el valor reportado entre 12,000.", "TR", "DECIMAL", "Conversión automática a TR"], ["p028_area_enfriada_electrica", "P028", "Porcentaje del área total construida que se enfría mediante equipos eléctricos:", "Porcentaje del área total construida que se enfría mediante equipos eléctricos.", "%", "DECIMAL", "0-100"], ["p029_area_calentada_electrica", "P029", "Porcentaje del área total construida que se calienta mediante equipos eléctricos:", "Porcentaje del área total construida que se calienta mediante equipos eléctricos.", "%", "DECIMAL", "0-100"], ["p030_area_iluminada_artificialmente", "P030", "Porcentaje del área total construida del inmueble, con iluminación artificial:", "Porcentaje del área total construida que cuenta con iluminación artificial.", "%", "DECIMAL", "0-100"]];
-const EXCEL_HEADERS=['id_registro','fecha_registro',...EXCEL_DESCRIPTOR.map(x=>x[0])];
-function buildFilteredQueryForExport(){let q=db.from('registros_inmuebles').select('*').order('fecha_registro',{ascending:false});const search=document.getElementById('search').value.trim(),entity=document.getElementById('entity').value,building=document.getElementById('building').value;if(search)q=q.ilike('p001_id_inmueble','%'+search+'%');if(entity)q=q.eq('p002_entidad_federativa',entity);if(building)q=q.eq('p004_tipo_edificio',building);return q;}
-async function getAllRecordsForExport(){const chunk=1000;let from=0,all=[];while(true){const {data,error}=await buildFilteredQueryForExport().range(from,from+chunk-1);if(error)throw error;const rows=data||[];all.push(...rows);if(rows.length<chunk)break;from+=chunk;}return all;}
-function excelCellValue(key,row){if(key==='fecha_registro')return row[key]?new Date(row[key]):'';return row[key]===null||row[key]===undefined?'':row[key];}
-function styleExcelSheet(ws,headerRow=1){ws.views=[{showGridLines:false,state:'frozen',ySplit:headerRow}];ws.getRow(headerRow).height=30;ws.getRow(headerRow).eachCell(cell=>{cell.font={bold:true,color:{argb:'FFFFFFFF'}};cell.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF000000'}};cell.alignment={horizontal:'center',vertical:'middle',wrapText:true};cell.border={bottom:{style:'thin',color:{argb:'FFFFFFFF'}}};});}
-function makeIndexWorksheet(wb){const ws=wb.addWorksheet('Índice');ws.showGridLines=false;ws.columns=[{width:18},{width:32},{width:88}];ws.mergeCells('A1:C1');ws.getCell('A1').value='BENCHMARKING — ARCHIVO ADMINISTRATIVO';ws.getCell('A1').font={bold:true,size:16,color:{argb:'FFFFFFFF'}};ws.getCell('A1').fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF000000'}};ws.getCell('A1').alignment={vertical:'middle',horizontal:'left'};ws.getRow(1).height=28;ws.addRow([]);ws.addRow(['ÍNDICE DEL ARCHIVO','','']);ws.getCell('A3').font={bold:true,color:{argb:'FFFFFFFF'}};ws.getCell('A3').fill={type:'pattern',pattern:'solid',fgColor:{argb:'FF000000'}};ws.addRow(['1','Descriptor de archivo','Descripción de las variables, unidades, tipos de dato y reglas.']);ws.addRow(['2','Registros','Una fila corresponde a un registro/inmueble.']);ws.addRow([]);ws.addRow(['Generado','',new Date()]);ws.getCell('C7').numFmt='dd/mm/yyyy hh:mm';ws.addRow(['Origen','registros_inmuebles de Supabase','']);ws.addRow(['Nota','P027c conserva el equivalente calculado en TR. P028, P029 y P030 son variables independientes y no se suman.','']);ws.getRow(4).eachCell(c=>c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE7E7E7'}});ws.getRow(5).eachCell(c=>c.fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFE7E7E7'}});return ws;}
-function makeDescriptorWorksheet(wb){const ws=wb.addWorksheet('Descriptor de archivo');ws.columns=[{header:'Campo en base de datos',key:'campo',width:38},{header:'Variable',key:'variable',width:12},{header:'Nombre de la variable',key:'nombre',width:48},{header:'Descripción',key:'descripcion',width:72},{header:'Unidad',key:'unidad',width:18},{header:'Tipo de dato',key:'tipo',width:18},{header:'Regla / observación',key:'regla',width:42}];EXCEL_DESCRIPTOR.forEach(r=>ws.addRow({campo:r[0],variable:r[1],nombre:r[2],descripcion:r[3],unidad:r[4],tipo:r[5],regla:r[6]}));ws.autoFilter={from:'A1',to:`G${ws.rowCount}`};styleExcelSheet(ws,1);for(let i=2;i<=ws.rowCount;i++)ws.getRow(i).alignment={vertical:'top',wrapText:true};return ws;}
-function makeRecordsWorksheet(wb,records){const ws=wb.addWorksheet('Registros');ws.columns=EXCEL_HEADERS.map(key=>({header:key,key:key,width:key==='id_registro'?38:key==='fecha_registro'?21:key==='p001_id_inmueble'?22:key.includes('municipio')?28:key.includes('entidad')?22:key.includes('tipo_edificio')?26:key.includes('consumo_mensual')?18:key.includes('capacidad_aire')?24:18}));records.forEach(row=>{const values={};EXCEL_HEADERS.forEach(key=>values[key]=excelCellValue(key,row));ws.addRow(values);});ws.autoFilter={from:'A1',to:'AF1'};styleExcelSheet(ws,1);ws.getColumn('fecha_registro').eachCell((cell,i)=>{if(i>1)cell.numFmt='dd/mm/yyyy hh:mm';});const numericKeys=new Set(['p005_area_total_construida','p006_ocupacion','p010_horas_operacion_semana','p011_consumo_mensual_1','p012_consumo_mensual_2','p013_consumo_mensual_3','p014_consumo_mensual_4','p015_consumo_mensual_5','p016_consumo_mensual_6','p017_consumo_mensual_7','p018_consumo_mensual_8','p019_consumo_mensual_9','p020_consumo_mensual_10','p021_consumo_mensual_11','p022_consumo_mensual_12','p023_consumo_anual','p027a_capacidad_aire_valor','p027c_capacidad_aire_tr','p028_area_enfriada_electrica','p029_area_calentada_electrica','p030_area_iluminada_artificialmente']);const integerKeys=new Set(['p007_anio_construccion','p008_numero_pisos','p009_dias_operacion_semana','p024_empleados_turno_principal','p025_personas_usuarias_promedio_dia','p026_numero_computadoras']);EXCEL_HEADERS.forEach((key,idx)=>{if(numericKeys.has(key))ws.getColumn(idx+1).numFmt='#,##0.00';if(integerKeys.has(key))ws.getColumn(idx+1).numFmt='#,##0';});for(let i=2;i<=ws.rowCount;i++)if(i%2===0)ws.getRow(i).fill={type:'pattern',pattern:'solid',fgColor:{argb:'FFF5F5F5'}};return ws;}
-async function exportExcelAdministrative(){const btn=document.getElementById('exportBtn'),status=document.getElementById('exportStatus');btn.disabled=true;btn.textContent='Generando Excel...';status.textContent='Consultando registros...';try{const records=await getAllRecordsForExport();if(!records.length){status.textContent='No hay registros para exportar.';return;}const wb=new ExcelJS.Workbook();wb.creator='Panel administrativo';wb.title='Benchmarking — Registros administrativos';wb.subject='Registros de inmuebles';makeIndexWorksheet(wb);makeDescriptorWorksheet(wb);makeRecordsWorksheet(wb,records);status.textContent='Preparando archivo...';const buffer=await wb.xlsx.writeBuffer();const blob=new Blob([buffer],{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});const url=URL.createObjectURL(blob),a=document.createElement('a'),fecha=new Date().toISOString().slice(0,10);a.href=url;a.download=`Benchmarking_Registros_${fecha}.xlsx`;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);status.textContent=`Excel generado correctamente: ${records.length} registro(s).`;}catch(err){console.error('Error generando Excel:',err);status.textContent='Error al generar Excel: '+(err.message||err);}finally{btn.disabled=false;btn.textContent='⬇ Exportar Excel administrativo';}}
+
+const EXCEL_DESCRIPTOR=[
+["p001_id_inmueble","P001","ID del inmueble","Identificador del inmueble proporcionado por el usuario.","-","TEXTO","Obligatorio"],
+["p002_entidad_federativa","P002","Entidad Federativa","Valor seleccionado del catálogo de entidades federativas.","-","CATÁLOGO","Una opción"],
+["p003_municipio_alcaldia","P003","Municipio o alcaldía","Municipio o alcaldía correspondiente al inmueble.","-","TEXTO","Obligatorio"],
+["p004_tipo_edificio","P004","Tipo de edificio","Valor seleccionado del catálogo de tipos de edificio.","-","CATÁLOGO","Una opción"],
+["p005_area_total_construida","P005","Área total construida del inmueble","Superficie total construida del inmueble.","m²","DECIMAL",">0"],
+["p006_ocupacion","P006","Ocupación","Porcentaje del área total construida utilizada habitualmente.","%","DECIMAL","0-100"],
+["p007_anio_construccion","P007","Año de construcción","Año expresado en cuatro cifras.","año","ENTERO","Entero de 4 cifras"],
+["p008_numero_pisos","P008","Número de pisos","Número de pisos del inmueble.","pisos","ENTERO","≥1"],
+["p009_dias_operacion_semana","P009","Días de operación a la semana","Número de días que opera el inmueble por semana.","días/semana","ENTERO","1-7"],
+["p010_horas_operacion_semana","P010","Horas de operación a la semana","Número de horas de operación del inmueble por semana.","h/semana","DECIMAL","0-168"],
+["p011_consumo_mensual_1","P011","Consumo mensual 1","Consumo correspondiente al periodo 1.","kWh","DECIMAL","Obligatorio"],
+["p012_consumo_mensual_2","P012","Consumo mensual 2","Consumo correspondiente al periodo 2.","kWh","DECIMAL","Obligatorio"],
+["p013_consumo_mensual_3","P013","Consumo mensual 3","Consumo correspondiente al periodo 3.","kWh","DECIMAL","Obligatorio"],
+["p014_consumo_mensual_4","P014","Consumo mensual 4","Consumo correspondiente al periodo 4.","kWh","DECIMAL","Obligatorio"],
+["p015_consumo_mensual_5","P015","Consumo mensual 5","Consumo correspondiente al periodo 5.","kWh","DECIMAL","Obligatorio"],
+["p016_consumo_mensual_6","P016","Consumo mensual 6","Consumo correspondiente al periodo 6.","kWh","DECIMAL","Obligatorio"],
+["p017_consumo_mensual_7","P017","Consumo mensual 7","Consumo correspondiente al periodo 7.","kWh","DECIMAL","Obligatorio"],
+["p018_consumo_mensual_8","P018","Consumo mensual 8","Consumo correspondiente al periodo 8.","kWh","DECIMAL","Obligatorio"],
+["p019_consumo_mensual_9","P019","Consumo mensual 9","Consumo correspondiente al periodo 9.","kWh","DECIMAL","Obligatorio"],
+["p020_consumo_mensual_10","P020","Consumo mensual 10","Consumo correspondiente al periodo 10.","kWh","DECIMAL","Obligatorio"],
+["p021_consumo_mensual_11","P021","Consumo mensual 11","Consumo correspondiente al periodo 11.","kWh","DECIMAL","Obligatorio"],
+["p022_consumo_mensual_12","P022","Consumo mensual 12","Consumo correspondiente al periodo 12.","kWh","DECIMAL","Obligatorio"],
+["p023_consumo_anual","P023","Consumo anual calculado","Variable calculada automáticamente como suma de P011 a P022. No es capturada directamente por el usuario.","kWh","DECIMAL","Suma automática de P011:P022"],
+["p024_empleados_turno_principal","P024","Número de empleados en el turno principal","Número de empleados correspondiente al turno principal.","personas","ENTERO","≥0"],
+["p025_personas_usuarias_promedio_dia","P025","Número promedio al día de personas atendidas o usuarias","Promedio diario de personas usuarias o atendidas, excluyendo al personal que labora en el inmueble.","personas/día","ENTERO","≥0"],
+["p026_numero_computadoras","P026","Número de computadoras","Número de computadoras existentes en el inmueble.","equipos","ENTERO","≥0"],
+["p027a_capacidad_aire_valor","P027A","Capacidad instalada de aire acondicionado - valor reportado","Valor de capacidad reportado por el usuario. La unidad se registra por separado en P027B.","BTU/h o TR","DECIMAL",">0"],
+["p027b_capacidad_aire_unidad","P027B","Unidad de capacidad instalada de aire acondicionado","Unidad seleccionada por el usuario: TR o BTU/h.","-","CATÁLOGO","TR o BTU/h"],
+["p027c_capacidad_aire_tr","P027C","Capacidad instalada de aire acondicionado - equivalente","Valor calculado automáticamente en TR.","TR","DECIMAL","Conversión automática a TR"],
+["p028_area_enfriada_electrica","P028","Porcentaje del área que se enfría mediante equipos eléctricos","Porcentaje del área total construida que se enfría mediante equipos eléctricos.","%","DECIMAL","0-100"],
+["p029_area_calentada_electrica","P029","Porcentaje del área que se calienta mediante equipos eléctricos","Porcentaje del área total construida que se calienta mediante equipos eléctricos.","%","DECIMAL","0-100"],
+["p030_area_iluminada_artificialmente","P030","Porcentaje del área con iluminación artificial","Porcentaje del área total construida que cuenta con iluminación artificial.","%","DECIMAL","0-100"]
+];
+
+const EXCEL_HEADERS=[
+'id_registro','fecha_registro',
+...EXCEL_DESCRIPTOR.map(x=>x[0])
+];
+
+function exportValue(key,row){
+  const v=row[key];
+  if(v===null || v===undefined) return "";
+  if(key==="fecha_registro" && v) return new Date(v);
+  if(typeof v==="object") return JSON.stringify(v);
+  return v;
+}
+
+function styleRange(ws,range,style){
+  const decoded=XLSX.utils.decode_range(range);
+  for(let R=decoded.s.r;R<=decoded.e.r;R++){
+    for(let C=decoded.s.c;C<=decoded.e.c;C++){
+      const addr=XLSX.utils.encode_cell({r:R,c:C});
+      if(!ws[addr]) ws[addr]={t:"s",v:""};
+      ws[addr].s=Object.assign({},ws[addr].s||{},style);
+    }
+  }
+}
+
+const HEADER_STYLE={
+  fill:{patternType:"solid",fgColor:{rgb:"000000"}},
+  font:{bold:true,color:{rgb:"FFFFFF"}},
+  alignment:{horizontal:"center",vertical:"center",wrapText:true},
+  border:{
+    top:{style:"thin",color:{rgb:"000000"}},
+    bottom:{style:"thin",color:{rgb:"000000"}},
+    left:{style:"thin",color:{rgb:"000000"}},
+    right:{style:"thin",color:{rgb:"000000"}}
+  }
+};
+
+const ALT_STYLE={
+  fill:{patternType:"solid",fgColor:{rgb:"F5F5F5"}}
+};
+
+function makeIndexSheet(){
+  const rows=[
+    ["BENCHMARKING — ARCHIVO ADMINISTRATIVO","",""],
+    ["","",""],
+    ["ÍNDICE DEL ARCHIVO","",""],
+    ["1","Descriptor de archivo","Descripción de las variables, unidades, tipos de dato y reglas."],
+    ["2","Registros","Una fila corresponde a un registro/inmueble."],
+    ["","",""],
+    ["Generado","",new Date()],
+    ["Origen","registros_inmuebles de Supabase",""],
+    ["Nota","P027c conserva el equivalente calculado en TR. P028, P029 y P030 son variables independientes y no se suman.",""]
+  ];
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  ws["!cols"]=[{wch:18},{wch:36},{wch:90}];
+  ws["!rows"]=[{hpt:28}];
+  ws["A1"].s={
+    fill:{patternType:"solid",fgColor:{rgb:"000000"}},
+    font:{bold:true,color:{rgb:"FFFFFF"},sz:16},
+    alignment:{vertical:"center"}
+  };
+  ws["A3"].s=HEADER_STYLE;
+  ["A4","B4","C4","A5","B5","C5"].forEach(a=>ws[a].s={fill:{patternType:"solid",fgColor:{rgb:"E7E7E7"}}});
+  ws["C7"].z="dd/mm/yyyy hh:mm";
+  ws["!showGridLines"]=false;
+  return ws;
+}
+
+function makeDescriptorSheet(){
+  const rows=[
+    ["Campo en base de datos","Variable","Nombre de la variable","Descripción","Unidad","Tipo de dato","Regla / observación"],
+    ...EXCEL_DESCRIPTOR
+  ];
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  ws["!cols"]=[
+    {wch:38},{wch:12},{wch:48},{wch:72},{wch:18},{wch:18},{wch:42}
+  ];
+  styleRange(ws,`A1:G1`,HEADER_STYLE);
+  ws["!autofilter"]={ref:`A1:G${rows.length}`};
+  ws["!freeze"]="A2";
+  ws["!showGridLines"]=false;
+  return ws;
+}
+
+function makeRecordsSheet(records){
+  const rows=[EXCEL_HEADERS];
+
+  for(const row of records){
+    rows.push(EXCEL_HEADERS.map(key=>exportValue(key,row)));
+  }
+
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+
+  ws["!cols"]=EXCEL_HEADERS.map(key=>{
+    if(key==="id_registro") return {wch:38};
+    if(key==="fecha_registro") return {wch:21};
+    if(key==="p001_id_inmueble") return {wch:22};
+    if(key.includes("municipio")) return {wch:28};
+    if(key.includes("entidad")) return {wch:22};
+    if(key.includes("tipo_edificio")) return {wch:24};
+    if(key.includes("consumo_mensual")) return {wch:18};
+    if(key.includes("capacidad_aire")) return {wch:24};
+    return {wch:18};
+  });
+
+  styleRange(ws,`A1:${XLSX.utils.encode_col(EXCEL_HEADERS.length-1)}1`,HEADER_STYLE);
+
+  // Formato de fechas y números
+  const numericKeys=new Set([
+    "p005_area_total_construida","p006_ocupacion","p010_horas_operacion_semana",
+    "p011_consumo_mensual_1","p012_consumo_mensual_2","p013_consumo_mensual_3",
+    "p014_consumo_mensual_4","p015_consumo_mensual_5","p016_consumo_mensual_6",
+    "p017_consumo_mensual_7","p018_consumo_mensual_8","p019_consumo_mensual_9",
+    "p020_consumo_mensual_10","p021_consumo_mensual_11","p022_consumo_mensual_12",
+    "p023_consumo_anual","p027a_capacidad_aire_valor","p027c_capacidad_aire_tr",
+    "p028_area_enfriada_electrica","p029_area_calentada_electrica",
+    "p030_area_iluminada_artificialmente"
+  ]);
+
+  const integerKeys=new Set([
+    "p007_anio_construccion","p008_numero_pisos","p009_dias_operacion_semana",
+    "p024_empleados_turno_principal","p025_personas_usuarias_promedio_dia",
+    "p026_numero_computadoras"
+  ]);
+
+  for(let r=1;r<rows.length;r++){
+    for(let c=0;c<EXCEL_HEADERS.length;c++){
+      const key=EXCEL_HEADERS[c];
+      const addr=XLSX.utils.encode_cell({r,c});
+      if(!ws[addr]) continue;
+
+      if(key==="fecha_registro") ws[addr].z="dd/mm/yyyy hh:mm";
+      else if(integerKeys.has(key)) ws[addr].z="#,##0";
+      else if(numericKeys.has(key)) ws[addr].z="#,##0.00";
+
+      if(r%2===0){
+        ws[addr].s=Object.assign({},ws[addr].s||{},ALT_STYLE);
+      }
+    }
+  }
+
+  const lastCol=XLSX.utils.encode_col(EXCEL_HEADERS.length-1);
+  ws["!autofilter"]={ref:`A1:${lastCol}${rows.length}`};
+  ws["!freeze"]="A2";
+  ws["!showGridLines"]=false;
+  return ws;
+}
+
+async function getAllRecordsForExport(){
+  const chunk=1000;
+  let from=0;
+  let all=[];
+
+  while(true){
+    let q=db.from("registros_inmuebles")
+      .select("*")
+      .order("fecha_registro",{ascending:false})
+      .range(from,from+chunk-1);
+
+    const search=document.getElementById("search").value.trim();
+    const entity=document.getElementById("entity").value;
+    const building=document.getElementById("building").value;
+
+    if(search) q=q.ilike("p001_id_inmueble","%"+search+"%");
+    if(entity) q=q.eq("p002_entidad_federativa",entity);
+    if(building) q=q.eq("p004_tipo_edificio",building);
+
+    const {data,error}=await q;
+    if(error) throw error;
+
+    const rows=Array.isArray(data)?data:[];
+    all=all.concat(rows);
+
+    if(rows.length<chunk) break;
+    from+=chunk;
+  }
+
+  return all;
+}
+
+async function exportExcelAdministrative(){
+  const btn=document.getElementById("exportBtn");
+  const status=document.getElementById("exportStatus");
+
+  btn.disabled=true;
+  btn.textContent="Generando Excel...";
+  status.textContent="Consultando registros...";
+
+  try{
+    if(typeof XLSX==="undefined"){
+      throw new Error("No se pudo cargar el generador de Excel. Verifica que GitHub Pages tenga conexión a Internet.");
+    }
+
+    const records=await getAllRecordsForExport();
+
+    if(records.length===0){
+      status.textContent="No hay registros para exportar.";
+      return;
+    }
+
+    status.textContent="Aplicando formato...";
+
+    const wb=XLSX.utils.book_new();
+
+    wb.Props={
+      Title:"Benchmarking — Registros administrativos",
+      Subject:"Registros de inmuebles",
+      Author:"Panel administrativo",
+      CreatedDate:new Date()
+    };
+
+    XLSX.utils.book_append_sheet(wb,makeIndexSheet(),"Índice");
+    XLSX.utils.book_append_sheet(wb,makeDescriptorSheet(),"Descriptor de archivo");
+    XLSX.utils.book_append_sheet(wb,makeRecordsSheet(records),"Registros");
+
+    status.textContent="Preparando descarga...";
+
+    const filename=`Benchmarking_Registros_${new Date().toISOString().slice(0,10)}.xlsx`;
+    XLSX.writeFile(wb,filename,{bookType:"xlsx",compression:true});
+
+    status.textContent=`Excel generado correctamente: ${records.length} registro(s).`;
+  }catch(err){
+    console.error("Error generando Excel:",err);
+    status.textContent="Error al generar Excel: "+(err && err.message ? err.message : String(err));
+  }finally{
+    btn.disabled=false;
+    btn.textContent="⬇ Exportar Excel administrativo";
+  }
+}
+
 document.getElementById('exportBtn').addEventListener('click',exportExcelAdministrative);
 
 db.auth.onAuthStateChange((event,session)=>{if(event==='SIGNED_OUT')showLogin()});checkSession();
