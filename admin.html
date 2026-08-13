@@ -162,28 +162,21 @@ const ALT_STYLE={
 
 function makeIndexSheet(){
   const rows=[
-    ["BENCHMARKING — ARCHIVO ADMINISTRATIVO","",""],
-    ["","",""],
-    ["ÍNDICE DEL ARCHIVO","",""],
-    ["1","Descriptor de archivo","Descripción de las variables, unidades, tipos de dato y reglas."],
-    ["2","Registros","Una fila corresponde a un registro/inmueble."],
-    ["","",""],
-    ["Generado","",new Date()],
-    ["Origen","registros_inmuebles de Supabase",""],
-    ["Nota","P027c conserva el equivalente calculado en TR. P028, P029 y P030 son variables independientes y no se suman.",""]
+    ["BENCHMARKING APF — ARCHIVO ADMINISTRATIVO","", ""],
+    ["","", ""],
+    ["1. Descriptor de archivo: Descripción de las variables, unidades, tipos de dato y reglas.","", ""],
+    ["2. Registros: Registros de la base de datos.","", ""]
   ];
   const ws=XLSX.utils.aoa_to_sheet(rows);
-  ws["!cols"]=[{wch:18},{wch:36},{wch:90}];
-  ws["!rows"]=[{hpt:28}];
-  ws["A1"].s={
-    fill:{patternType:"solid",fgColor:{rgb:"000000"}},
-    font:{bold:true,color:{rgb:"FFFFFF"},sz:16},
-    alignment:{vertical:"center"}
-  };
-  ws["A3"].s=HEADER_STYLE;
-  ["A4","B4","C4","A5","B5","C5"].forEach(a=>ws[a].s={fill:{patternType:"solid",fgColor:{rgb:"E7E7E7"}}});
-  ws["C7"].z="dd/mm/yyyy hh:mm";
+  ws["!cols"]=[{wch:78},{wch:12},{wch:12}];
+  ws["A1"].s={fill:{patternType:"solid",fgColor:{rgb:"000000"}},font:{bold:true,color:{rgb:"FFFFFF"},sz:16},alignment:{vertical:"center"}};
+  const linkStyle={font:{color:{rgb:"0563C1"},underline:true,italic:true,sz:12},alignment:{vertical:"center"}};
+  ws["A3"].l={Target:"#'Descriptor de archivo'!A1",Tooltip:"Ir al Descriptor de archivo"};
+  ws["A4"].l={Target:"#'Registros'!A1",Tooltip:"Ir a Registros"};
+  ws["A3"].s=linkStyle;
+  ws["A4"].s=linkStyle;
   ws["!showGridLines"]=false;
+  ws["!sheetViews"]=[{showGridLines:false}];
   return ws;
 }
 
@@ -200,6 +193,7 @@ function makeDescriptorSheet(){
   ws["!autofilter"]={ref:`A1:G${rows.length}`};
   ws["!freeze"]="A2";
   ws["!showGridLines"]=false;
+  ws["!sheetViews"]=[{showGridLines:false}];
   return ws;
 }
 
@@ -264,6 +258,7 @@ function makeRecordsSheet(records){
   ws["!autofilter"]={ref:`A1:${lastCol}${rows.length}`};
   ws["!freeze"]="A2";
   ws["!showGridLines"]=false;
+  ws["!sheetViews"]=[{showGridLines:false}];
   return ws;
 }
 
