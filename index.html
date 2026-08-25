@@ -33,7 +33,7 @@
 
         header {
             background: #ffffff;
-            border-bottom: 4px solid #5b7f3a;
+            border-bottom: 4px solid #002f2a;
             padding: 18px 30px;
             position: sticky;
             top: 0;
@@ -76,7 +76,7 @@
         .header-title h1 {
             margin: 0;
             font-size: 23px;
-            color: #3f5d2a;
+            color: #002f2a;
         }
 
         .header-title p {
@@ -95,33 +95,38 @@
             right: 30px;
             top: 50%;
             transform: translateY(-50%);
-            width: 42px;
-            height: 42px;
+            min-height: 40px;
+            padding: 0 14px 0 16px;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            border-radius: 50%;
-            background: #5b7f3a;
+            gap: 8px;
+            border-radius: 6px;
+            background: #002f2a;
             color: #ffffff;
             text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            white-space: nowrap;
             box-shadow: 0 2px 6px rgba(0,0,0,0.14);
             transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .admin-access svg {
-            width: 20px;
-            height: 20px;
+            width: 17px;
+            height: 17px;
+            flex: 0 0 17px;
             display: block;
         }
 
         .admin-access:hover {
-            background: #405b29;
+            background: #001f1c;
             transform: translateY(-50%) scale(1.04);
             box-shadow: 0 3px 9px rgba(0,0,0,0.18);
         }
 
         .admin-access:focus-visible {
-            outline: 3px solid rgba(91,127,58,0.28);
+            outline: 3px solid rgba(0,47,42,0.28);
             outline-offset: 3px;
         }
 
@@ -162,7 +167,7 @@
         .progress-fill {
             width: 25%;
             height: 100%;
-            background: #5b7f3a;
+            background: #002f2a;
             transition: width 0.3s ease;
         }
 
@@ -184,7 +189,7 @@
         }
 
         .section-title {
-            background: #5b7f3a;
+            background: #002f2a;
             color: white;
             padding: 15px 22px;
             font-size: 20px;
@@ -201,7 +206,7 @@
 
         .instruction-box {
             background: #f5f7f3;
-            border-left: 5px solid #5b7f3a;
+            border-left: 5px solid #002f2a;
             padding: 18px;
             margin-bottom: 20px;
             line-height: 1.6;
@@ -253,8 +258,8 @@
         input:focus,
         select:focus {
             outline: none;
-            border-color: #5b7f3a;
-            box-shadow: 0 0 0 2px rgba(91,127,58,0.15);
+            border-color: #002f2a;
+            box-shadow: 0 0 0 2px rgba(0,47,42,0.15);
         }
 
         input.invalid,
@@ -294,7 +299,7 @@
         }
 
         .aire-equivalente strong {
-            color: #3f5d2a;
+            color: #002f2a;
         }
 
         #aireWarningAlto,
@@ -367,7 +372,7 @@
             width: 22px;
             height: 22px;
             border-radius: 50%;
-            background: #5b7f3a;
+            background: #002f2a;
             color: white;
             border: none;
             font-weight: bold;
@@ -377,7 +382,7 @@
         }
 
         .info-button:hover {
-            background: #405b29;
+            background: #001f1c;
         }
 
         .info-box {
@@ -431,14 +436,14 @@
         .annual-result {
             margin-top: 25px;
             padding: 18px;
-            background: #eef4e9;
-            border: 2px solid #5b7f3a;
+            background: #edf5f4;
+            border: 2px solid #002f2a;
             border-radius: 7px;
         }
 
         .annual-result strong {
             font-size: 20px;
-            color: #3f5d2a;
+            color: #002f2a;
         }
 
         .error-message {
@@ -465,11 +470,19 @@
             max-width: 100%;
         }
 
-        .form-group.align-numeric-row label {
-            min-height: 42px;
-            display: flex;
-            align-items: flex-start;
-            flex-wrap: wrap;
+        /* P024 y P025 comparten exactamente la misma altura de etiqueta.
+           Así, ambos campos de captura comienzan en la misma línea horizontal,
+           aunque la pregunta P025 ocupe dos renglones. */
+        .form-group.align-numeric-row > label {
+            height: 56px;
+            min-height: 56px;
+            display: block;
+            line-height: 1.25;
+            margin-bottom: 7px;
+        }
+
+        .form-group.align-numeric-row > label .info-button {
+            vertical-align: middle;
         }
 
         /* =========================================================
@@ -491,9 +504,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #eef4e9;
-            border: 2px solid #5b7f3a;
-            color: #5b7f3a;
+            background: #edf5f4;
+            border: 2px solid #002f2a;
+            color: #002f2a;
         }
 
         .completion-icon svg {
@@ -504,7 +517,7 @@
 
         .completion-panel h2 {
             margin: 0 0 10px;
-            color: #3f5d2a;
+            color: #002f2a;
             font-size: 26px;
         }
 
@@ -520,7 +533,7 @@
             max-width: 620px;
             margin: 24px auto 0;
             padding: 16px 18px;
-            border-left: 5px solid #5b7f3a;
+            border-left: 5px solid #002f2a;
             border-radius: 6px;
             background: #f5f7f3;
             color: #37434a;
@@ -529,7 +542,7 @@
         }
 
         .completion-note strong {
-            color: #3f5d2a;
+            color: #002f2a;
         }
 
         /* =========================================================
@@ -557,12 +570,12 @@
         }
 
         .next {
-            background: #5b7f3a;
+            background: #002f2a;
             color: white;
         }
 
         .next:hover {
-            background: #405b29;
+            background: #001f1c;
         }
 
         .previous:hover {
@@ -597,7 +610,7 @@
 
         .download-button {
             margin-top: 20px;
-            background: #3f5d2a;
+            background: #002f2a;
             color: white;
             border: none;
             padding: 12px 20px;
@@ -621,9 +634,9 @@
 
         .save-message.success {
             display: block;
-            background: #eef7e8;
-            border-left: 5px solid #5b7f3a;
-            color: #31501f;
+            background: #edf7f6;
+            border-left: 5px solid #002f2a;
+            color: #002f2a;
         }
 
         .save-message.error {
@@ -669,22 +682,24 @@
             .header-container {
                 flex-direction: column;
                 align-items: flex-start;
-                padding-right: 52px;
+                padding-right: 175px;
             }
 
             .admin-access {
                 right: 16px;
                 top: 16px;
                 transform: none;
-                width: 40px;
-                height: 40px;
+                min-height: 38px;
+                padding: 0 11px 0 13px;
+                font-size: 12px;
             }
 
             .admin-access:hover {
                 transform: scale(1.04);
             }
 
-            .form-group.align-numeric-row label {
+            .form-group.align-numeric-row > label {
+                height: auto;
                 min-height: 0;
             }
 
@@ -732,6 +747,7 @@
         aria-label="Acceso administrativo"
         title="Acceso administrativo"
     >
+        <span>Acceso administrativo</span>
         <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
             <path
                 fill="currentColor"
@@ -1549,8 +1565,7 @@
                 <div class="completion-note" id="completionNote">
                     <strong>Último paso:</strong>
                     presione <strong>“Finalizar y enviar información”</strong>
-                    para registrar sus respuestas. Si necesita corregir algún dato,
-                    todavía puede volver a la sección anterior antes de enviarlo.
+                    para registrar sus respuestas.
                 </div>
 
                 <!-- =================================================
