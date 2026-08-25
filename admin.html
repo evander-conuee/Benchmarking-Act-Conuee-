@@ -7,7 +7,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background-color:#f3f5f7;background-image:url('Textura.png');background-repeat:no-repeat;background-position:center center;background-size:cover;background-attachment:fixed;color:#263238}header{background:#fff;border-bottom:4px solid #5b7f3a;padding:18px 30px}.header{max-width:1200px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}.title{display:flex;align-items:center;gap:14px}.conuee-logo{width:160px;height:auto;max-height:100px;object-fit:contain;display:block}.title h1{margin:0;color:#3f5d2a;font-size:23px}.title p{margin:5px 0 0;color:#666;font-size:14px}.btn{border:0;border-radius:5px;padding:10px 16px;font-weight:bold;cursor:pointer}.btn-primary{background:#5b7f3a;color:#fff}.btn-secondary{background:#d8dde0;color:#263238}.btn-danger{background:#8e0000;color:#fff}.btn-excel{background:#1f6f43;color:#fff}.btn:disabled{opacity:.55;cursor:not-allowed}.export-card{display:flex;align-items:center;justify-content:space-between;gap:18px}.export-card p{margin:5px 0 0;color:#666;font-size:13px}.export-status{color:#666;font-size:13px}.hidden{display:none!important}main{max-width:1200px;margin:28px auto;padding:0 20px}.card{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:22px;margin-bottom:20px}.login{max-width:430px;margin:70px auto}.login h2{margin-top:0;color:#3f5d2a}label{display:block;font-weight:bold;font-size:14px;margin:14px 0 6px}input,select{width:100%;padding:10px 12px;border:1px solid #b8bec3;border-radius:5px;font-size:15px;background:#fff}input:focus,select:focus{outline:none;border-color:#5b7f3a;box-shadow:0 0 0 2px rgba(91,127,58,.15)}.message{padding:12px;border-radius:5px;margin-top:14px;display:none}.message.error{display:block;background:#ffebee;color:#8e0000;border-left:4px solid #c62828}.message.success{display:block;background:#eef7e8;color:#31501f;border-left:4px solid #5b7f3a}.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr auto auto;gap:10px;align-items:end}.stats{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:18px}.stat{background:#eef4e9;border-left:4px solid #5b7f3a;padding:12px 18px;border-radius:5px}.stat strong{display:block;font-size:22px;color:#3f5d2a}.table-wrap{overflow:auto;border:1px solid #d2d7da;border-radius:6px}table{width:100%;border-collapse:collapse;min-width:1000px}th,td{padding:10px;border-bottom:1px solid #e1e5e8;text-align:left;white-space:nowrap;font-size:13px}th{background:#eef1ed;color:#263238;position:sticky;top:0}tr:hover td{background:#f7f9f6}.actions{display:flex;justify-content:space-between;align-items:center;margin-top:15px;gap:10px}.muted{color:#666;font-size:13px}.loading{text-align:center;padding:30px;color:#666}.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}.modal-card{background:#fff;width:min(1000px,100%);max-height:90vh;overflow:auto;border-radius:8px;padding:22px}.modal-head{display:flex;justify-content:space-between;align-items:center}.detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:15px}.detail{border:1px solid #e1e5e8;padding:10px;border-radius:5px}.detail small{display:block;color:#666;margin-bottom:4px}.detail strong{word-break:break-word}@media(max-width:800px){.toolbar{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.header{align-items:flex-start;flex-direction:column}}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background-color:#f3f5f7;background-image:url('Textura.png');background-repeat:no-repeat;background-position:center center;background-size:cover;background-attachment:fixed;color:#263238}header{background:#fff;border-bottom:4px solid #5b7f3a;padding:18px 30px;position:sticky;top:0;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,.08)}.header{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}.title{display:flex;align-items:center;gap:20px;flex:1}.conuee-logo{width:145px;height:78px;flex:0 0 145px;object-fit:contain;object-position:left center;display:block}.title h1{margin:0;color:#3f5d2a;font-size:23px}.title p{margin:5px 0 0;color:#666;font-size:14px}.btn{border:0;border-radius:5px;padding:10px 16px;font-weight:bold;cursor:pointer}.btn-primary{background:#5b7f3a;color:#fff}.btn-secondary{background:#d8dde0;color:#263238}.btn-danger{background:#8e0000;color:#fff}.btn-excel{background:#1f6f43;color:#fff}.btn:disabled{opacity:.55;cursor:not-allowed}.export-card{display:flex;align-items:center;justify-content:space-between;gap:18px}.export-card p{margin:5px 0 0;color:#666;font-size:13px}.export-status{color:#666;font-size:13px}.hidden{display:none!important}main{max-width:1200px;margin:28px auto;padding:0 20px}.card{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:22px;margin-bottom:20px}.login{max-width:430px;margin:70px auto}.login h2{margin-top:0;color:#3f5d2a}label{display:block;font-weight:bold;font-size:14px;margin:14px 0 6px}input,select{width:100%;padding:10px 12px;border:1px solid #b8bec3;border-radius:5px;font-size:15px;background:#fff}input:focus,select:focus{outline:none;border-color:#5b7f3a;box-shadow:0 0 0 2px rgba(91,127,58,.15)}.message{padding:12px;border-radius:5px;margin-top:14px;display:none}.message.error{display:block;background:#ffebee;color:#8e0000;border-left:4px solid #c62828}.message.success{display:block;background:#eef7e8;color:#31501f;border-left:4px solid #5b7f3a}.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr auto auto;gap:10px;align-items:end}.stats{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:18px}.stat{background:#eef4e9;border-left:4px solid #5b7f3a;padding:12px 18px;border-radius:5px}.stat strong{display:block;font-size:22px;color:#3f5d2a}.table-wrap{overflow:auto;border:1px solid #d2d7da;border-radius:6px}table{width:100%;border-collapse:collapse;min-width:1000px}th,td{padding:10px;border-bottom:1px solid #e1e5e8;text-align:left;white-space:nowrap;font-size:13px}th{background:#eef1ed;color:#263238;position:sticky;top:0}tr:hover td{background:#f7f9f6}.actions{display:flex;justify-content:space-between;align-items:center;margin-top:15px;gap:10px}.muted{color:#666;font-size:13px}.loading{text-align:center;padding:30px;color:#666}.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}.modal-card{background:#fff;width:min(1000px,100%);max-height:90vh;overflow:auto;border-radius:8px;padding:22px}.modal-head{display:flex;justify-content:space-between;align-items:center}.detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:15px}.detail{border:1px solid #e1e5e8;padding:10px;border-radius:5px}.detail small{display:block;color:#666;margin-bottom:4px}.detail strong{word-break:break-word}@media(max-width:800px){.toolbar{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.header{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
@@ -30,7 +30,9 @@
 <div><label for="building">Tipo de edificio</label><select id="building"><option value="">Todos</option></select></div>
 <button id="filterBtn" class="btn btn-primary">Buscar</button><button id="clearBtn" class="btn btn-secondary">Limpiar</button>
 </div></div>
-<div class="card export-card"><div><h2 style="margin:0;color:#3f5d2a">Exportación administrativa</h2><p>Genera un archivo Excel con 3 hojas: Índice, Descriptor de archivo y Registros.</p><p>Se exportan todos los registros que coincidan con los filtros actuales; sin filtros, se exportan todos.</p></div><div style="text-align:right"><button id="exportBtn" class="btn btn-excel">⬇ Exportar Excel administrativo</button><div id="exportStatus" class="export-status" style="margin-top:8px"></div></div></div><div class="card"><div id="tableStatus" class="loading">Cargando registros...</div><div id="tableWrap" class="table-wrap hidden"><table><thead><tr><th>Fecha</th><th>ID inmueble</th><th>Entidad</th><th>Municipio / Alcaldía</th><th>Tipo</th><th>Consumo anual</th><th>AA reportado</th><th>Unidad</th><th>AA en TR</th><th>Acción</th></tr></thead><tbody id="tbody"></tbody></table></div><div class="actions"><span id="rangeLabel" class="muted"></span><div><button id="prevBtn" class="btn btn-secondary">Anterior</button> <button id="nextBtn" class="btn btn-secondary">Siguiente</button></div></div></div>
+<div class="card export-card"><div><h2 style="margin:0;color:#3f5d2a">Exportación administrativa</h2><p>Genera un archivo Excel con 3 hojas: Índice, Descriptor de archivo y Registros.</p><p>Se exportan todos los registros que coincidan con los filtros actuales; sin filtros, se exportan todos.</p></div><div style="text-align:right"><button id="exportBtn" class="btn btn-excel">⬇ Exportar Excel administrativo</button><div id="exportStatus" class="export-status" style="margin-top:8px"></div></div></div><div class="card"><div id="tableStatus" class="loading">Cargando registros...</div><div id="tableWrap" class="table-wrap hidden"><table><thead><tr><th>Fecha</th><th>ID inmueble</th><th>Entidad</th><th>Municipio / Alcaldía</th><th>Tipo</th><!-- CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
+<th>Consumo anual</th>
+--><th>AA reportado</th><th>Unidad</th><th>AA en TR</th><th>Acción</th></tr></thead><tbody id="tbody"></tbody></table></div><div class="actions"><span id="rangeLabel" class="muted"></span><div><button id="prevBtn" class="btn btn-secondary">Anterior</button> <button id="nextBtn" class="btn btn-secondary">Siguiente</button></div></div></div>
 </section>
 </main>
 <div id="modal" class="modal hidden"><div class="modal-card"><div class="modal-head"><h2>Detalle del registro</h2><button id="closeModal" class="btn btn-secondary">Cerrar</button></div><div id="detailGrid" class="detail-grid"></div></div></div>
@@ -73,11 +75,66 @@ async function loadRows(){
  currentRows=data||[];total=count||0;renderRows();
 }
 function renderRows(){
- const tbody=document.getElementById('tbody');tbody.innerHTML='';currentRows.forEach((r,i)=>{const tr=document.createElement('tr');const vals=[fmtDate(r.fecha_registro),r.p001_id_inmueble||'',r.p002_entidad_federativa||'',r.p003_municipio_alcaldia||'',r.p004_tipo_edificio||'',num(r.p023_consumo_anual),num(r.p027a_capacidad_aire_valor),r.p027b_capacidad_aire_unidad||'',num(r.p027c_capacidad_aire_tr)];vals.forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td)});const td=document.createElement('td');const b=document.createElement('button');b.className='btn btn-secondary';b.textContent='Ver';b.onclick=()=>showDetail(r);td.appendChild(b);tr.appendChild(td);tbody.appendChild(tr)});
- document.getElementById('count').textContent=total;document.getElementById('pageLabel').textContent=String(page+1);document.getElementById('rangeLabel').textContent=total?`Mostrando ${page*PAGE_SIZE+1}–${Math.min((page+1)*PAGE_SIZE,total)} de ${total}`:'No hay registros';document.getElementById('prevBtn').disabled=page===0;document.getElementById('nextBtn').disabled=(page+1)*PAGE_SIZE>=total;document.getElementById('tableStatus').classList.add('hidden');document.getElementById('tableWrap').classList.remove('hidden');
+ const tbody=document.getElementById('tbody');
+ tbody.innerHTML='';
+ currentRows.forEach((r,i)=>{
+   const tr=document.createElement('tr');
+   const vals=[
+     fmtDate(r.fecha_registro),
+     r.p001_id_inmueble||'',
+     r.p002_entidad_federativa||'',
+     r.p003_municipio_alcaldia||'',
+     r.p004_tipo_edificio||'',
+     /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
+     num(r.p023_consumo_anual),
+     */
+     num(r.p027a_capacidad_aire_valor),
+     r.p027b_capacidad_aire_unidad||'',
+     num(r.p027c_capacidad_aire_tr)
+   ];
+   vals.forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td)});
+   const td=document.createElement('td');
+   const b=document.createElement('button');
+   b.className='btn btn-secondary';
+   b.textContent='Ver';
+   b.onclick=()=>showDetail(r);
+   td.appendChild(b);
+   tr.appendChild(td);
+   tbody.appendChild(tr);
+ });
+ document.getElementById('count').textContent=total;
+ document.getElementById('pageLabel').textContent=String(page+1);
+ document.getElementById('rangeLabel').textContent=total?`Mostrando ${page*PAGE_SIZE+1}–${Math.min((page+1)*PAGE_SIZE,total)} de ${total}`:'No hay registros';
+ document.getElementById('prevBtn').disabled=page===0;
+ document.getElementById('nextBtn').disabled=(page+1)*PAGE_SIZE>=total;
+ document.getElementById('tableStatus').classList.add('hidden');
+ document.getElementById('tableWrap').classList.remove('hidden');
 }
 function num(v){return v==null?'':Number(v).toLocaleString('es-MX',{maximumFractionDigits:4})}function fmtDate(v){return v?new Date(v).toLocaleString('es-MX'):''}
-function showDetail(r){const grid=document.getElementById('detailGrid');grid.innerHTML='';Object.entries(r).forEach(([k,v])=>{const d=document.createElement('div');d.className='detail';const s=document.createElement('small');s.textContent=k;const strong=document.createElement('strong');strong.textContent=v==null?'':String(v);d.append(s,strong);grid.appendChild(d)});document.getElementById('modal').classList.remove('hidden')}
+function showDetail(r){
+ const grid=document.getElementById('detailGrid');
+ grid.innerHTML='';
+
+ /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
+    Lógica original del detalle, conservada para futura reactivación:
+ Object.entries(r).forEach(([k,v])=>{const d=document.createElement('div');d.className='detail';const s=document.createElement('small');s.textContent=k;const strong=document.createElement('strong');strong.textContent=v==null?'':String(v);d.append(s,strong);grid.appendChild(d)});
+ */
+
+ Object.entries(r)
+   .filter(([k])=>!/^p0(?:1[1-9]|2[0-3])_/.test(k))
+   .forEach(([k,v])=>{
+     const d=document.createElement('div');
+     d.className='detail';
+     const s=document.createElement('small');
+     s.textContent=k;
+     const strong=document.createElement('strong');
+     strong.textContent=v==null?'':String(v);
+     d.append(s,strong);
+     grid.appendChild(d);
+   });
+
+ document.getElementById('modal').classList.remove('hidden');
+}
 document.getElementById('closeModal').onclick=()=>document.getElementById('modal').classList.add('hidden');document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')e.currentTarget.classList.add('hidden')});
 document.getElementById('filterBtn').onclick=()=>{page=0;loadRows()};document.getElementById('clearBtn').onclick=()=>{document.getElementById('search').value='';document.getElementById('entity').value='';document.getElementById('building').value='';page=0;loadRows()};document.getElementById('prevBtn').onclick=()=>{if(page>0){page--;loadRows()}};document.getElementById('nextBtn').onclick=()=>{if((page+1)*PAGE_SIZE<total){page++;loadRows()}};
 /* ============================================================
@@ -96,6 +153,12 @@ const EXCEL_DESCRIPTOR=[
 ["p008_numero_pisos","P008","Número de pisos","Número de pisos del inmueble.","pisos","ENTERO","≥1"],
 ["p009_dias_operacion_semana","P009","Días de operación a la semana","Número de días que opera el inmueble por semana.","días/semana","ENTERO","1-7"],
 ["p010_horas_operacion_semana","P010","Horas de operación a la semana","Número de horas de operación del inmueble por semana.","h/semana","DECIMAL","0-168"],
+/* ============================================================
+   CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
+   P011–P023 se conservan en el código y en la base de datos,
+   pero se excluyen completamente del descriptor y de Registros.
+   Para reactivarlos, retire este comentario de bloque.
+
 ["p011_consumo_mensual_1","P011","Consumo mensual 1","Consumo correspondiente al periodo 1.","kWh","DECIMAL","Obligatorio"],
 ["p012_consumo_mensual_2","P012","Consumo mensual 2","Consumo correspondiente al periodo 2.","kWh","DECIMAL","Obligatorio"],
 ["p013_consumo_mensual_3","P013","Consumo mensual 3","Consumo correspondiente al periodo 3.","kWh","DECIMAL","Obligatorio"],
@@ -109,6 +172,8 @@ const EXCEL_DESCRIPTOR=[
 ["p021_consumo_mensual_11","P021","Consumo mensual 11","Consumo correspondiente al periodo 11.","kWh","DECIMAL","Obligatorio"],
 ["p022_consumo_mensual_12","P022","Consumo mensual 12","Consumo correspondiente al periodo 12.","kWh","DECIMAL","Obligatorio"],
 ["p023_consumo_anual","P023","Consumo anual calculado","Variable calculada automáticamente como suma de P011 a P022. No es capturada directamente por el usuario.","kWh","DECIMAL","Suma automática de P011:P022"],
+
+============================================================ */
 ["p024_empleados_turno_principal","P024","Número de empleados en el turno principal","Número de empleados correspondiente al turno principal.","personas","ENTERO","≥0"],
 ["p025_personas_usuarias_promedio_dia","P025","Número promedio al día de personas atendidas o usuarias","Promedio diario de personas usuarias o atendidas, excluyendo al personal que labora en el inmueble.","personas/día","ENTERO","≥0"],
 ["p026_numero_computadoras","P026","Número de computadoras","Número de computadoras existentes en el inmueble.","equipos","ENTERO","≥0"],
@@ -213,7 +278,9 @@ function makeRecordsSheet(records){
     if(key.includes("municipio")) return {wch:28};
     if(key.includes("entidad")) return {wch:22};
     if(key.includes("tipo_edificio")) return {wch:24};
+    /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
     if(key.includes("consumo_mensual")) return {wch:18};
+    */
     if(key.includes("capacidad_aire")) return {wch:24};
     return {wch:18};
   });
@@ -223,11 +290,14 @@ function makeRecordsSheet(records){
   // Formato de fechas y números
   const numericKeys=new Set([
     "p005_area_total_construida","p006_ocupacion","p010_horas_operacion_semana",
+    /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
     "p011_consumo_mensual_1","p012_consumo_mensual_2","p013_consumo_mensual_3",
     "p014_consumo_mensual_4","p015_consumo_mensual_5","p016_consumo_mensual_6",
     "p017_consumo_mensual_7","p018_consumo_mensual_8","p019_consumo_mensual_9",
     "p020_consumo_mensual_10","p021_consumo_mensual_11","p022_consumo_mensual_12",
-    "p023_consumo_anual","p027a_capacidad_aire_valor","p027c_capacidad_aire_tr",
+    "p023_consumo_anual",
+    */
+    "p027a_capacidad_aire_valor","p027c_capacidad_aire_tr",
     "p028_area_enfriada_electrica","p029_area_calentada_electrica",
     "p030_area_iluminada_artificialmente"
   ]);
