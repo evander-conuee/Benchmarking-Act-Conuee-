@@ -102,16 +102,16 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            border: 1px solid #5b7f3a;
-            border-radius: 6px;
-            background: #5b7f3a;
+            border: 1px solid #76964d;
+            border-radius: 7px;
+            background: linear-gradient(135deg, #73954a 0%, #5b7f3a 55%, #48672f 100%);
             color: #ffffff;
             text-decoration: none;
             font-size: 13px;
             font-weight: bold;
             white-space: nowrap;
             box-shadow: 0 2px 6px rgba(0,0,0,0.14);
-            transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+            transition: filter 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .admin-access svg {
@@ -122,7 +122,7 @@
         }
 
         .admin-access:hover {
-            background: #405b29;
+            filter: brightness(1.08);
             transform: translateY(-50%) scale(1.04);
             box-shadow: 0 3px 9px rgba(0,0,0,0.18);
         }
@@ -450,40 +450,52 @@
         }
 
         /* =========================================================
-           CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
-           Decisión operativa: el consumo anual se obtendrá de otra fuente.
-           Para reactivar estos estilos, retire únicamente este comentario
-           de bloque junto con los demás bloques marcados como DESACTIVADOS.
-        =========================================================
-
+           CONSUMO ELÉCTRICO 2025
+        ========================================================= */
 
         .consumption-title {
             margin-top: 0;
-            margin-bottom: 18px;
+            margin-bottom: 10px;
             font-size: 19px;
+        }
+
+        .consumption-period-note {
+            margin: 0 0 18px;
+            padding: 12px 14px;
+            background: #f5f7f3;
+            border-left: 4px solid #5b7f3a;
+            border-radius: 4px;
+            line-height: 1.5;
         }
 
         .monthly-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 15px;
-            margin-top: 20px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px 18px;
+            margin-top: 18px;
         }
 
         .monthly-item {
             display: flex;
-            align-items: center;
-            gap: 10px;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 6px;
         }
 
         .monthly-item label {
-            min-width: 130px;
+            min-width: 0;
             margin: 0;
+            font-size: 13px;
+        }
+
+        .monthly-item input {
+            width: 100%;
+            max-width: 220px;
         }
 
         .annual-result {
-            margin-top: 25px;
-            padding: 18px;
+            margin-top: 22px;
+            padding: 16px 18px;
             background: #eef4e9;
             border: 2px solid #5b7f3a;
             border-radius: 7px;
@@ -507,7 +519,53 @@
             display: block;
         }
 
+        /* =========================================================
+           VARIABLES ESPECÍFICAS POR TIPO DE INMUEBLE
         ========================================================= */
+
+        .type-specific-block {
+            display: none;
+            grid-column: 1 / -1;
+            margin-top: 4px;
+            padding: 16px 18px;
+            background: #f6f8f6;
+            border: 1px solid #dde5df;
+            border-left: 5px solid #5b7f3a;
+            border-radius: 7px;
+        }
+
+        .type-specific-block.visible {
+            display: block;
+        }
+
+        .type-specific-block h3 {
+            margin: 0 0 5px;
+            color: #3f5d2a;
+            font-size: 16px;
+        }
+
+        .type-specific-block > p {
+            margin: 0 0 14px;
+            color: #66706b;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+
+        .type-specific-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 18px 28px;
+        }
+
+        .type-specific-grid .form-group {
+            margin: 0;
+        }
+
+        .type-specific-grid input[type="number"],
+        .type-specific-grid input[type="text"] {
+            width: 260px;
+            max-width: 100%;
+        }
 
         /* =========================================================
            CAMPOS NUMÉRICOS COMPACTOS — INFORMACIÓN COMPLEMENTARIA
@@ -708,24 +766,17 @@
                 grid-template-columns: 1fr;
             }
 
-            /* =====================================================
-               CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
-               Reglas responsive conservadas para futura reactivación.
-
             .monthly-grid {
                 grid-template-columns: 1fr;
             }
 
-            .monthly-item {
-                flex-direction: column;
-                align-items: stretch;
+            .monthly-item input {
+                max-width: 100%;
             }
 
-            .monthly-item label {
-                min-width: auto;
+            .type-specific-grid {
+                grid-template-columns: 1fr;
             }
-
-               ===================================================== */
 
             .header-container {
                 flex-direction: column;
@@ -852,21 +903,13 @@
                     <li>Utilice los iconos <strong>ⓘ</strong> cuando necesite una aclaración sobre el dato solicitado.</li>
                     <li>Revise los valores numéricos y las unidades antes de avanzar.</li>
                     <li>Los campos marcados con <span class="required">*</span> son obligatorios.</li>
+                    <li>Para el consumo eléctrico, tenga disponibles los <strong>12 consumos mensuales de enero a diciembre de 2025</strong>.</li>
                 </ul>
-
-                <!-- =====================================================
-                     CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
-                     La instrucción sobre el recibo de CFE se conserva aquí
-                     para futura reactivación del bloque P011-P023.
-
-                <li>Para capturar el consumo eléctrico, tenga a la mano un recibo reciente de la CFE.</li>
-
-                ====================================================== -->
             </div>
 
             <div class="welcome-note">
                 Procure contar con información básica del inmueble, como superficie construida,
-                ocupación, horarios de operación y datos generales de sus instalaciones.
+                ocupación, horarios de operación, datos generales de sus instalaciones y los consumos eléctricos mensuales de 2025.
             </div>
 
         </div>
@@ -1191,168 +1234,90 @@
 
         <div class="section-content">
 
-            <!-- =====================================================
-                 CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
-                 Se conserva íntegro el bloque P011–P023 para poder
-                 reactivarlo si vuelve a solicitarse esta información.
-                 Para reactivarlo, retire este comentario HTML y reactive
-                 también los bloques CSS/JS marcados con la misma leyenda.
-            ======================================================
-
+            <!-- Consumo eléctrico: periodo fijo enero-diciembre de 2025 -->
             <div class="form-group">
 
                 <h3 class="consumption-title">
-
-                    Consumo anual de energía eléctrica
-
-                    <button
-                        type="button"
-                        class="info-button"
-                        onclick="toggleInfo('infoConsumo')"
-                    >
-                        i
-                    </button>
-
+                    Consumo de energía eléctrica durante 2025
+                    <button type="button" class="info-button" onclick="toggleInfo('infoConsumo')">i</button>
                 </h3>
+
+                <div class="consumption-period-note">
+                    Capture el consumo facturado de electricidad de <strong>cada mes de enero a diciembre de 2025</strong>.
+                    Los 12 meses son obligatorios para que todos los inmuebles sean comparados con el mismo periodo de referencia.
+                </div>
 
                 <div class="info-box" id="infoConsumo">
-
-                    <strong>
-                        Instrucciones para obtener el consumo:
-                    </strong>
-
-                    <p>
-                        Para registrar el consumo anual del inmueble,
-                        revise el reverso de su recibo de luz impreso
-                        o la segunda página si es digital.
-                    </p>
-
-                    <p>
-                        Ubique la tabla denominada
-                        <strong>Consumo Histórico</strong>.
-                        Capture los consumos correspondientes a
-                        12 periodos mensuales consecutivos.
-                    </p>
-
+                    <strong>¿Dónde localizar esta información?</strong>
+                    <p>Consulte sus recibos o registros de facturación eléctrica de 2025. En recibos de CFE, el historial de consumo puede servir como apoyo para identificar los consumos mensuales.</p>
                     <div style="margin-top:15px; text-align:center;">
-
-                        <img
-                            src="recibo_cfe.jpg"
-                            alt="Ejemplo de recibo CFE GDMTH con consumo histórico anual"
-                            style="
-                                max-width:100%;
-                                width:700px;
-                                border:1px solid #ccc;
-                                border-radius:5px;
-                            "
-                        >
-
+                        <img src="recibo_cfe.jpg" alt="Ejemplo de recibo CFE con historial de consumo" style="max-width:100%; width:700px; border:1px solid #ccc; border-radius:5px;">
                     </div>
-
                 </div>
-
-
-                <h3 style="margin-top:30px;">
-                    Consumos mensuales
-                </h3>
-
-                <p>
-                    Capture los consumos de 12 periodos mensuales
-                    consecutivos. No es necesario que correspondan
-                    a enero–diciembre.
-                </p>
-
 
                 <div class="monthly-grid">
-
                     <div class="monthly-item">
-                        <label for="p011">Consumo mensual 1 [kWh]:</label>
-                        <input type="number" id="p011" class="monthly-consumption" min="0" step="0.01">
+                        <label for="p011">Enero 2025 <span class="required">*</span></label>
+                        <input type="number" id="p011" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
-
                     <div class="monthly-item">
-                        <label for="p012">Consumo mensual 2 [kWh]:</label>
-                        <input type="number" id="p012" class="monthly-consumption" min="0" step="0.01">
+                        <label for="p012">Febrero 2025 <span class="required">*</span></label>
+                        <input type="number" id="p012" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
-
                     <div class="monthly-item">
-                        <label for="p013">Consumo mensual 3 [kWh]:</label>
-                        <input type="number" id="p013" class="monthly-consumption" min="0" step="0.01">
+                        <label for="p013">Marzo 2025 <span class="required">*</span></label>
+                        <input type="number" id="p013" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
-
                     <div class="monthly-item">
-                        <label for="p014">Consumo mensual 4 [kWh]:</label>
-                        <input type="number" id="p014" class="monthly-consumption" min="0" step="0.01">
+                        <label for="p014">Abril 2025 <span class="required">*</span></label>
+                        <input type="number" id="p014" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
-
                     <div class="monthly-item">
-                        <label for="p015">Consumo mensual 5 [kWh]:</label>
-                        <input type="number" id="p015" class="monthly-consumption" min="0" step="0.01">
+                        <label for="p015">Mayo 2025 <span class="required">*</span></label>
+                        <input type="number" id="p015" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
-
                     <div class="monthly-item">
-                        <label for="p016">Consumo mensual 6 [kWh]:</label>
-                        <input type="number" id="p016" class="monthly-consumption" min="0" step="0.01">
+                        <label for="p016">Junio 2025 <span class="required">*</span></label>
+                        <input type="number" id="p016" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
-
                     <div class="monthly-item">
-                        <label for="p017">Consumo mensual 7 [kWh]:</label>
-                        <input type="number" id="p017" class="monthly-consumption" min="0" step="0.01">
+                        <label for="p017">Julio 2025 <span class="required">*</span></label>
+                        <input type="number" id="p017" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
-
                     <div class="monthly-item">
-                        <label for="p018">Consumo mensual 8 [kWh]:</label>
-                        <input type="number" id="p018" class="monthly-consumption" min="0" step="0.01">
+                        <label for="p018">Agosto 2025 <span class="required">*</span></label>
+                        <input type="number" id="p018" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
-
                     <div class="monthly-item">
-                        <label for="p019">Consumo mensual 9 [kWh]:</label>
-                        <input type="number" id="p019" class="monthly-consumption" min="0" step="0.01">
+                        <label for="p019">Septiembre 2025 <span class="required">*</span></label>
+                        <input type="number" id="p019" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
-
                     <div class="monthly-item">
-                        <label for="p020">Consumo mensual 10 [kWh]:</label>
-                        <input type="number" id="p020" class="monthly-consumption" min="0" step="0.01">
+                        <label for="p020">Octubre 2025 <span class="required">*</span></label>
+                        <input type="number" id="p020" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
-
                     <div class="monthly-item">
-                        <label for="p021">Consumo mensual 11 [kWh]:</label>
-                        <input type="number" id="p021" class="monthly-consumption" min="0" step="0.01">
+                        <label for="p021">Noviembre 2025 <span class="required">*</span></label>
+                        <input type="number" id="p021" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
-
                     <div class="monthly-item">
-                        <label for="p022">Consumo mensual 12 [kWh]:</label>
-                        <input type="number" id="p022" class="monthly-consumption" min="0" step="0.01">
+                        <label for="p022">Diciembre 2025 <span class="required">*</span></label>
+                        <input type="number" id="p022" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
-
                 </div>
-
 
                 <div class="annual-result">
-
-                    Consumo anual calculado:
-
-                    <br>
-
-                    <strong>
-                        <span id="p023">0.00</span>
-                        kWh
-                    </strong>
-
+                    Consumo anual 2025 calculado:<br>
+                    <strong><span id="p023">0.00</span> kWh</strong>
                 </div>
 
-
                 <div class="error-message" id="consumptionError">
-                    Debe capturar los 12 consumos mensuales para
-                    calcular el consumo anual.
+                    Debe capturar los 12 consumos mensuales de enero a diciembre de 2025.
                 </div>
 
             </div>
 
-
-            ====================================================== -->
-
-            <div class="form-grid" style="margin-top:35px;">
+            <div class="form-grid" style="margin-top:28px;">
 
                 <div class="form-group compact-number align-numeric-row">
 
@@ -1372,7 +1337,7 @@
                 </div>
 
 
-                <div class="form-group compact-number align-numeric-row">
+                <div class="form-group compact-number align-numeric-row" id="p025Group">
 
                     <label for="p025">
 
@@ -1575,6 +1540,77 @@
 
                 </div>
 
+                <!-- Variables adicionales mostradas únicamente según el tipo de inmueble -->
+                <div class="type-specific-block" data-building-type="Hospitales y centros de salud">
+                    <h3>Dato específico para hospitales y centros de salud</h3>
+                    <p>Esta variable permite caracterizar la capacidad funcional del inmueble para el futuro modelo de benchmarking.</p>
+                    <div class="type-specific-grid">
+                        <div class="form-group compact-number">
+                            <label for="p031">Número de camas habilitadas <span class="required">*</span></label>
+                            <input type="number" id="p031" min="0" step="1" data-conditional-required="true">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="type-specific-block" data-building-type="Centros educativos y de investigación">
+                    <h3>Datos específicos para centros educativos y de investigación</h3>
+                    <p>Se solicitan únicamente para este tipo de inmueble y complementan las variables generales ya reportadas.</p>
+                    <div class="type-specific-grid">
+                        <div class="form-group compact-number">
+                            <label for="p032">Capacidad máxima de estudiantes <span class="required">*</span></label>
+                            <input type="number" id="p032" min="0" step="1" data-conditional-required="true">
+                        </div>
+                        <div class="form-group compact-number">
+                            <label for="p033">Número de laboratorios equipados <span class="required">*</span></label>
+                            <input type="number" id="p033" min="0" step="1" data-conditional-required="true">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="type-specific-block" data-building-type="Espacios culturales y recreativos">
+                    <h3>Dato específico para espacios culturales y recreativos</h3>
+                    <p>El aforo ayuda a representar la escala de uso del recinto además del promedio diario de personas usuarias.</p>
+                    <div class="type-specific-grid">
+                        <div class="form-group compact-number">
+                            <label for="p034">Aforo máximo autorizado del inmueble o recinto <span class="required">*</span></label>
+                            <input type="number" id="p034" min="0" step="1" data-conditional-required="true">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="type-specific-block" data-building-type="Infraestructura aduanal y fronteriza">
+                    <h3>Dato específico para infraestructura aduanal y fronteriza</h3>
+                    <p>Esta variable permite representar la capacidad operativa instalada del inmueble.</p>
+                    <div class="type-specific-grid">
+                        <div class="form-group compact-number">
+                            <label for="p036">Número de módulos, carriles o puntos de inspección en operación <span class="required">*</span></label>
+                            <input type="number" id="p036" min="0" step="1" data-conditional-required="true">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="type-specific-block" data-building-type="Otro tipo de inmueble">
+                    <h3>Datos del tipo de inmueble no clasificado</h3>
+                    <p>Esta información permitirá identificar posteriormente un grupo comparable apropiado.</p>
+                    <div class="type-specific-grid">
+                        <div class="form-group">
+                            <label for="p038">Especifique el tipo de inmueble <span class="required">*</span></label>
+                            <input type="text" id="p038" maxlength="150" data-conditional-required="true">
+                        </div>
+                        <div class="form-group compact-number">
+                            <label for="p039">
+                                Capacidad máxima de ocupación simultánea
+                                <button type="button" class="info-button" onclick="toggleInfo('infoP039')">i</button>
+                                <span class="required">*</span>
+                            </label>
+                            <input type="number" id="p039" min="0" step="1" data-conditional-required="true">
+                            <div class="info-box" id="infoP039">
+                                Indique el número máximo de personas que pueden permanecer al mismo tiempo en el inmueble durante su operación habitual.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </div>
 
         </div>
@@ -1753,6 +1789,10 @@
 
         updateProgress();
 
+        if (sectionNumber === 3) {
+            updateConditionalBenchmarkFields();
+        }
+
         document
             .getElementById("previousButton")
             .style.visibility =
@@ -1896,6 +1936,8 @@
 
                 field.classList.remove("invalid");
 
+                if (field.disabled) return;
+
                 if (field.value === "") {
 
                     field.classList.add("invalid");
@@ -2022,8 +2064,7 @@
 
         if (currentSection === 3) {
 
-            // CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE:
-            // valid = validateConsumption();
+            valid = validateConsumption() && valid;
 
             const requiredFields = [
                 "p024",
@@ -2037,6 +2078,8 @@
                     document.getElementById(id);
 
                 field.classList.remove("invalid");
+
+                if (field.disabled) return;
 
                 if (field.value === "") {
 
@@ -2074,6 +2117,13 @@
                 }
             });
 
+            document.querySelectorAll('.type-specific-block.visible [data-conditional-required="true"]').forEach(function(field) {
+                field.classList.remove("invalid");
+                if (field.value.trim() === "" || (field.type === "number" && Number(field.value) < 0)) {
+                    field.classList.add("invalid");
+                    valid = false;
+                }
+            });
 
             if (!valid) {
 
@@ -2102,113 +2152,113 @@
 
 
     /* =========================================================
-       CONSUMO MENSUAL — DESACTIVADO TEMPORALMENTE
-       Se conserva íntegra la lógica de P011–P023. Para reactivarla,
-       retire este comentario de bloque y reactive los demás bloques
-       marcados como CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE.
-    =========================================================
+       CONSUMO MENSUAL 2025
+    ========================================================== */
 
-    const monthlyInputs =
-        document.querySelectorAll(
-            ".monthly-consumption"
-        );
-
+    const monthlyInputs = document.querySelectorAll(".monthly-consumption");
 
     monthlyInputs.forEach(function(input) {
-
-        input.addEventListener(
-            "input",
-            calculateAnnualConsumption
-        );
+        input.addEventListener("input", calculateAnnualConsumption);
     });
 
-
     function calculateAnnualConsumption() {
-
         let total = 0;
         let complete = true;
 
         monthlyInputs.forEach(function(input) {
-
-            if (input.value === "") {
-
+            if (input.value === "" || Number(input.value) < 0) {
                 complete = false;
-
             } else {
-
                 total += Number(input.value);
             }
         });
 
+        const annual = document.getElementById("p023");
+        const error = document.getElementById("consumptionError");
 
-        const annual =
-            document.getElementById("p023");
+        annual.textContent = complete
+            ? total.toLocaleString("es-MX", {minimumFractionDigits:2, maximumFractionDigits:2})
+            : "0.00";
 
-        const error =
-            document.getElementById("consumptionError");
-
-
-        if (complete) {
-
-            annual.textContent =
-                total.toLocaleString(
-                    "es-MX",
-                    {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2
-                    }
-                );
-
-            error.classList.remove("visible");
-
-        } else {
-
-            annual.textContent = "0.00";
-        }
+        if (complete) error.classList.remove("visible");
     }
 
-
     function validateConsumption() {
-
         let complete = true;
 
         monthlyInputs.forEach(function(input) {
-
             input.classList.remove("invalid");
-
-            if (
-                input.value === "" ||
-                Number(input.value) < 0
-            ) {
-
+            if (input.value === "" || Number(input.value) < 0) {
                 input.classList.add("invalid");
-
                 complete = false;
             }
         });
 
-
-        const error =
-            document.getElementById(
-                "consumptionError"
-            );
-
-
-        if (!complete) {
-
-            error.classList.add("visible");
-
-        } else {
-
-            error.classList.remove("visible");
-        }
-
-
+        const error = document.getElementById("consumptionError");
+        error.classList.toggle("visible", !complete);
         return complete;
     }
 
+    /* =========================================================
+       VARIABLES CONDICIONALES POR TIPO DE INMUEBLE
+    ========================================================== */
 
-    ========================================================= */
+    function getSelectedBuildingType() {
+        const selected = document.querySelector('input[name="p004"]:checked');
+        return selected ? selected.value : "";
+    }
+
+    function updateConditionalBenchmarkFields() {
+        const type = getSelectedBuildingType();
+
+        // P025 no se solicita para Centros educativos y de investigación,
+        // porque la capacidad máxima de estudiantes (P032) caracteriza mejor
+        // la escala de uso de este tipo de inmueble para el modelo.
+        const p025Group = document.getElementById('p025Group');
+        const p025 = document.getElementById('p025');
+        const hideP025 = type === 'Centros educativos y de investigación';
+        if (p025Group) p025Group.style.display = hideP025 ? 'none' : '';
+        if (p025) {
+            p025.disabled = hideP025;
+            p025.required = !hideP025;
+            p025.classList.remove('invalid');
+        }
+
+        document.querySelectorAll('.type-specific-block').forEach(function(block) {
+            const active = block.dataset.buildingType === type;
+            block.classList.toggle('visible', active);
+            block.querySelectorAll('input').forEach(function(input) {
+                input.disabled = !active;
+                input.required = active && input.dataset.conditionalRequired === 'true';
+                input.classList.remove('invalid');
+            });
+        });
+    }
+
+    document.querySelectorAll('input[name="p004"]').forEach(function(radio) {
+        radio.addEventListener('change', updateConditionalBenchmarkFields);
+    });
+
+    updateConditionalBenchmarkFields();
+
+    function getConditionalNumber(id) {
+        const field = document.getElementById(id);
+        if (!field || field.disabled || field.value === "") return null;
+        return Number(field.value);
+    }
+
+    function getNullableNumber(id) {
+        const field = document.getElementById(id);
+        if (!field || field.disabled || field.value === "") return null;
+        return Number(field.value);
+    }
+
+    function getConditionalText(id) {
+        const field = document.getElementById(id);
+        if (!field || field.disabled) return null;
+        const value = field.value.trim();
+        return value === "" ? null : value;
+    }
 
     /* =========================================================
        OBTENER EQUIVALENTE TR DE P027
@@ -2278,10 +2328,7 @@
         const aireTR =
             getP027EquivalentTR();
 
-        /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
-        const annual =
-            document.getElementById("p023").textContent;
-        */
+        const annual = document.getElementById("p023").textContent;
 
 
         const data = [
@@ -2316,19 +2363,17 @@
             ["P010 — Horas de operación",
              document.getElementById("p010").value + " h/semana"],
 
-            /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
-            ["P011–P022 — Consumos mensuales",
-             "12 valores capturados"],
+            ["P011–P022 — Consumos mensuales 2025",
+             "Enero a diciembre de 2025"],
 
-            ["P023 — Consumo anual calculado",
+            ["P023 — Consumo anual 2025 calculado",
              annual + " kWh"],
-            */
 
             ["P024 — Empleados en turno principal",
              document.getElementById("p024").value],
 
             ["P025 — Personas usuarias promedio al día",
-             document.getElementById("p025").value + " personas/día"],
+             document.getElementById("p025").disabled ? "No aplica para este tipo de inmueble" : document.getElementById("p025").value + " personas/día"],
 
             ["P026 — Número de computadoras",
              document.getElementById("p026").value],
@@ -2458,17 +2503,11 @@
                CONSUMOS MENSUALES
             ------------------------------------------------- */
 
-            /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
             const monthlyValues = [];
 
             monthlyInputs.forEach(function(input) {
-
-                monthlyValues.push(
-                    Number(input.value)
-                );
-
+                monthlyValues.push(Number(input.value));
             });
-            */
 
 
             /* -------------------------------------------------
@@ -2495,10 +2534,8 @@
             /* -------------------------------------------------
                PAYLOAD
                
-               IMPORTANTE:
-               P011–P023 están DESACTIVADOS TEMPORALMENTE.
-               No se envían valores de consumo desde este formulario.
-               Las columnas se conservan en la base para futura reactivación.
+               P011–P022 corresponden a enero-diciembre de 2025.
+               P023 continúa calculándose en la base de datos a partir de los 12 meses.
             ------------------------------------------------- */
 
             const record = {
@@ -2551,10 +2588,6 @@
                         document.getElementById("p010").value
                     ),
 
-                /* =================================================
-                   CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
-                   P011–P022 se conservan para futura reactivación.
-
                 p011_consumo_mensual_1:
                     monthlyValues[0],
 
@@ -2591,8 +2624,7 @@
                 p022_consumo_mensual_12:
                     monthlyValues[11],
 
-                   P023 continúa sin enviarse desde el frontend.
-                   ================================================= */
+                // P023 se calcula en la base de datos a partir de P011–P022.
 
                 p024_empleados_turno_principal:
                     Number(
@@ -2600,9 +2632,7 @@
                     ),
 
                 p025_personas_usuarias_promedio_dia:
-                    Number(
-                        document.getElementById("p025").value
-                    ),
+                    getNullableNumber("p025"),
 
                 p026_numero_computadoras:
                     Number(
@@ -2635,9 +2665,15 @@
                 p030_area_iluminada_artificialmente:
                     document.getElementById("p030").value === ""
                         ? null
-                        : Number(
-                            document.getElementById("p030").value
-                          )
+                        : Number(document.getElementById("p030").value),
+
+                p031_numero_camas_habilitadas: getConditionalNumber("p031"),
+                p032_capacidad_max_estudiantes: getConditionalNumber("p032"),
+                p033_numero_laboratorios_equipados: getConditionalNumber("p033"),
+                p034_aforo_maximo: getConditionalNumber("p034"),
+                p036_modulos_carriles_inspeccion: getConditionalNumber("p036"),
+                p038_otro_tipo_inmueble_especificar: getConditionalText("p038"),
+                p039_capacidad_max_ocupacion_otro: getConditionalNumber("p039")
 
             };
 
@@ -2705,17 +2741,7 @@
             saveButton.disabled = true;
             previousButton.disabled = true;
 
-
-            /* =================================================
-               CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
-               Si se reactiva P023, este bloque vuelve a sincronizar
-               el valor devuelto por la base con el resumen.
-
-            if (
-                data &&
-                data.p023_consumo_anual !== null &&
-                data.p023_consumo_anual !== undefined
-            ) {
+            if (data && data.p023_consumo_anual !== null && data.p023_consumo_anual !== undefined) {
 
                 document.getElementById("p023").textContent =
                     Number(
@@ -2727,10 +2753,7 @@
                             maximumFractionDigits: 2
                         }
                     );
-
             }
-
-               ================================================= */
 
 
         } catch (error) {
@@ -2778,17 +2801,11 @@
             );
 
 
-        /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
         const monthlyValues = [];
 
-
         monthlyInputs.forEach(function(input) {
-
-            monthlyValues.push(
-                Number(input.value)
-            );
+            monthlyValues.push(Number(input.value));
         });
-        */
 
 
         const aireValor =
@@ -2833,10 +2850,6 @@
             P010_horas_operacion_semana:
                 document.getElementById("p010").value,
 
-            /* =================================================
-               CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
-               Estas claves se conservan para futura reactivación.
-
             P011_consumo_mensual_1:
                 monthlyValues[0],
 
@@ -2879,13 +2892,11 @@
                     0
                 ),
 
-               ================================================= */
-
             P024_empleados_turno_principal:
                 document.getElementById("p024").value,
 
             P025_personas_usuarias_promedio_dia:
-                document.getElementById("p025").value,
+                getNullableNumber("p025"),
 
             P026_numero_computadoras:
                 document.getElementById("p026").value,
@@ -2906,7 +2917,15 @@
                 document.getElementById("p029").value,
 
             P030_area_iluminada_artificialmente:
-                document.getElementById("p030").value
+                document.getElementById("p030").value,
+
+            P031_numero_camas_habilitadas: getConditionalNumber("p031"),
+            P032_capacidad_max_estudiantes: getConditionalNumber("p032"),
+            P033_numero_laboratorios_equipados: getConditionalNumber("p033"),
+            P034_aforo_maximo: getConditionalNumber("p034"),
+            P036_modulos_carriles_inspeccion: getConditionalNumber("p036"),
+            P038_otro_tipo_inmueble_especificar: getConditionalText("p038"),
+            P039_capacidad_max_ocupacion_otro: getConditionalNumber("p039")
         };
 
 
