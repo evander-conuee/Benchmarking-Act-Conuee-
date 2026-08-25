@@ -35,6 +35,10 @@
             background: #ffffff;
             border-bottom: 4px solid #5b7f3a;
             padding: 18px 30px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
         }
 
         .header-container {
@@ -372,8 +376,12 @@
         }
 
         /* =========================================================
-           CONSUMO ELÉCTRICO
-        ========================================================= */
+           CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
+           Decisión operativa: el consumo anual se obtendrá de otra fuente.
+           Para reactivar estos estilos, retire únicamente este comentario
+           de bloque junto con los demás bloques marcados como DESACTIVADOS.
+        =========================================================
+
 
         .consumption-title {
             margin-top: 0;
@@ -424,6 +432,8 @@
         .error-message.visible {
             display: block;
         }
+
+        ========================================================= */
 
         /* =========================================================
            NAVEGACIÓN
@@ -540,6 +550,10 @@
                 grid-template-columns: 1fr;
             }
 
+            /* =====================================================
+               CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
+               Reglas responsive conservadas para futura reactivación.
+
             .monthly-grid {
                 grid-template-columns: 1fr;
             }
@@ -552,6 +566,8 @@
             .monthly-item label {
                 min-width: auto;
             }
+
+               ===================================================== */
 
             .header-container {
                 flex-direction: column;
@@ -632,12 +648,19 @@
                     cuando necesite aclarar algún dato solicitado.
                 </p>
 
+                <!-- =====================================================
+                     CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
+                     Esta instrucción se conserva porque será necesaria si
+                     vuelve a solicitarse el consumo eléctrico al usuario.
+
                 <p>
                     Para completar la sección
                     <strong>Captura de datos</strong>,
                     requiere el último recibo más reciente de la
                     Comisión Federal de Electricidad (CFE) del que disponga.
                 </p>
+
+                ====================================================== -->
 
             </div>
 
@@ -958,10 +981,18 @@
     <section class="section" id="section3">
 
         <div class="section-title">
-            Captura de datos
+            Información complementaria
         </div>
 
         <div class="section-content">
+
+            <!-- =====================================================
+                 CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
+                 Se conserva íntegro el bloque P011–P023 para poder
+                 reactivarlo si vuelve a solicitarse esta información.
+                 Para reactivarlo, retire este comentario HTML y reactive
+                 también los bloques CSS/JS marcados con la misma leyenda.
+            ======================================================
 
             <div class="form-group">
 
@@ -1113,6 +1144,8 @@
 
             </div>
 
+
+            ====================================================== -->
 
             <div class="form-grid" style="margin-top:35px;">
 
@@ -1740,7 +1773,8 @@
 
         if (currentSection === 3) {
 
-            valid = validateConsumption();
+            // CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE:
+            // valid = validateConsumption();
 
             const requiredFields = [
                 "p024",
@@ -1819,8 +1853,11 @@
 
 
     /* =========================================================
-       CONSUMO MENSUAL
-    ========================================================= */
+       CONSUMO MENSUAL — DESACTIVADO TEMPORALMENTE
+       Se conserva íntegra la lógica de P011–P023. Para reactivarla,
+       retire este comentario de bloque y reactive los demás bloques
+       marcados como CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE.
+    =========================================================
 
     const monthlyInputs =
         document.querySelectorAll(
@@ -1922,6 +1959,8 @@
     }
 
 
+    ========================================================= */
+
     /* =========================================================
        OBTENER EQUIVALENTE TR DE P027
     ========================================================= */
@@ -1990,8 +2029,10 @@
         const aireTR =
             getP027EquivalentTR();
 
+        /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
         const annual =
             document.getElementById("p023").textContent;
+        */
 
 
         const data = [
@@ -2026,11 +2067,13 @@
             ["P010 — Horas de operación",
              document.getElementById("p010").value + " h/semana"],
 
+            /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
             ["P011–P022 — Consumos mensuales",
              "12 valores capturados"],
 
             ["P023 — Consumo anual calculado",
              annual + " kWh"],
+            */
 
             ["P024 — Empleados en turno principal",
              document.getElementById("p024").value],
@@ -2166,6 +2209,7 @@
                CONSUMOS MENSUALES
             ------------------------------------------------- */
 
+            /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
             const monthlyValues = [];
 
             monthlyInputs.forEach(function(input) {
@@ -2175,6 +2219,7 @@
                 );
 
             });
+            */
 
 
             /* -------------------------------------------------
@@ -2202,8 +2247,9 @@
                PAYLOAD
                
                IMPORTANTE:
-               P023 NO SE ENVÍA.
-               La base de datos lo calcula.
+               P011–P023 están DESACTIVADOS TEMPORALMENTE.
+               No se envían valores de consumo desde este formulario.
+               Las columnas se conservan en la base para futura reactivación.
             ------------------------------------------------- */
 
             const record = {
@@ -2256,6 +2302,10 @@
                         document.getElementById("p010").value
                     ),
 
+                /* =================================================
+                   CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
+                   P011–P022 se conservan para futura reactivación.
+
                 p011_consumo_mensual_1:
                     monthlyValues[0],
 
@@ -2292,10 +2342,8 @@
                 p022_consumo_mensual_12:
                     monthlyValues[11],
 
-                /*
-                 * P023 SE OMITE INTENCIONALMENTE.
-                 * La BD debe calcularlo.
-                 */
+                   P023 continúa sin enviarse desde el frontend.
+                   ================================================= */
 
                 p024_empleados_turno_principal:
                     Number(
@@ -2385,10 +2433,10 @@
             saveButton.disabled = true;
 
 
-            /*
-             * Si la BD devolvió P023, actualizamos
-             * el valor mostrado en el resumen.
-             */
+            /* =================================================
+               CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
+               Si se reactiva P023, este bloque vuelve a sincronizar
+               el valor devuelto por la base con el resumen.
 
             if (
                 data &&
@@ -2408,6 +2456,8 @@
                     );
 
             }
+
+               ================================================= */
 
 
         } catch (error) {
@@ -2453,6 +2503,7 @@
             );
 
 
+        /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
         const monthlyValues = [];
 
 
@@ -2462,6 +2513,7 @@
                 Number(input.value)
             );
         });
+        */
 
 
         const aireValor =
@@ -2506,6 +2558,10 @@
             P010_horas_operacion_semana:
                 document.getElementById("p010").value,
 
+            /* =================================================
+               CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
+               Estas claves se conservan para futura reactivación.
+
             P011_consumo_mensual_1:
                 monthlyValues[0],
 
@@ -2547,6 +2603,8 @@
                     (a, b) => a + b,
                     0
                 ),
+
+               ================================================= */
 
             P024_empleados_turno_principal:
                 document.getElementById("p024").value,
