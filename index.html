@@ -91,17 +91,38 @@
         ========================================================= */
 
         .admin-access {
-            display: inline-block;
-            margin-top: 8px;
-            color: #777;
-            font-size: 11px;
+            position: absolute;
+            right: 30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 42px;
+            height: 42px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: #5b7f3a;
+            color: #ffffff;
             text-decoration: none;
-            transition: color 0.2s ease;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.14);
+            transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .admin-access svg {
+            width: 20px;
+            height: 20px;
+            display: block;
         }
 
         .admin-access:hover {
-            color: #3f5d2a;
-            text-decoration: underline;
+            background: #405b29;
+            transform: translateY(-50%) scale(1.04);
+            box-shadow: 0 3px 9px rgba(0,0,0,0.18);
+        }
+
+        .admin-access:focus-visible {
+            outline: 3px solid rgba(91,127,58,0.28);
+            outline-offset: 3px;
         }
 
         /* =========================================================
@@ -436,6 +457,82 @@
         ========================================================= */
 
         /* =========================================================
+           CAMPOS NUMÉRICOS COMPACTOS — INFORMACIÓN COMPLEMENTARIA
+        ========================================================= */
+
+        .form-group.compact-number input[type="number"] {
+            width: 230px;
+            max-width: 100%;
+        }
+
+        .form-group.align-numeric-row label {
+            min-height: 42px;
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+        }
+
+        /* =========================================================
+           PANTALLA FINAL DE CAPTURA
+        ========================================================= */
+
+        .completion-panel {
+            max-width: 760px;
+            margin: 0 auto;
+            padding: 22px 8px 8px;
+            text-align: center;
+        }
+
+        .completion-icon {
+            width: 76px;
+            height: 76px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eef4e9;
+            border: 2px solid #5b7f3a;
+            color: #5b7f3a;
+        }
+
+        .completion-icon svg {
+            width: 38px;
+            height: 38px;
+            display: block;
+        }
+
+        .completion-panel h2 {
+            margin: 0 0 10px;
+            color: #3f5d2a;
+            font-size: 26px;
+        }
+
+        .completion-lead {
+            max-width: 620px;
+            margin: 0 auto;
+            color: #45525a;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .completion-note {
+            max-width: 620px;
+            margin: 24px auto 0;
+            padding: 16px 18px;
+            border-left: 5px solid #5b7f3a;
+            border-radius: 6px;
+            background: #f5f7f3;
+            color: #37434a;
+            text-align: left;
+            line-height: 1.55;
+        }
+
+        .completion-note strong {
+            color: #3f5d2a;
+        }
+
+        /* =========================================================
            NAVEGACIÓN
         ========================================================= */
 
@@ -572,6 +669,35 @@
             .header-container {
                 flex-direction: column;
                 align-items: flex-start;
+                padding-right: 52px;
+            }
+
+            .admin-access {
+                right: 16px;
+                top: 16px;
+                transform: none;
+                width: 40px;
+                height: 40px;
+            }
+
+            .admin-access:hover {
+                transform: scale(1.04);
+            }
+
+            .form-group.align-numeric-row label {
+                min-height: 0;
+            }
+
+            .form-group.compact-number input[type="number"] {
+                width: 100%;
+            }
+
+            .completion-panel {
+                padding: 12px 0 4px;
+            }
+
+            .completion-panel h2 {
+                font-size: 23px;
             }
 
             .input-with-unit input {
@@ -596,10 +722,23 @@
         <div class="header-title">
             <h1>Herramienta de Benchmarking en la Administración Pública Federal</h1>
             <p>Instrumento de recolección de información para inmuebles de la APF</p>
-            <a class="admin-access" href="admin.html" aria-label="Acceso administrativo">Acceso administrativo</a>
         </div>
 
     </div>
+
+    <a
+        class="admin-access"
+        href="admin.html"
+        aria-label="Acceso administrativo"
+        title="Acceso administrativo"
+    >
+        <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path
+                fill="currentColor"
+                d="M17 8h-1V6a4 4 0 0 0-8 0v2H7a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2Zm-7-2a2 2 0 1 1 4 0v2h-4V6Zm3 9.73V18h-2v-2.27a2 2 0 1 1 2 0Z"
+            />
+        </svg>
+    </a>
 </header>
 
 
@@ -1149,7 +1288,7 @@
 
             <div class="form-grid" style="margin-top:35px;">
 
-                <div class="form-group">
+                <div class="form-group compact-number align-numeric-row">
 
                     <label for="p024">
                         Número de empleados en el turno principal
@@ -1167,7 +1306,7 @@
                 </div>
 
 
-                <div class="form-group">
+                <div class="form-group compact-number align-numeric-row">
 
                     <label for="p025">
 
@@ -1207,7 +1346,7 @@
                 </div>
 
 
-                <div class="form-group">
+                <div class="form-group compact-number">
 
                     <label for="p026">
                         Número de computadoras
@@ -1384,45 +1523,80 @@
     <section class="section" id="section4">
 
         <div class="section-title">
-            Resumen de información capturada
+            Finalizar y enviar información
         </div>
 
         <div class="section-content">
 
-            <p>
-                Revise la información antes de finalizar.
-            </p>
+            <div class="completion-panel">
 
-            <table class="summary-table">
+                <div class="completion-icon" id="completionIcon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                        <path
+                            fill="currentColor"
+                            d="M9.55 17.35 4.2 12l1.4-1.4 3.95 3.95 8.85-8.85L19.8 7.1 9.55 17.35Z"
+                        />
+                    </svg>
+                </div>
 
-                <thead>
-                    <tr>
-                        <th>Variable</th>
-                        <th>Valor</th>
-                    </tr>
-                </thead>
+                <h2 id="completionTitle">¡Captura completada!</h2>
 
-                <tbody id="summaryBody">
-                </tbody>
+                <p class="completion-lead" id="completionText">
+                    Ha concluido la captura de información del inmueble.
+                    Sus respuestas están listas para enviarse.
+                </p>
 
-            </table>
+                <div class="completion-note" id="completionNote">
+                    <strong>Último paso:</strong>
+                    presione <strong>“Finalizar y enviar información”</strong>
+                    para registrar sus respuestas. Si necesita corregir algún dato,
+                    todavía puede volver a la sección anterior antes de enviarlo.
+                </div>
 
+                <!-- =================================================
+                     RESUMEN TABULAR ANTERIOR — DESACTIVADO
+                     Se conserva para poder reactivarlo si vuelve a
+                     considerarse útil como pantalla de corroboración.
 
-            <!-- MENSAJE DE GUARDADO -->
+                <table class="summary-table">
+                    <thead>
+                        <tr>
+                            <th>Variable</th>
+                            <th>Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody id="summaryBody"></tbody>
+                </table>
 
-            <div
-                id="saveMessage"
-                class="save-message"
-            ></div>
+                   ================================================= -->
 
+                <div
+                    id="saveMessage"
+                    class="save-message"
+                ></div>
 
-            <button
-                class="download-button"
-                onclick="downloadData()"
-                type="button"
-            >
-                Descargar información
-            </button>
+                <!-- =================================================
+                     DESCARGA INDIVIDUAL — DESACTIVADA EN LA PANTALLA FINAL
+                     Se conserva la función downloadData() en JavaScript.
+
+                <button
+                    class="download-button"
+                    onclick="downloadData()"
+                    type="button"
+                >
+                    Descargar información
+                </button>
+
+                   ================================================= -->
+
+                <!-- =================================================
+                     ESPACIO PREVISTO PARA EL RESULTADO DE BENCHMARKING
+                     En una etapa posterior, después del guardado exitoso,
+                     esta misma pantalla podrá mostrar la calificación o
+                     comparativa de eficiencia energética del inmueble.
+                   ================================================= -->
+
+            </div>
 
         </div>
 
@@ -1523,12 +1697,20 @@
             .getElementById("nextButton")
             .textContent =
             sectionNumber === totalSections
-                ? "Finalizar"
+                ? "Finalizar y enviar información"
                 : "Siguiente →";
+
+        /* =====================================================
+           RESUMEN TABULAR — DESACTIVADO
+           La pantalla final ahora funciona como cierre de captura.
+           generateSummary() se conserva más abajo por si se desea
+           recuperar el resumen en el futuro.
 
         if (sectionNumber === totalSections) {
             generateSummary();
         }
+
+           ===================================================== */
     }
 
 
@@ -2427,10 +2609,34 @@
                 "<strong>Registro guardado correctamente.</strong><br>" +
                 "La información del inmueble fue almacenada exitosamente.";
 
+            const completionTitle =
+                document.getElementById("completionTitle");
+
+            const completionText =
+                document.getElementById("completionText");
+
+            const completionNote =
+                document.getElementById("completionNote");
+
+            if (completionTitle) {
+                completionTitle.textContent =
+                    "¡Información enviada correctamente!";
+            }
+
+            if (completionText) {
+                completionText.textContent =
+                    "El registro del inmueble quedó guardado correctamente.";
+            }
+
+            if (completionNote) {
+                completionNote.style.display = "none";
+            }
+
             saveButton.textContent =
-                "Registro guardado";
+                "Información enviada";
 
             saveButton.disabled = true;
+            previousButton.disabled = true;
 
 
             /* =================================================
@@ -2485,7 +2691,9 @@
 
             isSaving = false;
 
-            previousButton.disabled = false;
+            if (!saveButton.disabled) {
+                previousButton.disabled = false;
+            }
 
         }
     }
