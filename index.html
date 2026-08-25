@@ -19,7 +19,7 @@
             margin: 0;
             font-family: Arial, Helvetica, sans-serif;
             background-color: #f3f5f7;
-            background-image: url('Textura.png');
+            background-image: url('TexturaVerde.jpg');
             background-repeat: no-repeat;
             background-position: center center;
             background-size: cover;
@@ -32,8 +32,8 @@
         ========================================================= */
 
         header {
-            background: #ffffff;
-            border-bottom: 4px solid #1e5b4f;
+            background: #5b7f3a;
+            border-bottom: 4px solid #5b7f3a;
             padding: 18px 30px;
             position: sticky;
             top: 0;
@@ -76,13 +76,14 @@
         .header-title h1 {
             margin: 0;
             font-size: 23px;
-            color: #1e5b4f;
+            color: #ffffff;
         }
 
         .header-title p {
             margin: 5px 0 0;
             font-size: 14px;
-            color: #666;
+            color: #ffffff;
+            opacity: 0.92;
         }
 
 
@@ -101,9 +102,10 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
+            border: 1px solid rgba(255,255,255,0.78);
             border-radius: 6px;
-            background: #1e5b4f;
-            color: #ffffff;
+            background: #ffffff;
+            color: #405b29;
             text-decoration: none;
             font-size: 13px;
             font-weight: bold;
@@ -120,13 +122,13 @@
         }
 
         .admin-access:hover {
-            background: #17473e;
+            background: #f5f7f3;
             transform: translateY(-50%) scale(1.04);
             box-shadow: 0 3px 9px rgba(0,0,0,0.18);
         }
 
         .admin-access:focus-visible {
-            outline: 3px solid rgba(30,91,79,0.28);
+            outline: 3px solid rgba(91,127,58,0.28);
             outline-offset: 3px;
         }
 
@@ -167,7 +169,7 @@
         .progress-fill {
             width: 25%;
             height: 100%;
-            background: #1e5b4f;
+            background: #5b7f3a;
             transition: width 0.3s ease;
         }
 
@@ -189,7 +191,7 @@
         }
 
         .section-title {
-            background: #1e5b4f;
+            background: #5b7f3a;
             color: white;
             padding: 15px 22px;
             font-size: 20px;
@@ -206,10 +208,55 @@
 
         .instruction-box {
             background: #f5f7f3;
-            border-left: 5px solid #1e5b4f;
+            border-left: 5px solid #5b7f3a;
             padding: 18px;
             margin-bottom: 20px;
             line-height: 1.6;
+        }
+
+        .welcome-title {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .welcome-title small {
+            font-size: 14px;
+            font-weight: normal;
+            opacity: 0.95;
+        }
+
+        .welcome-intro h3 {
+            margin: 0 0 14px;
+            color: #3f5d2a;
+            font-size: 19px;
+        }
+
+        .welcome-intro > p {
+            margin: 0 0 16px;
+            line-height: 1.6;
+        }
+
+        .welcome-list {
+            margin: 0;
+            padding-left: 22px;
+        }
+
+        .welcome-list li {
+            margin-bottom: 9px;
+        }
+
+        .welcome-list li:last-child {
+            margin-bottom: 0;
+        }
+
+        .welcome-note {
+            margin-top: 18px;
+            padding: 14px 16px;
+            background: #f5f7f3;
+            border-left: 4px solid #5b7f3a;
+            border-radius: 4px;
+            line-height: 1.5;
         }
 
         /* =========================================================
@@ -258,8 +305,8 @@
         input:focus,
         select:focus {
             outline: none;
-            border-color: #1e5b4f;
-            box-shadow: 0 0 0 2px rgba(30,91,79,0.15);
+            border-color: #5b7f3a;
+            box-shadow: 0 0 0 2px rgba(91,127,58,0.15);
         }
 
         input.invalid,
@@ -299,7 +346,7 @@
         }
 
         .aire-equivalente strong {
-            color: #1e5b4f;
+            color: #5b7f3a;
         }
 
         #aireWarningAlto,
@@ -372,7 +419,7 @@
             width: 22px;
             height: 22px;
             border-radius: 50%;
-            background: #1e5b4f;
+            background: #5b7f3a;
             color: white;
             border: none;
             font-weight: bold;
@@ -382,7 +429,7 @@
         }
 
         .info-button:hover {
-            background: #17473e;
+            background: #405b29;
         }
 
         .info-box {
@@ -436,14 +483,14 @@
         .annual-result {
             margin-top: 25px;
             padding: 18px;
-            background: #edf5f4;
-            border: 2px solid #1e5b4f;
+            background: #eef4e9;
+            border: 2px solid #5b7f3a;
             border-radius: 7px;
         }
 
         .annual-result strong {
             font-size: 20px;
-            color: #1e5b4f;
+            color: #5b7f3a;
         }
 
         .error-message {
@@ -504,9 +551,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #edf5f4;
-            border: 2px solid #1e5b4f;
-            color: #1e5b4f;
+            background: #eef4e9;
+            border: 2px solid #5b7f3a;
+            color: #5b7f3a;
         }
 
         .completion-icon svg {
@@ -517,7 +564,7 @@
 
         .completion-panel h2 {
             margin: 0 0 10px;
-            color: #1e5b4f;
+            color: #5b7f3a;
             font-size: 26px;
         }
 
@@ -533,7 +580,7 @@
             max-width: 620px;
             margin: 24px auto 0;
             padding: 16px 18px;
-            border-left: 5px solid #1e5b4f;
+            border-left: 5px solid #5b7f3a;
             border-radius: 6px;
             background: #f5f7f3;
             color: #37434a;
@@ -542,7 +589,7 @@
         }
 
         .completion-note strong {
-            color: #1e5b4f;
+            color: #5b7f3a;
         }
 
         /* =========================================================
@@ -570,12 +617,12 @@
         }
 
         .next {
-            background: #1e5b4f;
+            background: #5b7f3a;
             color: white;
         }
 
         .next:hover {
-            background: #17473e;
+            background: #405b29;
         }
 
         .previous:hover {
@@ -610,7 +657,7 @@
 
         .download-button {
             margin-top: 20px;
-            background: #1e5b4f;
+            background: #5b7f3a;
             color: white;
             border: none;
             padding: 12px 20px;
@@ -634,9 +681,9 @@
 
         .save-message.success {
             display: block;
-            background: #edf7f6;
-            border-left: 5px solid #1e5b4f;
-            color: #1e5b4f;
+            background: #eef7e8;
+            border-left: 5px solid #5b7f3a;
+            color: #5b7f3a;
         }
 
         .save-message.error {
@@ -784,39 +831,41 @@
 
     <section class="section active" id="section1">
 
-        <div class="section-title">
-            Instrucciones de uso
+        <div class="section-title welcome-title">
+            <span>Bienvenido a la herramienta</span>
+            <small>Antes de comenzar, revise estas recomendaciones para facilitar la captura.</small>
         </div>
 
-        <div class="section-content">
+        <div class="section-content welcome-intro">
+
+            <h3>Instrucciones de llenado</h3>
+
+            <p>
+                Complete la información solicitada con base en las características actuales del inmueble.
+                La captura es breve y está organizada en secciones consecutivas.
+            </p>
 
             <div class="instruction-box">
-
-                <p>
-                    Por favor, complete la información solicitada
-                    basándose en las características del inmueble.
-                </p>
-
-                <p>
-                    Utilice los iconos
-                    <strong>ⓘ</strong>
-                    cuando necesite aclarar algún dato solicitado.
-                </p>
+                <ul class="welcome-list">
+                    <li>Lea cada pregunta y registre la información correspondiente al inmueble.</li>
+                    <li>Utilice los iconos <strong>ⓘ</strong> cuando necesite una aclaración sobre el dato solicitado.</li>
+                    <li>Revise los valores numéricos y las unidades antes de avanzar.</li>
+                    <li>Los campos marcados con <span class="required">*</span> son obligatorios.</li>
+                </ul>
 
                 <!-- =====================================================
                      CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
-                     Esta instrucción se conserva porque será necesaria si
-                     vuelve a solicitarse el consumo eléctrico al usuario.
+                     La instrucción sobre el recibo de CFE se conserva aquí
+                     para futura reactivación del bloque P011-P023.
 
-                <p>
-                    Para completar la sección
-                    <strong>Captura de datos</strong>,
-                    requiere el último recibo más reciente de la
-                    Comisión Federal de Electricidad (CFE) del que disponga.
-                </p>
+                <li>Para capturar el consumo eléctrico, tenga a la mano un recibo reciente de la CFE.</li>
 
                 ====================================================== -->
+            </div>
 
+            <div class="welcome-note">
+                Procure contar con información básica del inmueble, como superficie construida,
+                ocupación, horarios de operación y datos generales de sus instalaciones.
             </div>
 
         </div>
@@ -1639,7 +1688,7 @@
             onclick="nextSection()"
             type="button"
         >
-            Siguiente →
+            Comenzar captura →
         </button>
 
     </div>
@@ -1713,7 +1762,9 @@
             .textContent =
             sectionNumber === totalSections
                 ? "Finalizar y enviar información"
-                : "Siguiente →";
+                : sectionNumber === 1
+                    ? "Comenzar captura →"
+                    : "Siguiente →";
 
         /* =====================================================
            RESUMEN TABULAR — DESACTIVADO
