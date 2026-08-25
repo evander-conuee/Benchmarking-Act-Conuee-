@@ -2721,12 +2721,10 @@
                INSERT
             ------------------------------------------------- */
 
-            const { data, error } =
+            const { error } =
                 await supabaseClient
                     .from("registros_inmuebles")
-                    .insert([record])
-                    .select()
-                    .single();
+                    .insert([record]);
 
 
             if (error) {
@@ -2779,21 +2777,6 @@
 
             saveButton.disabled = true;
             previousButton.disabled = true;
-
-            if (data && data.p023_consumo_anual !== null && data.p023_consumo_anual !== undefined) {
-
-                document.getElementById("p023").textContent =
-                    Number(
-                        data.p023_consumo_anual
-                    ).toLocaleString(
-                        "es-MX",
-                        {
-                            minimumFractionDigits: 2,
-                            maximumFractionDigits: 2
-                        }
-                    );
-            }
-
 
         } catch (error) {
 
