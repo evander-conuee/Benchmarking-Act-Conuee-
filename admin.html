@@ -6,6 +6,7 @@
 <title>Panel administrativo</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background-color:#f3f5f7;background-image:url('TexturaVerde.jpg');background-repeat:no-repeat;background-position:center center;background-size:cover;background-attachment:fixed;color:#263238}header{background:#002f2a;border-bottom:3px solid #1e5b4f;padding:8px 30px;position:sticky;top:0;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,.08)}.header{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}.title{display:flex;align-items:center;gap:20px;flex:1}.conuee-logo{width:145px;height:78px;flex:0 0 145px;object-fit:contain;object-position:left center;display:block}.title h1{margin:0;color:#fff;font-size:23px}.title p{margin:5px 0 0;color:#fff;font-size:14px;opacity:.92}.btn{border:0;border-radius:5px;padding:9px 15px;font-size:13px;font-weight:bold;cursor:pointer}.btn-primary{background:#5b7f3a;color:#fff}.btn-secondary{background:#d8dde0;color:#263238}.btn-danger{background:#8e0000;color:#fff}.btn-excel{background:#5b7f3a;color:#fff}.btn:disabled{opacity:.55;cursor:not-allowed}.export-card{display:flex;align-items:center;justify-content:space-between;gap:18px}.export-card p{margin:5px 0 0;color:#666;font-size:12px}.export-status{color:#666;font-size:12px}.hidden{display:none!important}main{max-width:1200px;margin:24px auto;padding:0 20px;font-size:14px}.card{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:20px;margin-bottom:18px}.login{max-width:430px;margin:60px auto}.login h2{margin-top:0;color:#3f5d2a;font-size:20px}label{display:block;font-weight:bold;font-size:13px;margin:13px 0 6px}input,select{width:100%;padding:9px 11px;border:1px solid #b8bec3;border-radius:5px;font-size:14px;background:#fff}input:focus,select:focus{outline:none;border-color:#5b7f3a;box-shadow:0 0 0 2px rgba(91,127,58,.15)}.message{padding:12px;border-radius:5px;margin-top:14px;display:none}.message.error{display:block;background:#ffebee;color:#8e0000;border-left:4px solid #c62828}.message.success{display:block;background:#eef7e8;color:#5b7f3a;border-left:4px solid #5b7f3a}.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr auto auto;gap:10px;align-items:end}.stats{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:18px}.stat{background:#eef4e9;border-left:4px solid #5b7f3a;padding:12px 18px;border-radius:5px}.stat strong{display:block;font-size:22px;color:#3f5d2a}.table-wrap{overflow:auto;border:1px solid #d2d7da;border-radius:6px}table{width:100%;border-collapse:collapse;min-width:1000px}th,td{padding:10px;border-bottom:1px solid #e1e5e8;text-align:left;white-space:nowrap;font-size:13px}th{background:#eef1ed;color:#263238;position:sticky;top:0}tr:hover td{background:#f7f9f6}.actions{display:flex;justify-content:space-between;align-items:center;margin-top:15px;gap:10px}.muted{color:#666;font-size:13px}.loading{text-align:center;padding:30px;color:#666}.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:1200}.modal-card{background:#f7f9f8;width:min(1040px,100%);max-height:92vh;overflow:auto;border-radius:12px;padding:0;box-shadow:0 18px 50px rgba(0,0,0,.28)}.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:22px 24px 18px;background:#002f2a;color:#fff;border-radius:12px 12px 0 0}.modal-head h2{margin:2px 0 4px;font-size:22px}.modal-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.76}.modal-subtitle{margin:0;font-size:13px;opacity:.9}.modal-head .btn-secondary{background:#fff}.modal-body{padding:22px 24px 26px}.benchmark-panel{background:#fff;border:1px solid #dbe3df;border-radius:10px;padding:18px 20px;margin-bottom:18px;box-shadow:0 2px 7px rgba(0,0,0,.05)}.benchmark-top{display:flex;justify-content:space-between;gap:20px;align-items:center}.benchmark-copy h3{margin:0 0 5px;color:#244817;font-size:18px}.benchmark-copy p{margin:0;color:#66706b;font-size:13px;line-height:1.45}.benchmark-score{min-width:118px;text-align:center;padding:10px 14px;border-left:1px solid #e2e8e5}.benchmark-score strong{display:block;font-size:34px;line-height:1;color:#5b7f3a}.benchmark-score span{display:block;margin-top:4px;font-size:11px;color:#6d7772}.efficiency-meter{position:relative;margin-top:18px;padding-top:20px}.meter-track{height:14px;border-radius:999px;background:linear-gradient(90deg,#b85b55 0%,#d8a54b 35%,#d8d56a 52%,#87a95c 72%,#5b7f3a 100%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}.meter-marker{position:absolute;top:10px;width:18px;height:25px;border-radius:5px;background:#002f2a;border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.3);transform:translateX(-50%)}.meter-marker::before{content:"Usted está aquí";position:absolute;left:50%;bottom:27px;transform:translateX(-50%);white-space:nowrap;background:#002f2a;color:#fff;font-size:10px;font-weight:bold;padding:4px 7px;border-radius:4px}.meter-labels{display:flex;justify-content:space-between;margin-top:7px;font-size:11px;color:#6d7772}.benchmark-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.benchmark-metric{background:#f4f7f5;border-radius:7px;padding:10px 12px}.benchmark-metric small{display:block;color:#6c756f;font-size:11px;margin-bottom:4px}.benchmark-metric strong{font-size:14px;color:#263238}.benchmark-pending{border-left:5px solid #b7c2bd}.benchmark-pending .meter-track{background:#e2e7e4}.benchmark-pending .benchmark-score strong{font-size:17px;color:#66706b}.detail-section{background:#fff;border:1px solid #dbe3df;border-radius:10px;margin-bottom:14px;overflow:hidden}.detail-section-title{margin:0;padding:11px 16px;background:#eef3f0;color:#31501f;font-size:14px;font-weight:bold}.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}.detail{padding:13px 16px;border-bottom:1px solid #edf0ee}.detail:nth-child(odd){border-right:1px solid #edf0ee}.detail small{display:block;color:#707a75;margin-bottom:4px;font-size:11px}.detail strong{display:block;color:#263238;font-size:14px;word-break:break-word}.detail-empty{color:#98a09c!important;font-weight:normal}.detail-note{margin-top:6px;color:#7b8580;font-size:11px;line-height:1.35}@media(max-width:800px){.toolbar{grid-template-columns:1fr}.header{align-items:flex-start;flex-direction:column}.modal{padding:8px}.modal-body{padding:16px}.benchmark-top{align-items:flex-start;flex-direction:column}.benchmark-score{border-left:0;border-top:1px solid #e2e8e5;width:100%;padding-top:12px}.benchmark-metrics{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.detail:nth-child(odd){border-right:0}}
 </style>
@@ -30,9 +31,7 @@
 <div><label for="building">Tipo de edificio</label><select id="building"><option value="">Todos</option></select></div>
 <button id="filterBtn" class="btn btn-primary">Buscar</button><button id="clearBtn" class="btn btn-secondary">Limpiar</button>
 </div></div>
-<div class="card export-card"><div><h2 style="margin:0;color:#3f5d2a;font-size:20px">Exportación administrativa</h2><p>Genera un archivo Excel con 3 hojas: Índice, Descriptor de archivo y Registros.</p><p>Se exportan todos los registros que coincidan con los filtros actuales; sin filtros, se exportan todos.</p></div><div style="text-align:right"><button id="exportBtn" class="btn btn-excel">⬇ Exportar Excel administrativo</button><div id="exportStatus" class="export-status" style="margin-top:8px"></div></div></div><div class="card"><div id="tableStatus" class="loading">Cargando registros...</div><div id="tableWrap" class="table-wrap hidden"><table><thead><tr><th>Fecha</th><th>ID inmueble</th><th>Entidad</th><th>Municipio / Alcaldía</th><th>Tipo</th><!-- CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
-<th>Consumo anual</th>
---><th>AA reportado</th><th>Unidad</th><th>AA en TR</th><th>Acción</th></tr></thead><tbody id="tbody"></tbody></table></div><div class="actions"><span id="rangeLabel" class="muted"></span><div><button id="prevBtn" class="btn btn-secondary">Anterior</button> <button id="nextBtn" class="btn btn-secondary">Siguiente</button></div></div></div>
+<div class="card export-card"><div><h2 style="margin:0;color:#3f5d2a;font-size:20px">Exportación administrativa</h2><p>Genera un archivo Excel con 3 hojas: Índice, Descriptor de archivo y Registros.</p><p>Se exportan todos los registros que coincidan con los filtros actuales; sin filtros, se exportan todos.</p></div><div style="text-align:right"><button id="exportBtn" class="btn btn-excel">⬇ Exportar Excel administrativo</button><div id="exportStatus" class="export-status" style="margin-top:8px"></div></div></div><div class="card"><div id="tableStatus" class="loading">Cargando registros...</div><div id="tableWrap" class="table-wrap hidden"><table><thead><tr><th>Fecha</th><th>ID inmueble</th><th>Entidad</th><th>Municipio / Alcaldía</th><th>Tipo</th><th>Consumo 2025</th><th>AA reportado</th><th>Unidad</th><th>AA en TR</th><th>Acción</th></tr></thead><tbody id="tbody"></tbody></table></div><div class="actions"><span id="rangeLabel" class="muted"></span><div><button id="prevBtn" class="btn btn-secondary">Anterior</button> <button id="nextBtn" class="btn btn-secondary">Siguiente</button></div></div></div>
 </section>
 </main>
 <div id="modal" class="modal hidden">
@@ -100,9 +99,7 @@ function renderRows(){
      r.p002_entidad_federativa||'',
      r.p003_municipio_alcaldia||'',
      r.p004_tipo_edificio||'',
-     /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
      num(r.p023_consumo_anual),
-     */
      num(r.p027a_capacidad_aire_valor),
      r.p027b_capacidad_aire_unidad||'',
      num(r.p027c_capacidad_aire_tr)
@@ -127,12 +124,10 @@ function renderRows(){
 }
 function num(v){return v==null?'':Number(v).toLocaleString('es-MX',{maximumFractionDigits:4})}function fmtDate(v){return v?new Date(v).toLocaleString('es-MX'):''}
 const DETAIL_GROUPS=[
-  {title:'Identificación y ubicación',fields:[
-    ['p001_id_inmueble','ID del inmueble',v=>v||'—'],
+  {title:'Ubicación y clasificación',fields:[
     ['p004_tipo_edificio','Tipo de edificio',v=>v||'—'],
     ['p002_entidad_federativa','Entidad federativa',v=>v||'—'],
-    ['p003_municipio_alcaldia','Municipio o alcaldía',v=>v||'—'],
-    ['fecha_registro','Fecha de registro',v=>v?fmtDate(v):'—']
+    ['p003_municipio_alcaldia','Municipio o alcaldía',v=>v||'—']
   ]},
   {title:'Características del inmueble',fields:[
     ['p005_area_total_construida','Área total construida',v=>formatUnit(v,'m²')],
@@ -146,6 +141,21 @@ const DETAIL_GROUPS=[
     ['p024_empleados_turno_principal','Empleados en el turno principal',v=>formatUnit(v,'personas')],
     ['p025_personas_usuarias_promedio_dia','Personas atendidas o usuarias promedio al día',v=>formatUnit(v,'personas/día')]
   ]},
+  {title:'Consumo de energía eléctrica · 2025',fields:[
+    ['p023_consumo_anual','Consumo anual 2025',v=>formatUnit(v,'kWh')],
+    ['p011_consumo_mensual_1','Enero 2025',v=>formatUnit(v,'kWh')],
+    ['p012_consumo_mensual_2','Febrero 2025',v=>formatUnit(v,'kWh')],
+    ['p013_consumo_mensual_3','Marzo 2025',v=>formatUnit(v,'kWh')],
+    ['p014_consumo_mensual_4','Abril 2025',v=>formatUnit(v,'kWh')],
+    ['p015_consumo_mensual_5','Mayo 2025',v=>formatUnit(v,'kWh')],
+    ['p016_consumo_mensual_6','Junio 2025',v=>formatUnit(v,'kWh')],
+    ['p017_consumo_mensual_7','Julio 2025',v=>formatUnit(v,'kWh')],
+    ['p018_consumo_mensual_8','Agosto 2025',v=>formatUnit(v,'kWh')],
+    ['p019_consumo_mensual_9','Septiembre 2025',v=>formatUnit(v,'kWh')],
+    ['p020_consumo_mensual_10','Octubre 2025',v=>formatUnit(v,'kWh')],
+    ['p021_consumo_mensual_11','Noviembre 2025',v=>formatUnit(v,'kWh')],
+    ['p022_consumo_mensual_12','Diciembre 2025',v=>formatUnit(v,'kWh')],
+  ]},
   {title:'Equipamiento e instalaciones',fields:[
     ['p026_numero_computadoras','Número de computadoras',v=>formatUnit(v,'equipos')],
     ['p027a_capacidad_aire_valor','Capacidad total instalada de aire acondicionado',(v,row)=>formatUnit(v,row.p027b_capacidad_aire_unidad==='BTU_H'?'BTU/h':(row.p027b_capacidad_aire_unidad||'TR'))],
@@ -155,6 +165,29 @@ const DETAIL_GROUPS=[
     ['p030_area_iluminada_artificialmente','Área con iluminación artificial',v=>formatUnit(v,'%')]
   ]}
 ];
+
+function typeSpecificDetailFields(r) {
+  const map={
+    'Hospitales y centros de salud': [
+      ['p031_numero_camas_habilitadas','Número de camas habilitadas',v=>formatUnit(v,'camas')]
+    ],
+    'Centros educativos y de investigación': [
+      ['p032_capacidad_max_estudiantes','Capacidad máxima de estudiantes',v=>formatUnit(v,'estudiantes')],
+      ['p033_numero_laboratorios_equipados','Número de laboratorios equipados',v=>formatUnit(v,'laboratorios')]
+    ],
+    'Espacios culturales y recreativos': [
+      ['p034_aforo_maximo','Aforo máximo autorizado',v=>formatUnit(v,'personas')]
+    ],
+    'Infraestructura aduanal y fronteriza': [
+      ['p036_modulos_carriles_inspeccion','Módulos, carriles o puntos de inspección en operación',v=>formatUnit(v,'unidades')]
+    ],
+    'Otro tipo de inmueble': [
+      ['p038_otro_tipo_inmueble_especificar','Tipo de inmueble especificado',v=>v||'—'],
+      ['p039_capacidad_max_ocupacion_otro','Capacidad máxima de ocupación simultánea',v=>formatUnit(v,'personas')]
+    ]
+  };
+  return map[r.p004_tipo_edificio] || [];
+}
 
 function formatUnit(v,unit){
   if(v===null || v===undefined || v==='') return '—';
@@ -193,7 +226,7 @@ function renderBenchmark(r){
   }
   const clamped=Math.min(100,Math.max(1,score));
   const pred=r.benchmark_consumo_predicho_kwh;
-  const real=r.benchmark_consumo_anual_kwh;
+  const real=r.p023_consumo_anual;
   const ratio=r.benchmark_relacion_consumo;
   panel.innerHTML=`
     <section class="benchmark-panel">
@@ -210,11 +243,36 @@ function renderBenchmark(r){
         <div class="meter-labels"><span>1 · Menor eficiencia</span><span>75 · Buen desempeño</span><span>100 · Mayor eficiencia</span></div>
       </div>
       <div class="benchmark-metrics">
-        <div class="benchmark-metric"><small>Consumo anual de referencia</small><strong>${formatUnit(real,'kWh')}</strong></div>
+        <div class="benchmark-metric"><small>Consumo anual real 2025</small><strong>${formatUnit(real,'kWh')}</strong></div>
         <div class="benchmark-metric"><small>Consumo esperado por el modelo</small><strong>${formatUnit(pred,'kWh')}</strong></div>
         <div class="benchmark-metric"><small>Relación real / esperado</small><strong>${ratio==null?'—':Number(ratio).toLocaleString('es-MX',{maximumFractionDigits:4})}</strong></div>
       </div>
     </section>`;
+}
+
+function renderDetailSection(container,title,fields,r){
+  if(!fields || fields.length===0) return;
+  const section=document.createElement('section');
+  section.className='detail-section';
+  const h=document.createElement('h3');
+  h.className='detail-section-title';
+  h.textContent=title;
+  const grid=document.createElement('div');
+  grid.className='detail-grid';
+  fields.forEach(([key,label,formatter])=>{
+    const d=document.createElement('div');
+    d.className='detail';
+    const small=document.createElement('small');
+    small.textContent=label;
+    const strong=document.createElement('strong');
+    const value=formatter(r[key],r);
+    strong.textContent=value;
+    if(value==='—') strong.classList.add('detail-empty');
+    d.append(small,strong);
+    grid.appendChild(d);
+  });
+  section.append(h,grid);
+  container.appendChild(section);
 }
 
 function showDetail(r){
@@ -226,28 +284,17 @@ function showDetail(r){
   const container=document.getElementById('detailGrid');
   container.innerHTML='';
   DETAIL_GROUPS.forEach(group=>{
-    const section=document.createElement('section');
-    section.className='detail-section';
-    const h=document.createElement('h3');
-    h.className='detail-section-title';
-    h.textContent=group.title;
-    const grid=document.createElement('div');
-    grid.className='detail-grid';
-    group.fields.forEach(([key,label,formatter])=>{
-      const d=document.createElement('div');
-      d.className='detail';
-      const small=document.createElement('small');
-      small.textContent=label;
-      const strong=document.createElement('strong');
-      const value=formatter(r[key],r);
-      strong.textContent=value;
-      if(value==='—') strong.classList.add('detail-empty');
-      d.append(small,strong);
-      grid.appendChild(d);
-    });
-    section.append(h,grid);
-    container.appendChild(section);
+    let fields=group.fields;
+    if(r.p004_tipo_edificio==='Centros educativos y de investigación'){
+      fields=fields.filter(field=>field[0]!=='p025_personas_usuarias_promedio_dia');
+    }
+    renderDetailSection(container,group.title,fields,r);
   });
+
+  const specific=typeSpecificDetailFields(r);
+  if(specific.length){
+    renderDetailSection(container,'Variables específicas del tipo de inmueble',specific,r);
+  }
 
   document.getElementById('modal').classList.remove('hidden');
 }
@@ -269,36 +316,35 @@ const EXCEL_DESCRIPTOR=[
 ["p008_numero_pisos","P008","Número de pisos","Número de pisos del inmueble.","pisos","ENTERO","≥1"],
 ["p009_dias_operacion_semana","P009","Días de operación a la semana","Número de días que opera el inmueble por semana.","días/semana","ENTERO","1-7"],
 ["p010_horas_operacion_semana","P010","Horas de operación a la semana","Número de horas de operación del inmueble por semana.","h/semana","DECIMAL","0-168"],
-/* ============================================================
-   CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
-   P011–P023 se conservan en el código y en la base de datos,
-   pero se excluyen completamente del descriptor y de Registros.
-   Para reactivarlos, retire este comentario de bloque.
-
-["p011_consumo_mensual_1","P011","Consumo mensual 1","Consumo correspondiente al periodo 1.","kWh","DECIMAL","Obligatorio"],
-["p012_consumo_mensual_2","P012","Consumo mensual 2","Consumo correspondiente al periodo 2.","kWh","DECIMAL","Obligatorio"],
-["p013_consumo_mensual_3","P013","Consumo mensual 3","Consumo correspondiente al periodo 3.","kWh","DECIMAL","Obligatorio"],
-["p014_consumo_mensual_4","P014","Consumo mensual 4","Consumo correspondiente al periodo 4.","kWh","DECIMAL","Obligatorio"],
-["p015_consumo_mensual_5","P015","Consumo mensual 5","Consumo correspondiente al periodo 5.","kWh","DECIMAL","Obligatorio"],
-["p016_consumo_mensual_6","P016","Consumo mensual 6","Consumo correspondiente al periodo 6.","kWh","DECIMAL","Obligatorio"],
-["p017_consumo_mensual_7","P017","Consumo mensual 7","Consumo correspondiente al periodo 7.","kWh","DECIMAL","Obligatorio"],
-["p018_consumo_mensual_8","P018","Consumo mensual 8","Consumo correspondiente al periodo 8.","kWh","DECIMAL","Obligatorio"],
-["p019_consumo_mensual_9","P019","Consumo mensual 9","Consumo correspondiente al periodo 9.","kWh","DECIMAL","Obligatorio"],
-["p020_consumo_mensual_10","P020","Consumo mensual 10","Consumo correspondiente al periodo 10.","kWh","DECIMAL","Obligatorio"],
-["p021_consumo_mensual_11","P021","Consumo mensual 11","Consumo correspondiente al periodo 11.","kWh","DECIMAL","Obligatorio"],
-["p022_consumo_mensual_12","P022","Consumo mensual 12","Consumo correspondiente al periodo 12.","kWh","DECIMAL","Obligatorio"],
-["p023_consumo_anual","P023","Consumo anual calculado","Variable calculada automáticamente como suma de P011 a P022. No es capturada directamente por el usuario.","kWh","DECIMAL","Suma automática de P011:P022"],
-
-============================================================ */
+["p011_consumo_mensual_1","P011","Consumo de enero de 2025","Consumo facturado de energía eléctrica correspondiente a enero de 2025.","kWh","DECIMAL","Obligatorio; periodo fijo 2025"],
+["p012_consumo_mensual_2","P012","Consumo de febrero de 2025","Consumo facturado de energía eléctrica correspondiente a febrero de 2025.","kWh","DECIMAL","Obligatorio; periodo fijo 2025"],
+["p013_consumo_mensual_3","P013","Consumo de marzo de 2025","Consumo facturado de energía eléctrica correspondiente a marzo de 2025.","kWh","DECIMAL","Obligatorio; periodo fijo 2025"],
+["p014_consumo_mensual_4","P014","Consumo de abril de 2025","Consumo facturado de energía eléctrica correspondiente a abril de 2025.","kWh","DECIMAL","Obligatorio; periodo fijo 2025"],
+["p015_consumo_mensual_5","P015","Consumo de mayo de 2025","Consumo facturado de energía eléctrica correspondiente a mayo de 2025.","kWh","DECIMAL","Obligatorio; periodo fijo 2025"],
+["p016_consumo_mensual_6","P016","Consumo de junio de 2025","Consumo facturado de energía eléctrica correspondiente a junio de 2025.","kWh","DECIMAL","Obligatorio; periodo fijo 2025"],
+["p017_consumo_mensual_7","P017","Consumo de julio de 2025","Consumo facturado de energía eléctrica correspondiente a julio de 2025.","kWh","DECIMAL","Obligatorio; periodo fijo 2025"],
+["p018_consumo_mensual_8","P018","Consumo de agosto de 2025","Consumo facturado de energía eléctrica correspondiente a agosto de 2025.","kWh","DECIMAL","Obligatorio; periodo fijo 2025"],
+["p019_consumo_mensual_9","P019","Consumo de septiembre de 2025","Consumo facturado de energía eléctrica correspondiente a septiembre de 2025.","kWh","DECIMAL","Obligatorio; periodo fijo 2025"],
+["p020_consumo_mensual_10","P020","Consumo de octubre de 2025","Consumo facturado de energía eléctrica correspondiente a octubre de 2025.","kWh","DECIMAL","Obligatorio; periodo fijo 2025"],
+["p021_consumo_mensual_11","P021","Consumo de noviembre de 2025","Consumo facturado de energía eléctrica correspondiente a noviembre de 2025.","kWh","DECIMAL","Obligatorio; periodo fijo 2025"],
+["p022_consumo_mensual_12","P022","Consumo de diciembre de 2025","Consumo facturado de energía eléctrica correspondiente a diciembre de 2025.","kWh","DECIMAL","Obligatorio; periodo fijo 2025"],
+["p023_consumo_anual","P023","Consumo anual de electricidad 2025","Variable calculada automáticamente como suma de los consumos de enero a diciembre de 2025.","kWh","DECIMAL","Suma automática de P011:P022"],
 ["p024_empleados_turno_principal","P024","Número de empleados en el turno principal","Número de empleados correspondiente al turno principal.","personas","ENTERO","≥0"],
-["p025_personas_usuarias_promedio_dia","P025","Número promedio al día de personas atendidas o usuarias","Promedio diario de personas usuarias o atendidas, excluyendo al personal que labora en el inmueble.","personas/día","ENTERO","≥0"],
+["p025_personas_usuarias_promedio_dia","P025","Número promedio al día de personas atendidas o usuarias","Promedio diario de personas usuarias o atendidas, excluyendo al personal que labora en el inmueble.","personas/día","ENTERO","Obligatorio excepto cuando P004 = Centros educativos y de investigación"],
 ["p026_numero_computadoras","P026","Número de computadoras","Número de computadoras existentes en el inmueble.","equipos","ENTERO","≥0"],
 ["p027a_capacidad_aire_valor","P027A","Capacidad instalada de aire acondicionado - valor reportado","Valor de capacidad reportado por el usuario. La unidad se registra por separado en P027B.","BTU/h o TR","DECIMAL",">0"],
 ["p027b_capacidad_aire_unidad","P027B","Unidad de capacidad instalada de aire acondicionado","Unidad seleccionada por el usuario: TR o BTU/h.","-","CATÁLOGO","TR o BTU/h"],
 ["p027c_capacidad_aire_tr","P027C","Capacidad instalada de aire acondicionado - equivalente","Valor calculado automáticamente en TR.","TR","DECIMAL","Conversión automática a TR"],
 ["p028_area_enfriada_electrica","P028","Porcentaje del área que se enfría mediante equipos eléctricos","Porcentaje del área total construida que se enfría mediante equipos eléctricos.","%","DECIMAL","0-100"],
 ["p029_area_calentada_electrica","P029","Porcentaje del área que se calienta mediante equipos eléctricos","Porcentaje del área total construida que se calienta mediante equipos eléctricos.","%","DECIMAL","0-100"],
-["p030_area_iluminada_artificialmente","P030","Porcentaje del área con iluminación artificial","Porcentaje del área total construida que cuenta con iluminación artificial.","%","DECIMAL","0-100"]
+["p030_area_iluminada_artificialmente","P030","Porcentaje del área con iluminación artificial","Porcentaje del área total construida que cuenta con iluminación artificial.","%","DECIMAL","0-100"],
+["p031_numero_camas_habilitadas","P031","Número de camas habilitadas","Variable específica para hospitales y centros de salud.","camas","ENTERO","Obligatorio cuando P004 = Hospitales y centros de salud"],
+["p032_capacidad_max_estudiantes","P032","Capacidad máxima de estudiantes","Capacidad máxima de estudiantes del centro educativo o de investigación.","estudiantes","ENTERO","Obligatorio cuando P004 = Centros educativos y de investigación"],
+["p033_numero_laboratorios_equipados","P033","Número de laboratorios equipados","Número de laboratorios con equipamiento de uso habitual.","laboratorios","ENTERO","Obligatorio cuando P004 = Centros educativos y de investigación"],
+["p034_aforo_maximo","P034","Aforo máximo autorizado","Capacidad máxima autorizada del espacio cultural o recreativo.","personas","ENTERO","Obligatorio cuando P004 = Espacios culturales y recreativos"],
+["p036_modulos_carriles_inspeccion","P036","Módulos, carriles o puntos de inspección en operación","Capacidad operativa de infraestructura aduanal y fronteriza.","unidades","ENTERO","Obligatorio cuando P004 = Infraestructura aduanal y fronteriza"],
+["p038_otro_tipo_inmueble_especificar","P038","Especificación de otro tipo de inmueble","Descripción del tipo de inmueble cuando no corresponde a las categorías definidas.","-","TEXTO","Obligatorio cuando P004 = Otro tipo de inmueble"],
+["p039_capacidad_max_ocupacion_otro","P039","Capacidad máxima de ocupación simultánea - otro tipo","Capacidad máxima de ocupación simultánea para inmuebles no clasificados.","personas","ENTERO","Obligatorio cuando P004 = Otro tipo de inmueble"]
 ];
 
 const EXCEL_HEADERS=[
@@ -341,22 +387,30 @@ const ALT_STYLE={
   fill:{patternType:"solid",fgColor:{rgb:"F2F6F3"}}
 };
 
+const NAV_LINK_STYLE={font:{color:{rgb:"0563C1"},underline:true,italic:true,sz:11},alignment:{vertical:"center"}};
+
+function addReturnToIndex(ws){
+  if(!ws["A1"]) ws["A1"]={t:"s",v:"← Volver al índice"};
+  else ws["A1"].v="← Volver al índice";
+  ws["A1"].l={Target:"#'Índice'!A1",Tooltip:"Volver al Índice"};
+  ws["A1"].s=NAV_LINK_STYLE;
+}
+
 function makeIndexSheet(){
   const rows=[
-    ["BENCHMARKING APF — ARCHIVO ADMINISTRATIVO","", ""],
-    ["","", ""],
-    ["1. Descriptor de archivo: Descripción de las variables, unidades, tipos de dato y reglas.","", ""],
-    ["2. Registros: Registros de la base de datos.","", ""]
+    ["BENCHMARKING APF — ARCHIVO ADMINISTRATIVO"],
+    [""],
+    ["1. Descriptor de archivo: Descripción de las variables, unidades, tipos de dato y reglas."],
+    ["2. Registros: Registros de la base de datos."]
   ];
   const ws=XLSX.utils.aoa_to_sheet(rows);
-  ws["!cols"]=[{wch:78},{wch:12},{wch:12}];
+  ws["!cols"]=[{wch:118}];
   ws["!rows"]=[{hpt:24},{hpt:9},{hpt:22},{hpt:22}];
-  ws["A1"].s={fill:{patternType:"solid",fgColor:{rgb:"002F2A"}},font:{bold:true,color:{rgb:"FFFFFF"},sz:16},alignment:{vertical:"center"}};
-  const linkStyle={font:{color:{rgb:"0563C1"},underline:true,italic:true,sz:12},alignment:{vertical:"center"}};
+  ws["A1"].s={fill:{patternType:"solid",fgColor:{rgb:"002F2A"}},font:{bold:true,color:{rgb:"FFFFFF"},sz:16},alignment:{vertical:"center",horizontal:"left"}};
   ws["A3"].l={Target:"#'Descriptor de archivo'!A1",Tooltip:"Ir al Descriptor de archivo"};
   ws["A4"].l={Target:"#'Registros'!A1",Tooltip:"Ir a Registros"};
-  ws["A3"].s=linkStyle;
-  ws["A4"].s=linkStyle;
+  ws["A3"].s={...NAV_LINK_STYLE,font:{...NAV_LINK_STYLE.font,sz:12}};
+  ws["A4"].s={...NAV_LINK_STYLE,font:{...NAV_LINK_STYLE.font,sz:12}};
   ws["!gridlines"]=false;
   ws["!showGridLines"]=false;
   ws["!sheetViews"]=[{showGridLines:false}];
@@ -365,17 +419,20 @@ function makeIndexSheet(){
 
 function makeDescriptorSheet(){
   const rows=[
+    ["← Volver al índice","","","","","",""],
+    ["","","","","","",""],
     ["Campo en base de datos","Variable","Nombre de la variable","Descripción","Unidad","Tipo de dato","Regla / observación"],
     ...EXCEL_DESCRIPTOR
   ];
   const ws=XLSX.utils.aoa_to_sheet(rows);
   ws["!cols"]=[
-    {wch:38},{wch:12},{wch:48},{wch:72},{wch:18},{wch:18},{wch:42}
+    {wch:42},{wch:12},{wch:52},{wch:76},{wch:20},{wch:18},{wch:48}
   ];
-  styleRange(ws,`A1:G1`,HEADER_STYLE);
-  ws["!rows"]=[{hpt:34}];
-  ws["!autofilter"]={ref:`A1:G${rows.length}`};
-  ws["!freeze"]="A2";
+  addReturnToIndex(ws);
+  styleRange(ws,`A3:G3`,HEADER_STYLE);
+  ws["!rows"]=[{hpt:20},{hpt:8},{hpt:36}];
+  ws["!autofilter"]={ref:`A3:G${rows.length}`};
+  ws["!freeze"]="A4";
   ws["!gridlines"]=false;
   ws["!showGridLines"]=false;
   ws["!sheetViews"]=[{showGridLines:false}];
@@ -383,7 +440,11 @@ function makeDescriptorSheet(){
 }
 
 function makeRecordsSheet(records){
-  const rows=[EXCEL_HEADERS];
+  const rows=[
+    ["← Volver al índice",...Array(EXCEL_HEADERS.length-1).fill("")],
+    Array(EXCEL_HEADERS.length).fill(""),
+    EXCEL_HEADERS
+  ];
 
   for(const row of records){
     rows.push(EXCEL_HEADERS.map(key=>exportValue(key,row)));
@@ -397,28 +458,24 @@ function makeRecordsSheet(records){
     if(key==="p001_id_inmueble") return {wch:22};
     if(key.includes("municipio")) return {wch:28};
     if(key.includes("entidad")) return {wch:22};
-    if(key.includes("tipo_edificio")) return {wch:24};
-    /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
+    if(key.includes("tipo_edificio")) return {wch:28};
     if(key.includes("consumo_mensual")) return {wch:18};
-    */
     if(key.includes("capacidad_aire")) return {wch:24};
-    return {wch:18};
+    if(key==="p038_otro_tipo_inmueble_especificar") return {wch:34};
+    return {wch:20};
   });
 
-  styleRange(ws,`A1:${XLSX.utils.encode_col(EXCEL_HEADERS.length-1)}1`,HEADER_STYLE);
-  ws["!rows"]=[{hpt:34}];
+  addReturnToIndex(ws);
+  styleRange(ws,`A3:${XLSX.utils.encode_col(EXCEL_HEADERS.length-1)}3`,HEADER_STYLE);
+  ws["!rows"]=[{hpt:20},{hpt:8},{hpt:36}];
 
-  // Formato de fechas y números
   const numericKeys=new Set([
     "p005_area_total_construida","p006_ocupacion","p010_horas_operacion_semana",
-    /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
     "p011_consumo_mensual_1","p012_consumo_mensual_2","p013_consumo_mensual_3",
     "p014_consumo_mensual_4","p015_consumo_mensual_5","p016_consumo_mensual_6",
     "p017_consumo_mensual_7","p018_consumo_mensual_8","p019_consumo_mensual_9",
     "p020_consumo_mensual_10","p021_consumo_mensual_11","p022_consumo_mensual_12",
-    "p023_consumo_anual",
-    */
-    "p027a_capacidad_aire_valor","p027c_capacidad_aire_tr",
+    "p023_consumo_anual","p027a_capacidad_aire_valor","p027c_capacidad_aire_tr",
     "p028_area_enfriada_electrica","p029_area_calentada_electrica",
     "p030_area_iluminada_artificialmente"
   ]);
@@ -426,28 +483,29 @@ function makeRecordsSheet(records){
   const integerKeys=new Set([
     "p007_anio_construccion","p008_numero_pisos","p009_dias_operacion_semana",
     "p024_empleados_turno_principal","p025_personas_usuarias_promedio_dia",
-    "p026_numero_computadoras"
+    "p026_numero_computadoras","p031_numero_camas_habilitadas",
+    "p032_capacidad_max_estudiantes","p033_numero_laboratorios_equipados",
+    "p034_aforo_maximo","p036_modulos_carriles_inspeccion",
+    "p039_capacidad_max_ocupacion_otro"
   ]);
 
-  for(let r=1;r<rows.length;r++){
+  for(let r=3;r<rows.length;r++){
     for(let c=0;c<EXCEL_HEADERS.length;c++){
       const key=EXCEL_HEADERS[c];
       const addr=XLSX.utils.encode_cell({r,c});
       if(!ws[addr]) continue;
-
       if(key==="fecha_registro") ws[addr].z="dd/mm/yyyy hh:mm";
       else if(integerKeys.has(key)) ws[addr].z="#,##0";
       else if(numericKeys.has(key)) ws[addr].z="#,##0.00";
-
-      if(r%2===0){
+      if((r-3)%2===1){
         ws[addr].s=Object.assign({},ws[addr].s||{},ALT_STYLE);
       }
     }
   }
 
   const lastCol=XLSX.utils.encode_col(EXCEL_HEADERS.length-1);
-  ws["!autofilter"]={ref:`A1:${lastCol}${rows.length}`};
-  ws["!freeze"]="A2";
+  ws["!autofilter"]={ref:`A3:${lastCol}${rows.length}`};
+  ws["!freeze"]="A4";
   ws["!gridlines"]=false;
   ws["!showGridLines"]=false;
   ws["!sheetViews"]=[{showGridLines:false}];
@@ -484,6 +542,47 @@ async function getAllRecordsForExport(){
   }
 
   return all;
+}
+
+function forceGridlinesOffInXml(xml){
+  if(/<sheetView\b/.test(xml)){
+    return xml.replace(/<sheetView\b([^>]*?)(\/?)>/,function(match,attrs,selfClose){
+      if(/showGridLines=/.test(attrs)){
+        attrs=attrs.replace(/showGridLines="[^"]*"/,'showGridLines="0"');
+      }else{
+        attrs += ' showGridLines="0"';
+      }
+      return '<sheetView'+attrs+selfClose+'>';
+    });
+  }
+  const views='<sheetViews><sheetView workbookViewId="0" showGridLines="0"/></sheetViews>';
+  if(xml.includes('</sheetPr>')) return xml.replace('</sheetPr>','</sheetPr>'+views);
+  if(xml.includes('<dimension')) return xml.replace('<dimension',views+'<dimension');
+  return xml.replace(/<worksheet([^>]*)>/,'<worksheet$1>'+views);
+}
+
+async function downloadWorkbookWithoutGridlines(wb,filename){
+  if(typeof JSZip==='undefined') throw new Error('No se pudo cargar el componente necesario para ocultar las líneas de cuadrícula.');
+  const bytes=XLSX.write(wb,{bookType:'xlsx',type:'array',compression:true});
+  const zip=await JSZip.loadAsync(bytes);
+  const worksheetFiles=Object.keys(zip.files).filter(name=>/^xl\/worksheets\/sheet\d+\.xml$/.test(name));
+  for(const name of worksheetFiles){
+    const xml=await zip.file(name).async('string');
+    zip.file(name,forceGridlinesOffInXml(xml));
+  }
+  const blob=await zip.generateAsync({
+    type:'blob',
+    compression:'DEFLATE',
+    mimeType:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  });
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement('a');
+  link.href=url;
+  link.download=filename;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 
 async function exportExcelAdministrative(){
@@ -524,7 +623,7 @@ async function exportExcelAdministrative(){
     status.textContent="Preparando descarga...";
 
     const filename=`Benchmarking_Registros_${new Date().toISOString().slice(0,10)}.xlsx`;
-    XLSX.writeFile(wb,filename,{bookType:"xlsx",compression:true});
+    await downloadWorkbookWithoutGridlines(wb,filename);
 
     status.textContent=`Excel generado correctamente: ${records.length} registro(s).`;
   }catch(err){
