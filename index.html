@@ -568,6 +568,17 @@
         }
 
         /* =========================================================
+           CAMPOS CORTOS — DATOS GENERALES
+           Regla visual: los datos numéricos breves no ocupan el ancho
+           completo de la columna.
+        ========================================================= */
+
+        #p008 {
+            width: 150px;
+            max-width: 100%;
+        }
+
+        /* =========================================================
            CAMPOS NUMÉRICOS COMPACTOS — INFORMACIÓN COMPLEMENTARIA
         ========================================================= */
 
@@ -580,7 +591,8 @@
            Cada celda reserva la misma altura para su etiqueta, por lo que
            los controles de una misma fila comienzan exactamente a la misma altura. */
         .complementary-grid > .form-group > label {
-            min-height: 38px;
+            height: 52px;
+            min-height: 52px;
             display: flex;
             align-items: flex-start;
             flex-wrap: wrap;
@@ -801,6 +813,7 @@
             }
 
             .complementary-grid > .form-group > label {
+                height: auto;
                 min-height: 0;
             }
 
@@ -940,7 +953,7 @@
                         <span class="required">*</span>
                     </label>
 
-                    <input type="text" id="p001" required>
+                    <input type="text" id="p001" maxlength="50" required>
 
                 </div>
 
