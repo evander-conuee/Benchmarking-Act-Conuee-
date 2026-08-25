@@ -102,9 +102,9 @@
             align-items: center;
             justify-content: center;
             gap: 8px;
-            border: 1px solid #76964d;
+            border: 1px solid #1e5b4f;
             border-radius: 7px;
-            background: linear-gradient(135deg, #73954a 0%, #5b7f3a 55%, #48672f 100%);
+            background: linear-gradient(135deg, #174f47 0%, #063b35 32%, #002f2a 72%, #001f1c 100%);
             color: #ffffff;
             text-decoration: none;
             font-size: 13px;
@@ -128,7 +128,7 @@
         }
 
         .admin-access:focus-visible {
-            outline: 3px solid rgba(91,127,58,0.28);
+            outline: 3px solid rgba(30,91,79,0.34);
             outline-offset: 3px;
         }
 
@@ -489,8 +489,8 @@
         }
 
         .monthly-item input {
-            width: 100%;
-            max-width: 220px;
+            width: 155px;
+            max-width: 100%;
         }
 
         .annual-result {
@@ -576,19 +576,22 @@
             max-width: 100%;
         }
 
-        /* P024 y P025 comparten exactamente la misma altura de etiqueta.
-           Así, ambos campos de captura comienzan en la misma línea horizontal,
-           aunque la pregunta P025 ocupe dos renglones. */
-        .form-group.align-numeric-row > label {
-            height: 56px;
-            min-height: 56px;
-            display: block;
+        /* Alineación vertical consistente de Información complementaria.
+           Cada celda reserva la misma altura para su etiqueta, por lo que
+           los controles de una misma fila comienzan exactamente a la misma altura. */
+        .complementary-grid > .form-group > label {
+            min-height: 38px;
+            display: flex;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            align-content: flex-start;
             line-height: 1.25;
             margin-bottom: 7px;
         }
 
-        .form-group.align-numeric-row > label .info-button {
-            vertical-align: middle;
+        .complementary-grid > .form-group > label .info-button {
+            margin-left: 6px;
+            flex: 0 0 auto;
         }
 
         /* =========================================================
@@ -797,8 +800,7 @@
                 transform: scale(1.04);
             }
 
-            .form-group.align-numeric-row > label {
-                height: auto;
+            .complementary-grid > .form-group > label {
                 min-height: 0;
             }
 
@@ -1257,51 +1259,51 @@
 
                 <div class="monthly-grid">
                     <div class="monthly-item">
-                        <label for="p011">Enero 2025 <span class="required">*</span></label>
+                        <label for="p011">ENE-Consumo [kWh] <span class="required">*</span></label>
                         <input type="number" id="p011" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
                     <div class="monthly-item">
-                        <label for="p012">Febrero 2025 <span class="required">*</span></label>
+                        <label for="p012">FEB-Consumo [kWh] <span class="required">*</span></label>
                         <input type="number" id="p012" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
                     <div class="monthly-item">
-                        <label for="p013">Marzo 2025 <span class="required">*</span></label>
+                        <label for="p013">MAR-Consumo [kWh] <span class="required">*</span></label>
                         <input type="number" id="p013" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
                     <div class="monthly-item">
-                        <label for="p014">Abril 2025 <span class="required">*</span></label>
+                        <label for="p014">ABR-Consumo [kWh] <span class="required">*</span></label>
                         <input type="number" id="p014" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
                     <div class="monthly-item">
-                        <label for="p015">Mayo 2025 <span class="required">*</span></label>
+                        <label for="p015">MAY-Consumo [kWh] <span class="required">*</span></label>
                         <input type="number" id="p015" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
                     <div class="monthly-item">
-                        <label for="p016">Junio 2025 <span class="required">*</span></label>
+                        <label for="p016">JUN-Consumo [kWh] <span class="required">*</span></label>
                         <input type="number" id="p016" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
                     <div class="monthly-item">
-                        <label for="p017">Julio 2025 <span class="required">*</span></label>
+                        <label for="p017">JUL-Consumo [kWh] <span class="required">*</span></label>
                         <input type="number" id="p017" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
                     <div class="monthly-item">
-                        <label for="p018">Agosto 2025 <span class="required">*</span></label>
+                        <label for="p018">AGO-Consumo [kWh] <span class="required">*</span></label>
                         <input type="number" id="p018" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
                     <div class="monthly-item">
-                        <label for="p019">Septiembre 2025 <span class="required">*</span></label>
+                        <label for="p019">SEP-Consumo [kWh] <span class="required">*</span></label>
                         <input type="number" id="p019" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
                     <div class="monthly-item">
-                        <label for="p020">Octubre 2025 <span class="required">*</span></label>
+                        <label for="p020">OCT-Consumo [kWh] <span class="required">*</span></label>
                         <input type="number" id="p020" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
                     <div class="monthly-item">
-                        <label for="p021">Noviembre 2025 <span class="required">*</span></label>
+                        <label for="p021">NOV-Consumo [kWh] <span class="required">*</span></label>
                         <input type="number" id="p021" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
                     <div class="monthly-item">
-                        <label for="p022">Diciembre 2025 <span class="required">*</span></label>
+                        <label for="p022">DIC-Consumo [kWh] <span class="required">*</span></label>
                         <input type="number" id="p022" class="monthly-consumption" min="0" step="0.01" required>
                     </div>
                 </div>
@@ -1317,9 +1319,9 @@
 
             </div>
 
-            <div class="form-grid" style="margin-top:28px;">
+            <div class="form-grid complementary-grid" style="margin-top:28px;">
 
-                <div class="form-group compact-number align-numeric-row">
+                <div class="form-group compact-number">
 
                     <label for="p024">
                         Número de empleados en el turno principal
@@ -1337,7 +1339,7 @@
                 </div>
 
 
-                <div class="form-group compact-number align-numeric-row" id="p025Group">
+                <div class="form-group compact-number" id="p025Group">
 
                     <label for="p025">
 
@@ -2645,8 +2647,7 @@
                 p027b_capacidad_aire_unidad:
                     aireUnidad,
 
-                p027c_capacidad_aire_tr:
-                    aireTR,
+                // P027c es una columna generada en Supabase; no se envía manualmente.
 
                 p028_area_enfriada_electrica:
                     document.getElementById("p028").value === ""
