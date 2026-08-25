@@ -7,7 +7,7 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 <style>
-*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background-color:#f3f5f7;background-image:url('TexturaVerde.jpg');background-repeat:no-repeat;background-position:center center;background-size:cover;background-attachment:fixed;color:#263238}header{background:#002f2a;border-bottom:3px solid #1e5b4f;padding:8px 30px;position:sticky;top:0;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,.08)}.header{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}.title{display:flex;align-items:center;gap:20px;flex:1}.conuee-logo{width:145px;height:78px;flex:0 0 145px;object-fit:contain;object-position:left center;display:block}.title h1{margin:0;color:#fff;font-size:23px}.title p{margin:5px 0 0;color:#fff;font-size:14px;opacity:.92}.btn{border:0;border-radius:5px;padding:9px 15px;font-size:13px;font-weight:bold;cursor:pointer}.btn-primary{background:#5b7f3a;color:#fff}.btn-secondary{background:#d8dde0;color:#263238}.btn-danger{background:#8e0000;color:#fff}.btn-excel{background:#5b7f3a;color:#fff}.btn:disabled{opacity:.55;cursor:not-allowed}.export-card{display:flex;align-items:center;justify-content:space-between;gap:18px}.export-card p{margin:5px 0 0;color:#666;font-size:12px}.export-status{color:#666;font-size:12px}.hidden{display:none!important}main{max-width:1200px;margin:24px auto;padding:0 20px;font-size:14px}.card{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:20px;margin-bottom:18px}.login{max-width:430px;margin:60px auto}.login h2{margin-top:0;color:#3f5d2a;font-size:20px}label{display:block;font-weight:bold;font-size:13px;margin:13px 0 6px}input,select{width:100%;padding:9px 11px;border:1px solid #b8bec3;border-radius:5px;font-size:14px;background:#fff}input:focus,select:focus{outline:none;border-color:#5b7f3a;box-shadow:0 0 0 2px rgba(91,127,58,.15)}.message{padding:12px;border-radius:5px;margin-top:14px;display:none}.message.error{display:block;background:#ffebee;color:#8e0000;border-left:4px solid #c62828}.message.success{display:block;background:#eef7e8;color:#5b7f3a;border-left:4px solid #5b7f3a}.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr auto auto;gap:10px;align-items:end}.stats{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:18px}.stat{background:#eef4e9;border-left:4px solid #5b7f3a;padding:12px 18px;border-radius:5px}.stat strong{display:block;font-size:22px;color:#3f5d2a}.table-wrap{overflow:auto;border:1px solid #d2d7da;border-radius:6px}table{width:100%;border-collapse:collapse;min-width:1000px}th,td{padding:10px;border-bottom:1px solid #e1e5e8;text-align:left;white-space:nowrap;font-size:13px}th{background:#eef1ed;color:#263238;position:sticky;top:0}tr:hover td{background:#f7f9f6}.actions{display:flex;justify-content:space-between;align-items:center;margin-top:15px;gap:10px}.muted{color:#666;font-size:13px}.loading{text-align:center;padding:30px;color:#666}.modal{position:fixed;inset:0;background:rgba(0,0,0,.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:10}.modal-card{background:#fff;width:min(1000px,100%);max-height:90vh;overflow:auto;border-radius:8px;padding:22px}.modal-head{display:flex;justify-content:space-between;align-items:center}.detail-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:15px}.detail{border:1px solid #e1e5e8;padding:10px;border-radius:5px}.detail small{display:block;color:#666;margin-bottom:4px}.detail strong{word-break:break-word}@media(max-width:800px){.toolbar{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.header{align-items:flex-start;flex-direction:column}}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background-color:#f3f5f7;background-image:url('TexturaVerde.jpg');background-repeat:no-repeat;background-position:center center;background-size:cover;background-attachment:fixed;color:#263238}header{background:#002f2a;border-bottom:3px solid #1e5b4f;padding:8px 30px;position:sticky;top:0;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,.08)}.header{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}.title{display:flex;align-items:center;gap:20px;flex:1}.conuee-logo{width:145px;height:78px;flex:0 0 145px;object-fit:contain;object-position:left center;display:block}.title h1{margin:0;color:#fff;font-size:23px}.title p{margin:5px 0 0;color:#fff;font-size:14px;opacity:.92}.btn{border:0;border-radius:5px;padding:9px 15px;font-size:13px;font-weight:bold;cursor:pointer}.btn-primary{background:#5b7f3a;color:#fff}.btn-secondary{background:#d8dde0;color:#263238}.btn-danger{background:#8e0000;color:#fff}.btn-excel{background:#5b7f3a;color:#fff}.btn:disabled{opacity:.55;cursor:not-allowed}.export-card{display:flex;align-items:center;justify-content:space-between;gap:18px}.export-card p{margin:5px 0 0;color:#666;font-size:12px}.export-status{color:#666;font-size:12px}.hidden{display:none!important}main{max-width:1200px;margin:24px auto;padding:0 20px;font-size:14px}.card{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:20px;margin-bottom:18px}.login{max-width:430px;margin:60px auto}.login h2{margin-top:0;color:#3f5d2a;font-size:20px}label{display:block;font-weight:bold;font-size:13px;margin:13px 0 6px}input,select{width:100%;padding:9px 11px;border:1px solid #b8bec3;border-radius:5px;font-size:14px;background:#fff}input:focus,select:focus{outline:none;border-color:#5b7f3a;box-shadow:0 0 0 2px rgba(91,127,58,.15)}.message{padding:12px;border-radius:5px;margin-top:14px;display:none}.message.error{display:block;background:#ffebee;color:#8e0000;border-left:4px solid #c62828}.message.success{display:block;background:#eef7e8;color:#5b7f3a;border-left:4px solid #5b7f3a}.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr auto auto;gap:10px;align-items:end}.stats{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:18px}.stat{background:#eef4e9;border-left:4px solid #5b7f3a;padding:12px 18px;border-radius:5px}.stat strong{display:block;font-size:22px;color:#3f5d2a}.table-wrap{overflow:auto;border:1px solid #d2d7da;border-radius:6px}table{width:100%;border-collapse:collapse;min-width:1000px}th,td{padding:10px;border-bottom:1px solid #e1e5e8;text-align:left;white-space:nowrap;font-size:13px}th{background:#eef1ed;color:#263238;position:sticky;top:0}tr:hover td{background:#f7f9f6}.actions{display:flex;justify-content:space-between;align-items:center;margin-top:15px;gap:10px}.muted{color:#666;font-size:13px}.loading{text-align:center;padding:30px;color:#666}.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:1200}.modal-card{background:#f7f9f8;width:min(1040px,100%);max-height:92vh;overflow:auto;border-radius:12px;padding:0;box-shadow:0 18px 50px rgba(0,0,0,.28)}.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:22px 24px 18px;background:#002f2a;color:#fff;border-radius:12px 12px 0 0}.modal-head h2{margin:2px 0 4px;font-size:22px}.modal-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.76}.modal-subtitle{margin:0;font-size:13px;opacity:.9}.modal-head .btn-secondary{background:#fff}.modal-body{padding:22px 24px 26px}.benchmark-panel{background:#fff;border:1px solid #dbe3df;border-radius:10px;padding:18px 20px;margin-bottom:18px;box-shadow:0 2px 7px rgba(0,0,0,.05)}.benchmark-top{display:flex;justify-content:space-between;gap:20px;align-items:center}.benchmark-copy h3{margin:0 0 5px;color:#244817;font-size:18px}.benchmark-copy p{margin:0;color:#66706b;font-size:13px;line-height:1.45}.benchmark-score{min-width:118px;text-align:center;padding:10px 14px;border-left:1px solid #e2e8e5}.benchmark-score strong{display:block;font-size:34px;line-height:1;color:#5b7f3a}.benchmark-score span{display:block;margin-top:4px;font-size:11px;color:#6d7772}.efficiency-meter{position:relative;margin-top:18px;padding-top:20px}.meter-track{height:14px;border-radius:999px;background:linear-gradient(90deg,#b85b55 0%,#d8a54b 35%,#d8d56a 52%,#87a95c 72%,#5b7f3a 100%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}.meter-marker{position:absolute;top:10px;width:18px;height:25px;border-radius:5px;background:#002f2a;border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.3);transform:translateX(-50%)}.meter-marker::before{content:"Usted está aquí";position:absolute;left:50%;bottom:27px;transform:translateX(-50%);white-space:nowrap;background:#002f2a;color:#fff;font-size:10px;font-weight:bold;padding:4px 7px;border-radius:4px}.meter-labels{display:flex;justify-content:space-between;margin-top:7px;font-size:11px;color:#6d7772}.benchmark-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.benchmark-metric{background:#f4f7f5;border-radius:7px;padding:10px 12px}.benchmark-metric small{display:block;color:#6c756f;font-size:11px;margin-bottom:4px}.benchmark-metric strong{font-size:14px;color:#263238}.benchmark-pending{border-left:5px solid #b7c2bd}.benchmark-pending .meter-track{background:#e2e7e4}.benchmark-pending .benchmark-score strong{font-size:17px;color:#66706b}.detail-section{background:#fff;border:1px solid #dbe3df;border-radius:10px;margin-bottom:14px;overflow:hidden}.detail-section-title{margin:0;padding:11px 16px;background:#eef3f0;color:#31501f;font-size:14px;font-weight:bold}.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}.detail{padding:13px 16px;border-bottom:1px solid #edf0ee}.detail:nth-child(odd){border-right:1px solid #edf0ee}.detail small{display:block;color:#707a75;margin-bottom:4px;font-size:11px}.detail strong{display:block;color:#263238;font-size:14px;word-break:break-word}.detail-empty{color:#98a09c!important;font-weight:normal}.detail-note{margin-top:6px;color:#7b8580;font-size:11px;line-height:1.35}@media(max-width:800px){.toolbar{grid-template-columns:1fr}.header{align-items:flex-start;flex-direction:column}.modal{padding:8px}.modal-body{padding:16px}.benchmark-top{align-items:flex-start;flex-direction:column}.benchmark-score{border-left:0;border-top:1px solid #e2e8e5;width:100%;padding-top:12px}.benchmark-metrics{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.detail:nth-child(odd){border-right:0}}
 </style>
 </head>
 <body>
@@ -35,7 +35,22 @@
 --><th>AA reportado</th><th>Unidad</th><th>AA en TR</th><th>Acción</th></tr></thead><tbody id="tbody"></tbody></table></div><div class="actions"><span id="rangeLabel" class="muted"></span><div><button id="prevBtn" class="btn btn-secondary">Anterior</button> <button id="nextBtn" class="btn btn-secondary">Siguiente</button></div></div></div>
 </section>
 </main>
-<div id="modal" class="modal hidden"><div class="modal-card"><div class="modal-head"><h2>Detalle del registro</h2><button id="closeModal" class="btn btn-secondary">Cerrar</button></div><div id="detailGrid" class="detail-grid"></div></div></div>
+<div id="modal" class="modal hidden">
+<div class="modal-card">
+  <div class="modal-head">
+    <div>
+      <div class="modal-kicker">Detalle del inmueble</div>
+      <h2 id="detailTitle">Información registrada</h2>
+      <p id="detailSubtitle" class="modal-subtitle"></p>
+    </div>
+    <button id="closeModal" class="btn btn-secondary">Cerrar</button>
+  </div>
+  <div class="modal-body">
+    <div id="benchmarkPanel"></div>
+    <div id="detailGrid"></div>
+  </div>
+</div>
+</div>
 <script>
 const SUPABASE_URL='https://cixxmvdippishbpvauul.supabase.co';
 const SUPABASE_KEY='sb_publishable_EcEVneud0En4wNVzYsFGaQ_mSzzZKtf';
@@ -96,7 +111,7 @@ function renderRows(){
    const td=document.createElement('td');
    const b=document.createElement('button');
    b.className='btn btn-secondary';
-   b.textContent='Ver';
+   b.textContent='Ver detalle';
    b.onclick=()=>showDetail(r);
    td.appendChild(b);
    tr.appendChild(td);
@@ -111,29 +126,130 @@ function renderRows(){
  document.getElementById('tableWrap').classList.remove('hidden');
 }
 function num(v){return v==null?'':Number(v).toLocaleString('es-MX',{maximumFractionDigits:4})}function fmtDate(v){return v?new Date(v).toLocaleString('es-MX'):''}
+const DETAIL_GROUPS=[
+  {title:'Identificación y ubicación',fields:[
+    ['p001_id_inmueble','ID del inmueble',v=>v||'—'],
+    ['p004_tipo_edificio','Tipo de edificio',v=>v||'—'],
+    ['p002_entidad_federativa','Entidad federativa',v=>v||'—'],
+    ['p003_municipio_alcaldia','Municipio o alcaldía',v=>v||'—'],
+    ['fecha_registro','Fecha de registro',v=>v?fmtDate(v):'—']
+  ]},
+  {title:'Características del inmueble',fields:[
+    ['p005_area_total_construida','Área total construida',v=>formatUnit(v,'m²')],
+    ['p006_ocupacion','Ocupación habitual del inmueble',v=>formatUnit(v,'%')],
+    ['p007_anio_construccion','Año de construcción',v=>v??'—'],
+    ['p008_numero_pisos','Número de pisos',v=>v??'—']
+  ]},
+  {title:'Operación y usuarios',fields:[
+    ['p009_dias_operacion_semana','Días de operación a la semana',v=>formatUnit(v,'días/semana')],
+    ['p010_horas_operacion_semana','Horas de operación a la semana',v=>formatUnit(v,'h/semana')],
+    ['p024_empleados_turno_principal','Empleados en el turno principal',v=>formatUnit(v,'personas')],
+    ['p025_personas_usuarias_promedio_dia','Personas atendidas o usuarias promedio al día',v=>formatUnit(v,'personas/día')]
+  ]},
+  {title:'Equipamiento e instalaciones',fields:[
+    ['p026_numero_computadoras','Número de computadoras',v=>formatUnit(v,'equipos')],
+    ['p027a_capacidad_aire_valor','Capacidad total instalada de aire acondicionado',(v,row)=>formatUnit(v,row.p027b_capacidad_aire_unidad==='BTU_H'?'BTU/h':(row.p027b_capacidad_aire_unidad||'TR'))],
+    ['p027c_capacidad_aire_tr','Capacidad equivalente de aire acondicionado',v=>formatUnit(v,'TR')],
+    ['p028_area_enfriada_electrica','Área que se enfría mediante equipos eléctricos',v=>formatUnit(v,'%')],
+    ['p029_area_calentada_electrica','Área que se calienta mediante equipos eléctricos',v=>formatUnit(v,'%')],
+    ['p030_area_iluminada_artificialmente','Área con iluminación artificial',v=>formatUnit(v,'%')]
+  ]}
+];
+
+function formatUnit(v,unit){
+  if(v===null || v===undefined || v==='') return '—';
+  const n=Number(v);
+  const shown=Number.isFinite(n)?n.toLocaleString('es-MX',{maximumFractionDigits:2}):String(v);
+  return unit?`${shown} ${unit}`:shown;
+}
+
+function benchmarkLevel(score){
+  if(score>=90) return 'Desempeño sobresaliente';
+  if(score>=75) return 'Buen desempeño';
+  if(score>=50) return 'Desempeño intermedio';
+  return 'Oportunidad de mejora';
+}
+
+function renderBenchmark(r){
+  const panel=document.getElementById('benchmarkPanel');
+  const score=Number(r.benchmark_calificacion);
+  const hasScore=Number.isFinite(score) && score>=1 && score<=100;
+  if(!hasScore){
+    panel.innerHTML=`
+      <section class="benchmark-panel benchmark-pending">
+        <div class="benchmark-top">
+          <div class="benchmark-copy">
+            <h3>Calificación de desempeño energético</h3>
+            <p>El detalle está preparado para mostrar una calificación de 1 a 100 y la posición del inmueble frente a edificios comparables. El resultado permanecerá pendiente hasta contar con un modelo estadístico calibrado y con el consumo anual de referencia.</p>
+          </div>
+          <div class="benchmark-score"><strong>Pendiente</strong><span>de calibración</span></div>
+        </div>
+        <div class="efficiency-meter">
+          <div class="meter-track"></div>
+          <div class="meter-labels"><span>Menor eficiencia</span><span>Edificios similares</span><span>Mayor eficiencia</span></div>
+        </div>
+      </section>`;
+    return;
+  }
+  const clamped=Math.min(100,Math.max(1,score));
+  const pred=r.benchmark_consumo_predicho_kwh;
+  const real=r.benchmark_consumo_anual_kwh;
+  const ratio=r.benchmark_relacion_consumo;
+  panel.innerHTML=`
+    <section class="benchmark-panel">
+      <div class="benchmark-top">
+        <div class="benchmark-copy">
+          <h3>${benchmarkLevel(clamped)}</h3>
+          <p>Posición comparativa estimada frente a edificios de referencia con características de operación similares.</p>
+        </div>
+        <div class="benchmark-score"><strong>${Math.round(clamped)}</strong><span>calificación / 100</span></div>
+      </div>
+      <div class="efficiency-meter">
+        <div class="meter-marker" style="left:${clamped}%" aria-label="Calificación ${Math.round(clamped)} de 100"></div>
+        <div class="meter-track"></div>
+        <div class="meter-labels"><span>1 · Menor eficiencia</span><span>75 · Buen desempeño</span><span>100 · Mayor eficiencia</span></div>
+      </div>
+      <div class="benchmark-metrics">
+        <div class="benchmark-metric"><small>Consumo anual de referencia</small><strong>${formatUnit(real,'kWh')}</strong></div>
+        <div class="benchmark-metric"><small>Consumo esperado por el modelo</small><strong>${formatUnit(pred,'kWh')}</strong></div>
+        <div class="benchmark-metric"><small>Relación real / esperado</small><strong>${ratio==null?'—':Number(ratio).toLocaleString('es-MX',{maximumFractionDigits:4})}</strong></div>
+      </div>
+    </section>`;
+}
+
 function showDetail(r){
- const grid=document.getElementById('detailGrid');
- grid.innerHTML='';
+  document.getElementById('detailTitle').textContent=r.p001_id_inmueble||'Inmueble sin identificador';
+  const loc=[r.p003_municipio_alcaldia,r.p002_entidad_federativa].filter(Boolean).join(', ');
+  document.getElementById('detailSubtitle').textContent=[r.p004_tipo_edificio,loc].filter(Boolean).join(' · ');
+  renderBenchmark(r);
 
- /* CONSUMO ELÉCTRICO — DESACTIVADO TEMPORALMENTE
-    Lógica original del detalle, conservada para futura reactivación:
- Object.entries(r).forEach(([k,v])=>{const d=document.createElement('div');d.className='detail';const s=document.createElement('small');s.textContent=k;const strong=document.createElement('strong');strong.textContent=v==null?'':String(v);d.append(s,strong);grid.appendChild(d)});
- */
+  const container=document.getElementById('detailGrid');
+  container.innerHTML='';
+  DETAIL_GROUPS.forEach(group=>{
+    const section=document.createElement('section');
+    section.className='detail-section';
+    const h=document.createElement('h3');
+    h.className='detail-section-title';
+    h.textContent=group.title;
+    const grid=document.createElement('div');
+    grid.className='detail-grid';
+    group.fields.forEach(([key,label,formatter])=>{
+      const d=document.createElement('div');
+      d.className='detail';
+      const small=document.createElement('small');
+      small.textContent=label;
+      const strong=document.createElement('strong');
+      const value=formatter(r[key],r);
+      strong.textContent=value;
+      if(value==='—') strong.classList.add('detail-empty');
+      d.append(small,strong);
+      grid.appendChild(d);
+    });
+    section.append(h,grid);
+    container.appendChild(section);
+  });
 
- Object.entries(r)
-   .filter(([k])=>!/^p0(?:1[1-9]|2[0-3])_/.test(k))
-   .forEach(([k,v])=>{
-     const d=document.createElement('div');
-     d.className='detail';
-     const s=document.createElement('small');
-     s.textContent=k;
-     const strong=document.createElement('strong');
-     strong.textContent=v==null?'':String(v);
-     d.append(s,strong);
-     grid.appendChild(d);
-   });
-
- document.getElementById('modal').classList.remove('hidden');
+  document.getElementById('modal').classList.remove('hidden');
 }
 document.getElementById('closeModal').onclick=()=>document.getElementById('modal').classList.add('hidden');document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')e.currentTarget.classList.add('hidden')});
 document.getElementById('filterBtn').onclick=()=>{page=0;loadRows()};document.getElementById('clearBtn').onclick=()=>{document.getElementById('search').value='';document.getElementById('entity').value='';document.getElementById('building').value='';page=0;loadRows()};document.getElementById('prevBtn').onclick=()=>{if(page>0){page--;loadRows()}};document.getElementById('nextBtn').onclick=()=>{if((page+1)*PAGE_SIZE<total){page++;loadRows()}};
@@ -210,19 +326,19 @@ function styleRange(ws,range,style){
 }
 
 const HEADER_STYLE={
-  fill:{patternType:"solid",fgColor:{rgb:"000000"}},
+  fill:{patternType:"solid",fgColor:{rgb:"002F2A"}},
   font:{bold:true,color:{rgb:"FFFFFF"}},
   alignment:{horizontal:"center",vertical:"center",wrapText:true},
   border:{
-    top:{style:"thin",color:{rgb:"000000"}},
-    bottom:{style:"thin",color:{rgb:"000000"}},
-    left:{style:"thin",color:{rgb:"000000"}},
-    right:{style:"thin",color:{rgb:"000000"}}
+    top:{style:"thin",color:{rgb:"002F2A"}},
+    bottom:{style:"thin",color:{rgb:"002F2A"}},
+    left:{style:"thin",color:{rgb:"002F2A"}},
+    right:{style:"thin",color:{rgb:"002F2A"}}
   }
 };
 
 const ALT_STYLE={
-  fill:{patternType:"solid",fgColor:{rgb:"F5F5F5"}}
+  fill:{patternType:"solid",fgColor:{rgb:"F2F6F3"}}
 };
 
 function makeIndexSheet(){
@@ -234,12 +350,14 @@ function makeIndexSheet(){
   ];
   const ws=XLSX.utils.aoa_to_sheet(rows);
   ws["!cols"]=[{wch:78},{wch:12},{wch:12}];
-  ws["A1"].s={fill:{patternType:"solid",fgColor:{rgb:"000000"}},font:{bold:true,color:{rgb:"FFFFFF"},sz:16},alignment:{vertical:"center"}};
+  ws["!rows"]=[{hpt:24},{hpt:9},{hpt:22},{hpt:22}];
+  ws["A1"].s={fill:{patternType:"solid",fgColor:{rgb:"002F2A"}},font:{bold:true,color:{rgb:"FFFFFF"},sz:16},alignment:{vertical:"center"}};
   const linkStyle={font:{color:{rgb:"0563C1"},underline:true,italic:true,sz:12},alignment:{vertical:"center"}};
   ws["A3"].l={Target:"#'Descriptor de archivo'!A1",Tooltip:"Ir al Descriptor de archivo"};
   ws["A4"].l={Target:"#'Registros'!A1",Tooltip:"Ir a Registros"};
   ws["A3"].s=linkStyle;
   ws["A4"].s=linkStyle;
+  ws["!gridlines"]=false;
   ws["!showGridLines"]=false;
   ws["!sheetViews"]=[{showGridLines:false}];
   return ws;
@@ -255,8 +373,10 @@ function makeDescriptorSheet(){
     {wch:38},{wch:12},{wch:48},{wch:72},{wch:18},{wch:18},{wch:42}
   ];
   styleRange(ws,`A1:G1`,HEADER_STYLE);
+  ws["!rows"]=[{hpt:34}];
   ws["!autofilter"]={ref:`A1:G${rows.length}`};
   ws["!freeze"]="A2";
+  ws["!gridlines"]=false;
   ws["!showGridLines"]=false;
   ws["!sheetViews"]=[{showGridLines:false}];
   return ws;
@@ -286,6 +406,7 @@ function makeRecordsSheet(records){
   });
 
   styleRange(ws,`A1:${XLSX.utils.encode_col(EXCEL_HEADERS.length-1)}1`,HEADER_STYLE);
+  ws["!rows"]=[{hpt:34}];
 
   // Formato de fechas y números
   const numericKeys=new Set([
@@ -327,6 +448,7 @@ function makeRecordsSheet(records){
   const lastCol=XLSX.utils.encode_col(EXCEL_HEADERS.length-1);
   ws["!autofilter"]={ref:`A1:${lastCol}${rows.length}`};
   ws["!freeze"]="A2";
+  ws["!gridlines"]=false;
   ws["!showGridLines"]=false;
   ws["!sheetViews"]=[{showGridLines:false}];
   return ws;
