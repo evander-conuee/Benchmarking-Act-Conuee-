@@ -593,12 +593,11 @@
             max-width: 100%;
         }
 
-        /* Alineación vertical consistente de Información complementaria.
-           Cada celda reserva la misma altura para su etiqueta, por lo que
-           los controles de una misma fila comienzan exactamente a la misma altura. */
+        /* Información complementaria: cada campo queda inmediatamente
+           debajo de su pregunta, sin reservar una altura artificial. */
         .complementary-grid > .form-group > label {
-            height: 52px;
-            min-height: 52px;
+            height: auto;
+            min-height: 0;
             display: flex;
             align-items: flex-start;
             flex-wrap: wrap;
@@ -1276,7 +1275,7 @@
 
                 <div class="info-box" id="infoConsumo">
                     <strong>¿Dónde localizar esta información?</strong>
-                    <p>Consulte sus recibos o registros de facturación eléctrica de 2025. Ubique la tabla de consumo histórico en el reverso del recibo o en la segunda página si es digital. Verifique que pueda identificar los consumos de enero a diciembre de 2025; si un solo recibo no cubre todo el periodo, consulte recibos adicionales para completar el año.</p>
+                    <p>Consulte sus recibos o registros de facturación eléctrica de 2025. En recibos de CFE, el historial de consumo puede servir como apoyo para identificar los consumos mensuales.</p>
                     <div style="margin-top:15px; text-align:center;">
                         <img src="recibo_cfe.jpg" alt="Ejemplo de recibo CFE con historial de consumo" style="max-width:100%; width:700px; border:1px solid #ccc; border-radius:5px;">
                     </div>
@@ -1455,7 +1454,7 @@
 
                     </div>
 
-                    <div class="aire-equivalente">
+                    <div class="aire-equivalente" id="aireEquivalenteWrap" hidden>
 
                         Equivalente a:
                         <strong>
@@ -3070,6 +3069,9 @@
     const aireEquivalente =
         document.getElementById("p027c");
 
+    const aireEquivalenteWrap =
+        document.getElementById("aireEquivalenteWrap");
+
     const aireWarningAlto =
         document.getElementById("aireWarningAlto");
 
@@ -3084,6 +3086,12 @@
 
         const unidad =
             unidadAire.value;
+
+        // La equivalencia visual solo tiene sentido cuando el usuario
+        // reporta la capacidad en BTU/h. Si reporta directamente en TR,
+        // se oculta por completo para evitar redundancia y confusión.
+        aireEquivalenteWrap.hidden =
+            unidad !== "BTU_H";
 
 
         aireWarningAlto.classList.remove(
@@ -3163,6 +3171,8 @@
         "change",
         calcularEquivalenteAire
     );
+
+    calcularEquivalenteAire();
 
 
     /* =========================================================
