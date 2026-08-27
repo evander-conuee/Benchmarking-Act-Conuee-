@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Panel administrativo</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <style>
@@ -54,7 +54,50 @@
 const SUPABASE_URL='https://cixxmvdippishbpvauul.supabase.co';
 const SUPABASE_KEY='sb_publishable_EcEVneud0En4wNVzYsFGaQ_mSzzZKtf';
 const {createClient}=supabase;
-const db=createClient(SUPABASE_URL,SUPABASE_KEY);
+
+/*
+ * Capa de transporte robusta para Supabase.
+ * La clave es publicable y está diseñada para cliente web.
+ * Se fuerza el encabezado apikey en cada solicitud y, únicamente
+ * si el gateway informa que no recibió la clave, se reintenta una
+ * vez añadiéndola también como parámetro de URL.
+ */
+const nativeFetch=window.fetch.bind(window);
+async function supabaseFetch(input,init={}){
+ const headers=new Headers((input instanceof Request)?input.headers:{});
+ new Headers(init.headers||{}).forEach((value,key)=>headers.set(key,value));
+ headers.set('apikey',SUPABASE_KEY);
+ const requestInit={...init,headers};
+
+ let response=await nativeFetch(input,requestInit);
+
+ if(response.status===401||response.status===403){
+  let body='';
+  try{body=await response.clone().text()}catch(_e){}
+  if(body.includes('No API key found in request')||body.includes('No `apikey` request header')){
+   const rawUrl=(typeof input==='string')?input:input.url;
+   const url=new URL(rawUrl,window.location.href);
+   if(url.hostname.endsWith('.supabase.co')){
+    url.searchParams.set('apikey',SUPABASE_KEY);
+    response=await nativeFetch(url.toString(),requestInit);
+   }
+  }
+ }
+
+ return response;
+}
+
+const db=createClient(SUPABASE_URL,SUPABASE_KEY,{
+ auth:{
+  persistSession:true,
+  autoRefreshToken:true,
+  detectSessionInUrl:false
+ },
+ global:{
+  headers:{apikey:SUPABASE_KEY},
+  fetch:supabaseFetch
+ }
+});
 const PAGE_SIZE=25;
 let page=0, total=0, currentRows=[];
 const loginCard=document.getElementById('loginCard'), adminApp=document.getElementById('adminApp'), logoutBtn=document.getElementById('logoutBtn');
