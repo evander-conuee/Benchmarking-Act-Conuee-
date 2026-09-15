@@ -1,0 +1,72 @@
+name: Mantener Supabase APF activo
+
+on:
+  schedule:
+    # Cuatro consultas diarias, separadas cada 6 horas.
+    # Los horarios cron de GitHub se interpretan en UTC.
+    - cron: "17 1,7,13,19 * * *"
+
+    # Actividad mensual del repositorio para evitar que GitHub
+    # deshabilite el schedule por inactividad en repositorios públicos.
+    - cron: "43 5 1 * *"
+
+  # Permite ejecutar la prueba manualmente desde GitHub Actions.
+  workflow_dispatch:
+
+jobs:
+  keepalive:
+    name: Keep-alive Supabase
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    steps:
+      - name: Consultar base de datos
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_PUBLISHABLE_KEY: ${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+        run: |
+          set -euo pipefail
+
+          HTTP_STATUS=$(curl \
+            --silent \
+            --show-error \
+            --output response.json \
+            --write-out "%{http_code}" \
+            --request POST \
+            "${SUPABASE_URL}/rest/v1/rpc/keepalive_apf" \
+            --header "apikey: ${SUPABASE_PUBLISHABLE_KEY}" \
+            --header "Content-Type: application/json" \
+            --data '{}')
+
+          echo "HTTP status: ${HTTP_STATUS}"
+          cat response.json
+          echo
+
+          if [ "${HTTP_STATUS}" -lt 200 ] || [ "${HTTP_STATUS}" -ge 300 ]; then
+            echo "Error: Supabase no respondió correctamente."
+            exit 1
+          fi
+
+  mantener-schedule-github:
+    name: Mantener schedule de GitHub habilitado
+    if: github.event_name == 'schedule' && github.event.schedule == '43 5 1 * *'
+    runs-on: ubuntu-latest
+
+    permissions:
+      contents: write
+
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Registrar actividad mensual
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git commit --allow-empty \
+            -m "chore: mantener workflow programado activo"
+
+          git push
