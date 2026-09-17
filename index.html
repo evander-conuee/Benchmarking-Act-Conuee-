@@ -960,7 +960,7 @@
                 <div class="form-group">
 
                     <label for="p001">
-                        Nombre del inmueble o institución/empresa
+                        ID del inmueble
                         <span class="required">*</span>
                     </label>
 
@@ -1507,30 +1507,6 @@
                         <input
                             type="number"
                             id="p028"
-                            min="0"
-                            max="100"
-                            step="0.01"
-                        >
-
-                        <span class="input-unit">%</span>
-
-                    </div>
-
-                </div>
-
-
-                <div class="form-group">
-
-                    <label for="p029">
-                        Porcentaje del área total construida
-                        que se calienta mediante equipos eléctricos
-                    </label>
-
-                    <div class="input-with-unit">
-
-                        <input
-                            type="number"
-                            id="p029"
                             min="0"
                             max="100"
                             step="0.01"
@@ -2118,7 +2094,6 @@
 
             const percentageFields = [
                 "p028",
-                "p029",
                 "p030"
             ];
 
@@ -2452,11 +2427,6 @@
                 ? ""
                 : document.getElementById("p028").value + " %"],
 
-            ["P029 — Área calentada mediante equipos eléctricos",
-             document.getElementById("p029").value === ""
-                ? ""
-                : document.getElementById("p029").value + " %"],
-
             ["P030 — Área con iluminación artificial",
              document.getElementById("p030").value === ""
                 ? ""
@@ -2693,13 +2663,6 @@
                             document.getElementById("p028").value
                           ),
 
-                p029_area_calentada_electrica:
-                    document.getElementById("p029").value === ""
-                        ? null
-                        : Number(
-                            document.getElementById("p029").value
-                          ),
-
                 p030_area_iluminada_artificialmente:
                     document.getElementById("p030").value === ""
                         ? null
@@ -2933,9 +2896,6 @@
 
             P028_area_enfriada_electrica:
                 document.getElementById("p028").value,
-
-            P029_area_calentada_electrica:
-                document.getElementById("p029").value,
 
             P030_area_iluminada_artificialmente:
                 document.getElementById("p030").value,
