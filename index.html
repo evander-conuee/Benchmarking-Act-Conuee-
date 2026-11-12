@@ -1076,6 +1076,10 @@
 
                     </div>
 
+                    <div class="field-error" id="areaConstruidaError">
+                        El valor debe de ser mayor a 0.
+                    </div>
+
                 </div>
 
 
@@ -1557,6 +1561,10 @@
 
                         <span class="input-unit">%</span>
 
+                    </div>
+
+                    <div class="field-error" id="iluminacionError">
+                        El valor debe de ser mayor a 0.
                     </div>
 
                 </div>
@@ -2048,6 +2056,11 @@
 
 
             valid = validateInlineNumber(
+                "p005", "areaConstruidaError",
+                function(value) { return value <= 0; }
+            ) && valid;
+
+            valid = validateInlineNumber(
                 "p006", "ocupacionError",
                 function(value) { return value < 1 || value > 100; }
             ) && valid;
@@ -2142,6 +2155,11 @@
                     valid = false;
                 }
             });
+
+            valid = validateInlineNumber(
+                "p030", "iluminacionError",
+                function(value) { return value <= 0; }
+            ) && valid;
 
             valid = validateNumericalLimits(3) && valid;
 
@@ -2973,6 +2991,20 @@
     /* =========================================================
        VALIDACIÓN VISUAL INMEDIATA DE VALORES NUMÉRICOS
     ========================================================== */
+
+    document.getElementById("p005").addEventListener("input", function() {
+        if (this.value === "") this.classList.remove("invalid");
+        validateInlineNumber("p005", "areaConstruidaError", function(value) {
+            return value <= 0;
+        });
+    });
+
+    document.getElementById("p030").addEventListener("input", function() {
+        if (this.value === "") this.classList.remove("invalid");
+        validateInlineNumber("p030", "iluminacionError", function(value) {
+            return value <= 0;
+        });
+    });
 
     document.getElementById("p006").addEventListener("input", function() {
         if (this.value === "") this.classList.remove("invalid");
