@@ -1067,7 +1067,7 @@
                         <input
                             type="number"
                             id="p005"
-                            min="0"
+                            min="0.01"
                             step="0.01"
                             required
                         >
@@ -1102,7 +1102,7 @@
                         <input
                             type="number"
                             id="p006"
-                            min="0"
+                            min="0.01"
                             max="100"
                             step="0.01"
                             required
@@ -1180,7 +1180,7 @@
                         <input
                             type="number"
                             id="p010"
-                            min="0"
+                            min="0.5"
                             max="24"
                             step="0.5"
                             required
@@ -1284,51 +1284,51 @@
                 <div class="monthly-grid">
                     <div class="monthly-item">
                         <label for="p011">ENE-Consumo [kWh] <span class="required">*</span></label>
-                        <input type="number" id="p011" class="monthly-consumption" min="0" step="0.01" required>
+                        <input type="number" id="p011" class="monthly-consumption" min="0.01" step="0.01" required>
                     </div>
                     <div class="monthly-item">
                         <label for="p012">FEB-Consumo [kWh] <span class="required">*</span></label>
-                        <input type="number" id="p012" class="monthly-consumption" min="0" step="0.01" required>
+                        <input type="number" id="p012" class="monthly-consumption" min="0.01" step="0.01" required>
                     </div>
                     <div class="monthly-item">
                         <label for="p013">MAR-Consumo [kWh] <span class="required">*</span></label>
-                        <input type="number" id="p013" class="monthly-consumption" min="0" step="0.01" required>
+                        <input type="number" id="p013" class="monthly-consumption" min="0.01" step="0.01" required>
                     </div>
                     <div class="monthly-item">
                         <label for="p014">ABR-Consumo [kWh] <span class="required">*</span></label>
-                        <input type="number" id="p014" class="monthly-consumption" min="0" step="0.01" required>
+                        <input type="number" id="p014" class="monthly-consumption" min="0.01" step="0.01" required>
                     </div>
                     <div class="monthly-item">
                         <label for="p015">MAY-Consumo [kWh] <span class="required">*</span></label>
-                        <input type="number" id="p015" class="monthly-consumption" min="0" step="0.01" required>
+                        <input type="number" id="p015" class="monthly-consumption" min="0.01" step="0.01" required>
                     </div>
                     <div class="monthly-item">
                         <label for="p016">JUN-Consumo [kWh] <span class="required">*</span></label>
-                        <input type="number" id="p016" class="monthly-consumption" min="0" step="0.01" required>
+                        <input type="number" id="p016" class="monthly-consumption" min="0.01" step="0.01" required>
                     </div>
                     <div class="monthly-item">
                         <label for="p017">JUL-Consumo [kWh] <span class="required">*</span></label>
-                        <input type="number" id="p017" class="monthly-consumption" min="0" step="0.01" required>
+                        <input type="number" id="p017" class="monthly-consumption" min="0.01" step="0.01" required>
                     </div>
                     <div class="monthly-item">
                         <label for="p018">AGO-Consumo [kWh] <span class="required">*</span></label>
-                        <input type="number" id="p018" class="monthly-consumption" min="0" step="0.01" required>
+                        <input type="number" id="p018" class="monthly-consumption" min="0.01" step="0.01" required>
                     </div>
                     <div class="monthly-item">
                         <label for="p019">SEP-Consumo [kWh] <span class="required">*</span></label>
-                        <input type="number" id="p019" class="monthly-consumption" min="0" step="0.01" required>
+                        <input type="number" id="p019" class="monthly-consumption" min="0.01" step="0.01" required>
                     </div>
                     <div class="monthly-item">
                         <label for="p020">OCT-Consumo [kWh] <span class="required">*</span></label>
-                        <input type="number" id="p020" class="monthly-consumption" min="0" step="0.01" required>
+                        <input type="number" id="p020" class="monthly-consumption" min="0.01" step="0.01" required>
                     </div>
                     <div class="monthly-item">
                         <label for="p021">NOV-Consumo [kWh] <span class="required">*</span></label>
-                        <input type="number" id="p021" class="monthly-consumption" min="0" step="0.01" required>
+                        <input type="number" id="p021" class="monthly-consumption" min="0.01" step="0.01" required>
                     </div>
                     <div class="monthly-item">
                         <label for="p022">DIC-Consumo [kWh] <span class="required">*</span></label>
-                        <input type="number" id="p022" class="monthly-consumption" min="0" step="0.01" required>
+                        <input type="number" id="p022" class="monthly-consumption" min="0.01" step="0.01" required>
                     </div>
                 </div>
 
@@ -1338,7 +1338,7 @@
                 </div>
 
                 <div class="error-message" id="consumptionError">
-                    Debe capturar los 12 consumos mensuales de enero a diciembre de 2025.
+                    Debe capturar los 12 consumos mensuales de enero a diciembre de 2025, todos mayores que 0 kWh.
                 </div>
 
             </div>
@@ -1355,7 +1355,7 @@
                     <input
                         type="number"
                         id="p024"
-                        min="0"
+                        min="1"
                         step="1"
                         required
                     >
@@ -1444,7 +1444,7 @@
                             id="p027a"
                             min="0"
                             step="0.01"
-                            placeholder="Ingrese el total"
+                            placeholder="0 si no hay equipos de AA"
                         >
 
                         <select id="p027b" class="unit-select">
@@ -1490,6 +1490,12 @@
                         <strong>TR</strong>. No es necesario realizar conversiones
                         manualmente.
 
+                        <br><br>
+
+                        Si el inmueble no cuenta con equipos de aire acondicionado,
+                        registre <strong>0</strong>. Deje el campo vacío solamente
+                        cuando no disponga de esta información.
+
                     </div>
 
                 </div>
@@ -1510,6 +1516,7 @@
                             min="0"
                             max="100"
                             step="0.01"
+                            placeholder="0 si no se enfría superficie"
                         >
 
                         <span class="input-unit">%</span>
@@ -1531,7 +1538,7 @@
                         <input
                             type="number"
                             id="p030"
-                            min="0"
+                            min="0.01"
                             max="100"
                             step="0.01"
                         >
@@ -1549,7 +1556,7 @@
                     <div class="type-specific-grid">
                         <div class="form-group compact-number">
                             <label for="p031">Número de camas habilitadas <span class="required">*</span></label>
-                            <input type="number" id="p031" min="0" step="1" data-conditional-required="true">
+                            <input type="number" id="p031" min="1" step="1" data-conditional-required="true">
                         </div>
                     </div>
                 </div>
@@ -1560,7 +1567,7 @@
                     <div class="type-specific-grid">
                         <div class="form-group compact-number">
                             <label for="p032">Capacidad máxima de estudiantes <span class="required">*</span></label>
-                            <input type="number" id="p032" min="0" step="1" data-conditional-required="true">
+                            <input type="number" id="p032" min="1" step="1" data-conditional-required="true">
                         </div>
                         <div class="form-group compact-number">
                             <label for="p033">Número de laboratorios equipados <span class="required">*</span></label>
@@ -1904,6 +1911,22 @@
        VALIDACIÓN
     ========================================================= */
 
+    // Respeta los límites (min, max y step) definidos para cada campo
+    // numérico, sin considerar vacío y cero como valores equivalentes.
+    function validateNumericalLimits(sectionNumber) {
+        let valid = true;
+        document.querySelectorAll('#section' + sectionNumber + ' input[type="number"]').forEach(function(field) {
+            if (field.disabled || field.value === "") return;
+            if (!Number.isFinite(Number(field.value)) || !field.validity.valid) {
+                field.classList.add("invalid");
+                valid = false;
+            } else {
+                field.classList.remove("invalid");
+            }
+        });
+        return valid;
+    }
+
     function validateCurrentSection() {
 
         let valid = true;
@@ -1992,7 +2015,7 @@
 
             if (
                 document.getElementById("p006").value !== "" &&
-                (ocupacion < 0 || ocupacion > 100)
+                (ocupacion <= 0 || ocupacion > 100)
             ) {
 
                 document
@@ -2000,7 +2023,7 @@
                     .classList.add("invalid");
 
                 alert(
-                    "La ocupación debe estar entre 0 y 100 %."
+                    "La ocupación debe ser mayor que 0 y no superar 100 %."
                 );
 
                 valid = false;
@@ -2036,7 +2059,7 @@
 
             if (
                 document.getElementById("p010").value !== "" &&
-                (horas < 0 || horas > 24)
+                (horas <= 0 || horas > 24)
             ) {
 
                 document
@@ -2044,17 +2067,19 @@
                     .classList.add("invalid");
 
                 alert(
-                    "Las horas de operación deben estar entre 0 y 24 h/día."
+                    "Las horas de operación deben ser mayores que 0 y no superar 24 h/día."
                 );
 
                 valid = false;
             }
 
 
+            valid = validateNumericalLimits(2) && valid;
+
             if (!valid) {
 
                 alert(
-                    "Complete correctamente los campos obligatorios."
+                    "Complete correctamente los campos obligatorios y respete los límites indicados."
                 );
             }
         }
@@ -2107,7 +2132,7 @@
                 if (
                     field.value !== "" &&
                     (
-                        Number(field.value) < 0 ||
+                        Number(field.value) < (id === "p030" ? 0.01 : 0) ||
                         Number(field.value) > 100
                     )
                 ) {
@@ -2125,6 +2150,8 @@
                     valid = false;
                 }
             });
+
+            valid = validateNumericalLimits(3) && valid;
 
             if (!valid) {
 
@@ -2167,7 +2194,7 @@
         let complete = true;
 
         monthlyInputs.forEach(function(input) {
-            if (input.value === "" || Number(input.value) < 0) {
+            if (input.value === "" || Number(input.value) <= 0) {
                 complete = false;
             } else {
                 total += Number(input.value);
@@ -2189,7 +2216,7 @@
 
         monthlyInputs.forEach(function(input) {
             input.classList.remove("invalid");
-            if (input.value === "" || Number(input.value) < 0) {
+            if (input.value === "" || Number(input.value) <= 0) {
                 input.classList.add("invalid");
                 complete = false;
             }
@@ -2290,9 +2317,9 @@
 
 
         if (
-            !document.getElementById("p027a").value ||
+            document.getElementById("p027a").value === "" ||
             !Number.isFinite(valor) ||
-            valor <= 0
+            valor < 0
         ) {
 
             return null;
@@ -2755,7 +2782,9 @@
 
             saveMessage.innerHTML =
                 "<strong>No fue posible guardar el registro.</strong><br>" +
-                "Verifique su conexión a Internet e intente nuevamente.";
+                (error && error.code === "23514"
+                    ? "Uno de los valores fue rechazado por una restricción de la base de datos. Comuníquese con el administrador para revisar ese campo."
+                    : "Revise los valores capturados y su conexión a Internet e intente nuevamente.");
 
 
             saveButton.textContent =
@@ -3069,7 +3098,7 @@
         if (
             aireInput.value === "" ||
             !Number.isFinite(valor) ||
-            valor <= 0
+            valor < 0
         ) {
 
             aireEquivalente.textContent =
