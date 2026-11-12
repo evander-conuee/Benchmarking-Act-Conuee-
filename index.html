@@ -1974,8 +1974,8 @@
 
     /* =========================================================
        CONTRASEÑA / IDENTIFICADOR APF
-       La contraseña no se almacena: se usa solo su huella SHA-256
-       para detectar códigos repetidos sin exponer el texto original.
+       El código APF se guarda en mayúsculas tal como se captura,
+       para cotejarlo con los registros de la entidad e impedir duplicados.
     ========================================================= */
 
     const apfCodeInput = document.getElementById("p000_apf");
@@ -1999,17 +1999,12 @@
     apfCodeInput.addEventListener("input", validateApfCode);
     apfCodeInput.addEventListener("blur", validateApfCode);
 
-    async function getApfCodeHash() {
+    function getApfCodeValue() {
         const code = normalizeApfCode(apfCodeInput.value);
         if (!APF_CODE_PATTERN.test(code)) {
             throw new Error("La contraseña APF no tiene el formato requerido.");
         }
-        if (!window.crypto || !window.crypto.subtle) {
-            throw new Error("Se requiere una conexión segura (HTTPS) para validar la contraseña APF.");
-        }
-        const bytes = new TextEncoder().encode(code);
-        const digest = await window.crypto.subtle.digest("SHA-256", bytes);
-        return Array.from(new Uint8Array(digest), b => b.toString(16).padStart(2, "0")).join("");
+        return code;
     }
 
     /* =========================================================
@@ -2676,11 +2671,11 @@
                P023 continúa calculándose en la base de datos a partir de los 12 meses.
             ------------------------------------------------- */
 
-            const apfCodeHash = await getApfCodeHash();
+            const apfCodeValue = getApfCodeValue();
 
             const record = {
 
-                p000_identificador_apf_hash: apfCodeHash,
+                p000_contrasena_apf: apfCodeValue,
 
                 id_registro:
                     crypto.randomUUID(),
@@ -2888,11 +2883,11 @@
 
             saveMessage.innerHTML =
                 "<strong>No fue posible guardar el registro.</strong><br>" +
-                (error && error.code === "23505"
+                (error && error.code === "23505" && /p000_contrasena_apf/i.test(String(error.message || "") + " " + String(error.details || "") + " " + String(error.constraint || ""))
                     ? "Este inmueble ya cuenta con un registro asociado a su contraseña APF. No es necesario enviarlo nuevamente. Si necesita corregir datos, contacte al administrador."
                     : error && error.code === "23514"
                         ? "Uno de los valores fue rechazado por una restricción de la base de datos. Revise los campos capturados."
-                        : error && error.code === "23502" && String(error.message || "").includes("p000_identificador_apf_hash")
+                        : error && error.code === "23502" && String(error.message || "").includes("p000_contrasena_apf")
                             ? "Falta una contraseña APF válida. Actualice esta página y vuelva a intentarlo."
                             : "Revise los valores capturados y su conexión a Internet e intente nuevamente.");
 
