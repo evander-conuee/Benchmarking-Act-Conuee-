@@ -283,6 +283,26 @@
             grid-column: 1 / -1;
         }
 
+        /* Identificador APF: bloque compacto separado, sin modificar la cuadrícula. */
+        .apf-code-block {
+            max-width: 420px;
+            margin-bottom: 16px;
+        }
+
+        .apf-code-block input {
+            width: 100%;
+            max-width: 220px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+
+        .apf-code-hint {
+            color: #5d655f;
+            font-size: 12px;
+            line-height: 1.4;
+            margin: 6px 0 0;
+        }
+
         label {
             font-weight: bold;
             margin-bottom: 7px;
@@ -954,6 +974,31 @@
         </div>
 
         <div class="section-content">
+
+            <div class="form-group apf-code-block">
+                <label for="p000_apf">
+                    Contraseña del inmueble en el sistema APF
+                    <span class="required">*</span>
+                </label>
+                <input
+                    type="text"
+                    id="p000_apf"
+                    name="p000_apf"
+                    maxlength="11"
+                    minlength="9"
+                    pattern="[A-Z]{6}[0-9]{3,4}"
+                    inputmode="text"
+                    autocomplete="off"
+                    autocapitalize="characters"
+                    spellcheck="false"
+                    aria-describedby="apfCodeHint apfCodeError"
+                    required
+                >
+                <p class="apf-code-hint" id="apfCodeHint">6 letras + 3 o 4 números, sin espacios; mayúsculas automáticas.</p>
+                <div class="field-error" id="apfCodeError" role="status" aria-live="polite">
+                    Introduzca exactamente 6 letras seguidas de 3 o 4 números, sin espacios.
+                </div>
+            </div>
 
             <div class="form-grid">
 
@@ -1928,6 +1973,46 @@
 
 
     /* =========================================================
+       CONTRASEÑA / IDENTIFICADOR APF
+       La contraseña no se almacena: se usa solo su huella SHA-256
+       para detectar códigos repetidos sin exponer el texto original.
+    ========================================================= */
+
+    const apfCodeInput = document.getElementById("p000_apf");
+    const apfCodeError = document.getElementById("apfCodeError");
+    const APF_CODE_PATTERN = /^[A-Z]{6}[0-9]{3,4}$/;
+
+    function normalizeApfCode(value) {
+        return String(value || "").toUpperCase();
+    }
+
+    function validateApfCode() {
+        const normalized = normalizeApfCode(apfCodeInput.value);
+        apfCodeInput.value = normalized;
+        const isInvalid = normalized !== "" && !APF_CODE_PATTERN.test(normalized);
+        apfCodeInput.classList.toggle("invalid", isInvalid);
+        apfCodeError.classList.toggle("visible", isInvalid);
+        apfCodeInput.setAttribute("aria-invalid", isInvalid ? "true" : "false");
+        return normalized !== "" && !isInvalid;
+    }
+
+    apfCodeInput.addEventListener("input", validateApfCode);
+    apfCodeInput.addEventListener("blur", validateApfCode);
+
+    async function getApfCodeHash() {
+        const code = normalizeApfCode(apfCodeInput.value);
+        if (!APF_CODE_PATTERN.test(code)) {
+            throw new Error("La contraseña APF no tiene el formato requerido.");
+        }
+        if (!window.crypto || !window.crypto.subtle) {
+            throw new Error("Se requiere una conexión segura (HTTPS) para validar la contraseña APF.");
+        }
+        const bytes = new TextEncoder().encode(code);
+        const digest = await window.crypto.subtle.digest("SHA-256", bytes);
+        return Array.from(new Uint8Array(digest), b => b.toString(16).padStart(2, "0")).join("");
+    }
+
+    /* =========================================================
        VALIDACIÓN
     ========================================================= */
 
@@ -1990,6 +2075,7 @@
         if (currentSection === 2) {
 
             const requiredFields = [
+                "p000_apf",
                 "p001",
                 "p002",
                 "p003",
@@ -2018,6 +2104,12 @@
                 }
             });
 
+
+            // El nuevo campo aplica únicamente a los datos generales.
+            if (!validateApfCode()) {
+                apfCodeInput.classList.add("invalid");
+                valid = false;
+            }
 
             const tipo =
                 document.querySelector(
@@ -2584,7 +2676,11 @@
                P023 continúa calculándose en la base de datos a partir de los 12 meses.
             ------------------------------------------------- */
 
+            const apfCodeHash = await getApfCodeHash();
+
             const record = {
+
+                p000_identificador_apf_hash: apfCodeHash,
 
                 id_registro:
                     crypto.randomUUID(),
@@ -2792,9 +2888,13 @@
 
             saveMessage.innerHTML =
                 "<strong>No fue posible guardar el registro.</strong><br>" +
-                (error && error.code === "23514"
-                    ? "Uno de los valores fue rechazado por una restricción de la base de datos. Comuníquese con el administrador para revisar ese campo."
-                    : "Revise los valores capturados y su conexión a Internet e intente nuevamente.");
+                (error && error.code === "23505"
+                    ? "Este inmueble ya cuenta con un registro asociado a su contraseña APF. No es necesario enviarlo nuevamente. Si necesita corregir datos, contacte al administrador."
+                    : error && error.code === "23514"
+                        ? "Uno de los valores fue rechazado por una restricción de la base de datos. Revise los campos capturados."
+                        : error && error.code === "23502" && String(error.message || "").includes("p000_identificador_apf_hash")
+                            ? "Falta una contraseña APF válida. Actualice esta página y vuelva a intentarlo."
+                            : "Revise los valores capturados y su conexión a Internet e intente nuevamente.");
 
 
             saveButton.textContent =
