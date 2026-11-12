@@ -1171,7 +1171,7 @@
                 <div class="form-group">
 
                     <label for="p010">
-                        Horas de operación a la semana
+                        Horas de operación al día
                         <span class="required">*</span>
                     </label>
 
@@ -1181,12 +1181,12 @@
                             type="number"
                             id="p010"
                             min="0"
-                            max="168"
+                            max="24"
                             step="0.5"
                             required
                         >
 
-                        <span class="input-unit">h/semana</span>
+                        <span class="input-unit">h/día</span>
 
                     </div>
 
@@ -2036,7 +2036,7 @@
 
             if (
                 document.getElementById("p010").value !== "" &&
-                (horas < 0 || horas > 168)
+                (horas < 0 || horas > 24)
             ) {
 
                 document
@@ -2044,7 +2044,7 @@
                     .classList.add("invalid");
 
                 alert(
-                    "Las horas de operación deben estar entre 0 y 168 h/semana."
+                    "Las horas de operación deben estar entre 0 y 24 h/día."
                 );
 
                 valid = false;
@@ -2374,8 +2374,8 @@
             ["P009 — Días de operación",
              document.getElementById("p009").value + " días/semana"],
 
-            ["P010 — Horas de operación",
-             document.getElementById("p010").value + " h/semana"],
+            ["P010 — Horas de operación al día",
+             document.getElementById("p010").value + " h/día"],
 
             ["P011–P022 — Consumos mensuales 2025",
              "Enero a diciembre de 2025"],
@@ -2595,6 +2595,8 @@
                 p010_horas_operacion_semana:
                     Number(
                         document.getElementById("p010").value
+                    ) * Number(
+                        document.getElementById("p009").value
                     ),
 
                 p011_consumo_mensual_1:
@@ -2832,7 +2834,8 @@
                 document.getElementById("p009").value,
 
             P010_horas_operacion_semana:
-                document.getElementById("p010").value,
+                Number(document.getElementById("p010").value) *
+                Number(document.getElementById("p009").value),
 
             P011_consumo_mensual_1:
                 monthlyValues[0],
