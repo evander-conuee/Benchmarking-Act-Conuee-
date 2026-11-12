@@ -1102,7 +1102,7 @@
                         <input
                             type="number"
                             id="p006"
-                            min="0.01"
+                            min="1"
                             max="100"
                             step="0.01"
                             required
@@ -1110,6 +1110,10 @@
 
                         <span class="input-unit">%</span>
 
+                    </div>
+
+                    <div class="field-error" id="ocupacionError">
+                        El valor debe de ser mayor a 0 y estar en el rango de 1% a 100%.
                     </div>
 
                     <div class="info-box" id="infoOcupacion">
@@ -1162,7 +1166,7 @@
                     </div>
 
                     <div class="field-error" id="diasError">
-                        El número de días de operación debe estar entre 1 y 7 días por semana.
+                        El valor debe de ser mayor a 0.
                     </div>
 
                 </div>
@@ -1188,6 +1192,10 @@
 
                         <span class="input-unit">h/día</span>
 
+                    </div>
+
+                    <div class="field-error" id="horasError">
+                        El valor debe de ser mayor a 0.
                     </div>
 
                 </div>
@@ -1359,6 +1367,10 @@
                         step="1"
                         required
                     >
+
+                    <div class="field-error" id="empleadosError">
+                        El valor debe de ser mayor a 0.
+                    </div>
 
                 </div>
 
@@ -1927,6 +1939,33 @@
         return valid;
     }
 
+    // Muestra la advertencia bajo el campo utilizando los estilos existentes.
+    // El vacío permanece a cargo de la validación de campos obligatorios.
+    function validateInlineNumber(fieldId, errorId, isOutOfRange) {
+        const field = document.getElementById(fieldId);
+        const error = document.getElementById(errorId);
+        const invalid = field.value !== "" && isOutOfRange(Number(field.value));
+
+        error.classList.toggle("visible", invalid);
+        if (field.value !== "") {
+            field.classList.toggle("invalid", invalid);
+        }
+        return !invalid;
+    }
+
+    function validateDiasEnLinea() {
+        const field = document.getElementById("p009");
+        const error = document.getElementById("diasError");
+        const dias = Number(field.value);
+        error.textContent = dias < 1
+            ? "El valor debe de ser mayor a 0."
+            : "El número de días de operación debe estar entre 1 y 7 días por semana.";
+
+        return validateInlineNumber("p009", "diasError", function(value) {
+            return value < 1 || value > 7;
+        });
+    }
+
     function validateCurrentSection() {
 
         let valid = true;
@@ -2008,70 +2047,17 @@
             }
 
 
-            const ocupacion =
-                Number(
-                    document.getElementById("p006").value
-                );
+            valid = validateInlineNumber(
+                "p006", "ocupacionError",
+                function(value) { return value < 1 || value > 100; }
+            ) && valid;
 
-            if (
-                document.getElementById("p006").value !== "" &&
-                (ocupacion <= 0 || ocupacion > 100)
-            ) {
+            valid = validateDiasEnLinea() && valid;
 
-                document
-                    .getElementById("p006")
-                    .classList.add("invalid");
-
-                alert(
-                    "La ocupación debe ser mayor que 0 y no superar 100 %."
-                );
-
-                valid = false;
-            }
-
-
-            const dias =
-                Number(
-                    document.getElementById("p009").value
-                );
-
-            if (
-                document.getElementById("p009").value !== "" &&
-                (dias < 1 || dias > 7)
-            ) {
-
-                document
-                    .getElementById("p009")
-                    .classList.add("invalid");
-
-                document
-                    .getElementById("diasError")
-                    .classList.add("visible");
-
-                valid = false;
-            }
-
-
-            const horas =
-                Number(
-                    document.getElementById("p010").value
-                );
-
-            if (
-                document.getElementById("p010").value !== "" &&
-                (horas <= 0 || horas > 24)
-            ) {
-
-                document
-                    .getElementById("p010")
-                    .classList.add("invalid");
-
-                alert(
-                    "Las horas de operación deben ser mayores que 0 y no superar 24 h/día."
-                );
-
-                valid = false;
-            }
+            valid = validateInlineNumber(
+                "p010", "horasError",
+                function(value) { return value <= 0 || value > 24; }
+            ) && valid;
 
 
             valid = validateNumericalLimits(2) && valid;
@@ -2115,6 +2101,12 @@
                     valid = false;
                 }
             });
+
+
+            valid = validateInlineNumber(
+                "p024", "empleadosError",
+                function(value) { return value < 1; }
+            ) && valid;
 
 
             const percentageFields = [
@@ -2979,39 +2971,34 @@
 
 
     /* =========================================================
-       VALIDACIÓN INMEDIATA DE DÍAS
+       VALIDACIÓN VISUAL INMEDIATA DE VALORES NUMÉRICOS
     ========================================================== */
 
-    const diasInput =
-        document.getElementById("p009");
+    document.getElementById("p006").addEventListener("input", function() {
+        if (this.value === "") this.classList.remove("invalid");
+        validateInlineNumber("p006", "ocupacionError", function(value) {
+            return value < 1 || value > 100;
+        });
+    });
 
-    const diasError =
-        document.getElementById("diasError");
+    document.getElementById("p009").addEventListener("input", function() {
+        if (this.value === "") this.classList.remove("invalid");
+        validateDiasEnLinea();
+    });
 
+    document.getElementById("p010").addEventListener("input", function() {
+        if (this.value === "") this.classList.remove("invalid");
+        validateInlineNumber("p010", "horasError", function(value) {
+            return value <= 0 || value > 24;
+        });
+    });
 
-    diasInput.addEventListener(
-        "input",
-        function() {
-
-            const valor =
-                Number(this.value);
-
-            this.classList.remove("invalid");
-
-            diasError.classList.remove("visible");
-
-
-            if (
-                this.value !== "" &&
-                (valor < 1 || valor > 7)
-            ) {
-
-                this.classList.add("invalid");
-
-                diasError.classList.add("visible");
-            }
-        }
-    );
+    document.getElementById("p024").addEventListener("input", function() {
+        if (this.value === "") this.classList.remove("invalid");
+        validateInlineNumber("p024", "empleadosError", function(value) {
+            return value < 1;
+        });
+    });
 
 
     /* =========================================================
