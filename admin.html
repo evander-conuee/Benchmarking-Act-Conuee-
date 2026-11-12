@@ -31,7 +31,7 @@
 <div><label for="building">Tipo de edificio</label><select id="building"><option value="">Todos</option></select></div>
 <button id="filterBtn" class="btn btn-primary">Buscar</button><button id="clearBtn" class="btn btn-secondary">Limpiar</button>
 </div></div>
-<div class="card export-card"><div><h2 style="margin:0;color:#3f5d2a;font-size:20px">Exportación administrativa</h2><p>Genera un archivo Excel con 3 hojas: Índice, Descriptor de archivo y Registros.</p><p>Se exportan todos los registros que coincidan con los filtros actuales; sin filtros, se exportan todos.</p></div><div style="text-align:right"><button id="exportBtn" class="btn btn-excel">⬇ Exportar Excel administrativo</button><div id="exportStatus" class="export-status" style="margin-top:8px"></div></div></div><div class="card"><div id="tableStatus" class="loading">Cargando registros...</div><div id="tableWrap" class="table-wrap hidden"><table><thead><tr><th>Fecha</th><th>ID inmueble</th><th>Entidad</th><th>Municipio / Alcaldía</th><th>Tipo</th><th>Consumo 2025</th><th>AA reportado</th><th>Unidad</th><th>AA en TR</th><th>Acción</th></tr></thead><tbody id="tbody"></tbody></table></div><div class="actions"><span id="rangeLabel" class="muted"></span><div><button id="prevBtn" class="btn btn-secondary">Anterior</button> <button id="nextBtn" class="btn btn-secondary">Siguiente</button></div></div></div>
+<div class="card export-card"><div><h2 style="margin:0;color:#3f5d2a;font-size:20px">Exportación administrativa</h2><p>Genera un archivo Excel con 3 hojas: Índice, Descriptor de archivo y Registros.</p><p>Se exportan todos los registros que coincidan con los filtros actuales; sin filtros, se exportan todos.</p></div><div style="text-align:right"><button id="exportBtn" class="btn btn-excel">⬇ Exportar Excel administrativo</button><div id="exportStatus" class="export-status" style="margin-top:8px"></div></div></div><div class="card"><div id="tableStatus" class="loading">Cargando registros...</div><div id="tableWrap" class="table-wrap hidden"><table><thead><tr><th>Fecha</th><th>Referencia APF</th><th>ID inmueble</th><th>Entidad</th><th>Municipio / Alcaldía</th><th>Tipo</th><th>Consumo 2025</th><th>AA reportado</th><th>Unidad</th><th>AA en TR</th><th>Acción</th></tr></thead><tbody id="tbody"></tbody></table></div><div class="actions"><span id="rangeLabel" class="muted"></span><div><button id="prevBtn" class="btn btn-secondary">Anterior</button> <button id="nextBtn" class="btn btn-secondary">Siguiente</button></div></div></div>
 </section>
 </main>
 <div id="modal" class="modal hidden">
@@ -138,6 +138,7 @@ function renderRows(){
    const tr=document.createElement('tr');
    const vals=[
      fmtDate(r.fecha_registro),
+     r.p000_identificador_apf_hash ? r.p000_identificador_apf_hash.slice(0,12)+'…' : '—',
      r.p001_id_inmueble||'',
      r.p002_entidad_federativa||'',
      r.p003_municipio_alcaldia||'',
@@ -168,6 +169,7 @@ function renderRows(){
 function num(v){return v==null?'':Number(v).toLocaleString('es-MX',{maximumFractionDigits:4})}function fmtDate(v){return v?new Date(v).toLocaleString('es-MX'):''}
 const DETAIL_GROUPS=[
   {title:'Ubicación y clasificación',fields:[
+    ['p000_identificador_apf_hash','Referencia técnica APF',v=>v?v.slice(0,12)+'…':'—'],
     ['p004_tipo_edificio','Tipo de edificio',v=>v||'—'],
     ['p002_entidad_federativa','Entidad federativa',v=>v||'—'],
     ['p003_municipio_alcaldia','Municipio o alcaldía',v=>v||'—']
@@ -349,6 +351,7 @@ document.getElementById('filterBtn').onclick=()=>{page=0;loadRows()};document.ge
    ============================================================ */
 
 const EXCEL_DESCRIPTOR=[
+["p000_identificador_apf_hash","APF","Referencia técnica del inmueble APF","Huella SHA-256 de la contraseña APF en mayúsculas. Se utiliza para impedir registros duplicados; el texto original no se guarda ni se exporta.","-","TEXTO","64 caracteres hexadecimales; único; no es la contraseña original"],
 ["p001_id_inmueble","P001","ID del inmueble","Identificador del inmueble proporcionado por el usuario.","-","TEXTO","Obligatorio; máximo 50 caracteres"],
 ["p002_entidad_federativa","P002","Entidad Federativa","Valor seleccionado del catálogo de entidades federativas.","-","CATÁLOGO","Una opción"],
 ["p003_municipio_alcaldia","P003","Municipio o alcaldía","Municipio o alcaldía correspondiente al inmueble.","-","TEXTO","Obligatorio"],
@@ -498,6 +501,7 @@ function makeRecordsSheet(records){
   ws["!cols"]=EXCEL_HEADERS.map(key=>{
     if(key==="id_registro") return {wch:38};
     if(key==="fecha_registro") return {wch:21};
+    if(key==="p000_identificador_apf_hash") return {wch:68};
     if(key==="p001_id_inmueble") return {wch:22};
     if(key.includes("municipio")) return {wch:28};
     if(key.includes("entidad")) return {wch:22};
