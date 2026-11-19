@@ -162,7 +162,11 @@ function renderRows(){
    receiptButton.textContent='Acuse PDF';
    receiptButton.style.marginLeft='6px';
    receiptButton.onclick=async()=>{
-     try { await AcusesCONUEE.descargar(r); }
+     try {
+       await AcusesCONUEE.prepararLogo();
+       const pdf = AcusesCONUEE.crearPDF(r);
+       pdf.save(nombreAcuseAdministrativo(r));
+     }
      catch(error){ alert('No fue posible generar el acuse: '+error.message); }
    };
    td.appendChild(receiptButton);
@@ -643,6 +647,16 @@ async function downloadWorkbookWithoutGridlines(wb,filename){
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
 
+// Solo el administrador: el nombre de cada PDF incluye la contraseña APF
+// para facilitar su identificación y cruce. El contenido del acuse no cambia.
+function nombreAcuseAdministrativo(registro){
+  const codigo=String(registro.p000_contrasena_apf||'').trim().toUpperCase();
+  // Mantener el nombre anterior para registros sin código APF válido.
+  if(!/^[A-Z]{6}[0-9]{3,4}$/.test(codigo)) return AcusesCONUEE.nombreArchivo(registro);
+  const folio=String(registro.id_registro||'').replace(/[^a-zA-Z0-9-]/g,'').slice(0,8);
+  return 'Acuse_APF_'+codigo+'_'+folio+'.pdf';
+}
+
 async function exportAcusesZip(){
   const btn=document.getElementById('acusesZipBtn');
   const status=document.getElementById('acusesZipEstado');
@@ -662,7 +676,7 @@ async function exportAcusesZip(){
     for(const row of records){
       if(!row.id_registro || !row.fecha_registro) throw new Error('Hay un registro sin folio o fecha. No se generó un archivo parcial.');
       const pdf=AcusesCONUEE.crearPDF(row);
-      folder.file(AcusesCONUEE.nombreArchivo(row),pdf.output('arraybuffer'));
+      folder.file(nombreAcuseAdministrativo(row),pdf.output('arraybuffer'));
       generated++;
       status.textContent='Preparando '+generated+' de '+records.length+' acuses...';
       if(generated%15===0) await new Promise(resolve=>setTimeout(resolve,0));
