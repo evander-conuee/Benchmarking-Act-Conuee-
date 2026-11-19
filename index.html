@@ -1750,6 +1750,16 @@
                     class="save-message"
                 ></div>
 
+                <!-- Acuse disponible únicamente después de guardarse el registro -->
+                <div id="acusePublicoArea" style="display:none;margin-top:18px;text-align:center">
+                    <button type="button" id="descargarAcusePublico"
+                        class="download-button"
+                        style="display:inline-block;max-width:300px;cursor:pointer">
+                        Descargar acuse de recepción (PDF)
+                    </button>
+                    <p id="acusePublicoEstado" style="font-size:12px;color:#45525c;margin-top:7px"></p>
+                </div>
+
                 <!-- =================================================
                      DESCARGA INDIVIDUAL — DESACTIVADA EN LA PANTALLA FINAL
                      Se conserva la función downloadData() en JavaScript.
@@ -1812,6 +1822,8 @@
 ============================================================= -->
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+<script src="acuse.js"></script>
 
 
 <script>
@@ -2588,6 +2600,21 @@
        GUARDAR REGISTRO EN SUPABASE
     ========================================================= */
 
+    let ultimoAcuseConfirmado = null;
+
+    document.getElementById('descargarAcusePublico').addEventListener('click', async function () {
+        const status = document.getElementById('acusePublicoEstado');
+        try {
+            if (!ultimoAcuseConfirmado) throw new Error('Aún no existe un registro guardado para descargar.');
+            status.textContent = 'Preparando acuse con logotipo oficial...';
+            await AcusesCONUEE.descargar(ultimoAcuseConfirmado);
+            status.textContent = 'Acuse generado. Guarde una copia del archivo.';
+        } catch (error) {
+            console.error('Error generando acuse:', error);
+            status.textContent = error.message || 'No fue posible generar el PDF. Contacte al administrador indicando el nombre del inmueble.';
+        }
+    });
+
     async function saveRecordToSupabase() {
 
         if (isSaving) {
@@ -2829,6 +2856,17 @@
                 throw error;
             }
 
+
+            /* La descarga se habilita solo tras confirmación de Supabase. */
+            ultimoAcuseConfirmado = {
+                id_registro: record.id_registro,
+                fecha_registro: record.fecha_registro,
+                p001_id_inmueble: record.p001_id_inmueble,
+                p002_entidad_federativa: record.p002_entidad_federativa,
+                p003_municipio_alcaldia: record.p003_municipio_alcaldia,
+                p004_tipo_edificio: record.p004_tipo_edificio
+            };
+            document.getElementById('acusePublicoArea').style.display = 'block';
 
             /* -------------------------------------------------
                ÉXITO
