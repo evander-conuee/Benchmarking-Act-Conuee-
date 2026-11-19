@@ -7,6 +7,8 @@
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.112.3"></script>
 <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
+<script src="acuse.js"></script>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background-color:#f3f5f7;background-image:url('TexturaVerde.jpg');background-repeat:no-repeat;background-position:center center;background-size:cover;background-attachment:fixed;color:#263238}header{background:#002f2a;border-bottom:3px solid #1e5b4f;padding:8px 30px;position:sticky;top:0;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,.08)}.header{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}.title{display:flex;align-items:center;gap:20px;flex:1}.conuee-logo{width:145px;height:78px;flex:0 0 145px;object-fit:contain;object-position:left center;display:block}.title h1{margin:0;color:#fff;font-size:23px}.title p{margin:5px 0 0;color:#fff;font-size:14px;opacity:.92}.btn{border:0;border-radius:5px;padding:9px 15px;font-size:13px;font-weight:bold;cursor:pointer}.btn-primary{background:#5b7f3a;color:#fff}.btn-secondary{background:#d8dde0;color:#263238}.btn-danger{background:#8e0000;color:#fff}.btn-excel{background:#5b7f3a;color:#fff}.btn:disabled{opacity:.55;cursor:not-allowed}.export-card{display:flex;align-items:center;justify-content:space-between;gap:18px}.export-card p{margin:5px 0 0;color:#666;font-size:12px}.export-status{color:#666;font-size:12px}.hidden{display:none!important}main{max-width:1200px;margin:24px auto;padding:0 20px;font-size:14px}.card{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:20px;margin-bottom:18px}.login{max-width:430px;margin:60px auto}.login h2{margin-top:0;color:#3f5d2a;font-size:20px}label{display:block;font-weight:bold;font-size:13px;margin:13px 0 6px}input,select{width:100%;padding:9px 11px;border:1px solid #b8bec3;border-radius:5px;font-size:14px;background:#fff}input:focus,select:focus{outline:none;border-color:#5b7f3a;box-shadow:0 0 0 2px rgba(91,127,58,.15)}.message{padding:12px;border-radius:5px;margin-top:14px;display:none}.message.error{display:block;background:#ffebee;color:#8e0000;border-left:4px solid #c62828}.message.success{display:block;background:#eef7e8;color:#5b7f3a;border-left:4px solid #5b7f3a}.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr auto auto;gap:10px;align-items:end}.stats{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:18px}.stat{background:#eef4e9;border-left:4px solid #5b7f3a;padding:12px 18px;border-radius:5px}.stat strong{display:block;font-size:22px;color:#3f5d2a}.table-wrap{overflow:auto;border:1px solid #d2d7da;border-radius:6px}table{width:100%;border-collapse:collapse;min-width:1000px}th,td{padding:10px;border-bottom:1px solid #e1e5e8;text-align:left;white-space:nowrap;font-size:13px}th{background:#eef1ed;color:#263238;position:sticky;top:0}tr:hover td{background:#f7f9f6}.actions{display:flex;justify-content:space-between;align-items:center;margin-top:15px;gap:10px}.muted{color:#666;font-size:13px}.loading{text-align:center;padding:30px;color:#666}.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:1200}.modal-card{background:#f7f9f8;width:min(1040px,100%);max-height:92vh;overflow:auto;border-radius:12px;padding:0;box-shadow:0 18px 50px rgba(0,0,0,.28)}.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:22px 24px 18px;background:#002f2a;color:#fff;border-radius:12px 12px 0 0}.modal-head h2{margin:2px 0 4px;font-size:22px}.modal-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.76}.modal-subtitle{margin:0;font-size:13px;opacity:.9}.modal-head .btn-secondary{background:#fff}.modal-body{padding:22px 24px 26px}.benchmark-panel{background:#fff;border:1px solid #dbe3df;border-radius:10px;padding:18px 20px;margin-bottom:18px;box-shadow:0 2px 7px rgba(0,0,0,.05)}.benchmark-top{display:flex;justify-content:space-between;gap:20px;align-items:center}.benchmark-copy h3{margin:0 0 5px;color:#244817;font-size:18px}.benchmark-copy p{margin:0;color:#66706b;font-size:13px;line-height:1.45}.benchmark-score{min-width:118px;text-align:center;padding:10px 14px;border-left:1px solid #e2e8e5}.benchmark-score strong{display:block;font-size:34px;line-height:1;color:#5b7f3a}.benchmark-score span{display:block;margin-top:4px;font-size:11px;color:#6d7772}.efficiency-meter{position:relative;margin-top:18px;padding-top:20px}.meter-track{height:14px;border-radius:999px;background:linear-gradient(90deg,#b85b55 0%,#d8a54b 35%,#d8d56a 52%,#87a95c 72%,#5b7f3a 100%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}.meter-marker{position:absolute;top:10px;width:18px;height:25px;border-radius:5px;background:#002f2a;border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.3);transform:translateX(-50%)}.meter-marker::before{content:"Usted está aquí";position:absolute;left:50%;bottom:27px;transform:translateX(-50%);white-space:nowrap;background:#002f2a;color:#fff;font-size:10px;font-weight:bold;padding:4px 7px;border-radius:4px}.meter-labels{display:flex;justify-content:space-between;margin-top:7px;font-size:11px;color:#6d7772}.benchmark-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.benchmark-metric{background:#f4f7f5;border-radius:7px;padding:10px 12px}.benchmark-metric small{display:block;color:#6c756f;font-size:11px;margin-bottom:4px}.benchmark-metric strong{font-size:14px;color:#263238}.benchmark-pending{border-left:5px solid #b7c2bd}.benchmark-pending .meter-track{background:#e2e7e4}.benchmark-pending .benchmark-score strong{font-size:17px;color:#66706b}.detail-section{background:#fff;border:1px solid #dbe3df;border-radius:10px;margin-bottom:14px;overflow:hidden}.detail-section-title{margin:0;padding:11px 16px;background:#eef3f0;color:#31501f;font-size:14px;font-weight:bold}.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}.detail{padding:13px 16px;border-bottom:1px solid #edf0ee}.detail:nth-child(odd){border-right:1px solid #edf0ee}.detail small{display:block;color:#707a75;margin-bottom:4px;font-size:11px}.detail strong{display:block;color:#263238;font-size:14px;word-break:break-word}.detail-empty{color:#98a09c!important;font-weight:normal}.detail-note{margin-top:6px;color:#7b8580;font-size:11px;line-height:1.35}@media(max-width:800px){.toolbar{grid-template-columns:1fr}.header{align-items:flex-start;flex-direction:column}.modal{padding:8px}.modal-body{padding:16px}.benchmark-top{align-items:flex-start;flex-direction:column}.benchmark-score{border-left:0;border-top:1px solid #e2e8e5;width:100%;padding-top:12px}.benchmark-metrics{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.detail:nth-child(odd){border-right:0}}
 </style>
@@ -31,7 +33,7 @@
 <div><label for="building">Tipo de edificio</label><select id="building"><option value="">Todos</option></select></div>
 <button id="filterBtn" class="btn btn-primary">Buscar</button><button id="clearBtn" class="btn btn-secondary">Limpiar</button>
 </div></div>
-<div class="card export-card"><div><h2 style="margin:0;color:#3f5d2a;font-size:20px">Exportación administrativa</h2><p>Genera un archivo Excel con 3 hojas: Índice, Descriptor de archivo y Registros.</p><p>Se exportan todos los registros que coincidan con los filtros actuales; sin filtros, se exportan todos.</p></div><div style="text-align:right"><button id="exportBtn" class="btn btn-excel">⬇ Exportar Excel administrativo</button><div id="exportStatus" class="export-status" style="margin-top:8px"></div></div></div><div class="card"><div id="tableStatus" class="loading">Cargando registros...</div><div id="tableWrap" class="table-wrap hidden"><table><thead><tr><th>Fecha</th><th>Contraseña APF</th><th>ID inmueble</th><th>Entidad</th><th>Municipio / Alcaldía</th><th>Tipo</th><th>Consumo 2025</th><th>AA reportado</th><th>Unidad</th><th>AA en TR</th><th>Acción</th></tr></thead><tbody id="tbody"></tbody></table></div><div class="actions"><span id="rangeLabel" class="muted"></span><div><button id="prevBtn" class="btn btn-secondary">Anterior</button> <button id="nextBtn" class="btn btn-secondary">Siguiente</button></div></div></div>
+<div class="card export-card"><div><h2 style="margin:0;color:#3f5d2a;font-size:20px">Exportación administrativa</h2><p>Genera un archivo Excel con 3 hojas: Índice, Descriptor de archivo y Registros.</p><p>Se exportan todos los registros que coincidan con los filtros actuales; sin filtros, se exportan todos.</p></div><div style="text-align:right"><button id="exportBtn" class="btn btn-excel">⬇ Exportar Excel administrativo</button><button id="acusesZipBtn" class="btn btn-secondary" style="margin:8px 0 0 8px" type="button">Descargar acuses (ZIP)</button><div id="acusesZipEstado" class="export-status" aria-live="polite" style="margin-top:7px"></div><div id="exportStatus" class="export-status" style="margin-top:8px"></div></div></div><div class="card"><div id="tableStatus" class="loading">Cargando registros...</div><div id="tableWrap" class="table-wrap hidden"><table><thead><tr><th>Fecha</th><th>Contraseña APF</th><th>ID inmueble</th><th>Entidad</th><th>Municipio / Alcaldía</th><th>Tipo</th><th>Consumo 2025</th><th>AA reportado</th><th>Unidad</th><th>AA en TR</th><th>Acción</th></tr></thead><tbody id="tbody"></tbody></table></div><div class="actions"><span id="rangeLabel" class="muted"></span><div><button id="prevBtn" class="btn btn-secondary">Anterior</button> <button id="nextBtn" class="btn btn-secondary">Siguiente</button></div></div></div>
 </section>
 </main>
 <div id="modal" class="modal hidden">
@@ -155,6 +157,15 @@ function renderRows(){
    b.textContent='Ver detalle';
    b.onclick=()=>showDetail(r);
    td.appendChild(b);
+   const receiptButton = document.createElement('button');
+   receiptButton.className='btn btn-secondary';
+   receiptButton.textContent='Acuse PDF';
+   receiptButton.style.marginLeft='6px';
+   receiptButton.onclick=async()=>{
+     try { await AcusesCONUEE.descargar(r); }
+     catch(error){ alert('No fue posible generar el acuse: '+error.message); }
+   };
+   td.appendChild(receiptButton);
    tr.appendChild(td);
    tbody.appendChild(tr);
  });
@@ -631,6 +642,49 @@ async function downloadWorkbookWithoutGridlines(wb,filename){
   link.remove();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
 }
+
+async function exportAcusesZip(){
+  const btn=document.getElementById('acusesZipBtn');
+  const status=document.getElementById('acusesZipEstado');
+  btn.disabled=true;
+  btn.textContent='Generando acuses...';
+  try{
+    if(typeof JSZip==='undefined') throw new Error('No se cargó JSZip.');
+    if(!window.jspdf || !window.jspdf.jsPDF) throw new Error('No se cargó el generador de PDF.');
+    status.textContent='Preparando logotipo oficial de CONUEE...';
+    await AcusesCONUEE.prepararLogo();
+    status.textContent='Consultando todos los registros según los filtros actuales...';
+    const records=await getAllRecordsForExport();
+    if(records.length===0){status.textContent='No existen registros para generar acuses.';return;}
+    const zip=new JSZip();
+    const folder=zip.folder('Acuses_Benchmarking_APF');
+    let generated=0;
+    for(const row of records){
+      if(!row.id_registro || !row.fecha_registro) throw new Error('Hay un registro sin folio o fecha. No se generó un archivo parcial.');
+      const pdf=AcusesCONUEE.crearPDF(row);
+      folder.file(AcusesCONUEE.nombreArchivo(row),pdf.output('arraybuffer'));
+      generated++;
+      status.textContent='Preparando '+generated+' de '+records.length+' acuses...';
+      if(generated%15===0) await new Promise(resolve=>setTimeout(resolve,0));
+    }
+    const blob=await zip.generateAsync({type:'blob',compression:'DEFLATE'});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download='Acuses_Benchmarking_APF_'+new Date().toISOString().slice(0,10)+'.zip';
+    document.body.appendChild(a);a.click();a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url),20000);
+    status.textContent='ZIP generado correctamente: '+generated+' acuses. Verifique el contenido antes de distribuirlo.';
+  }catch(error){
+    console.error('Error generando acuses:',error);
+    status.textContent='Error al generar acuses: '+(error.message||String(error));
+  }finally{
+    btn.disabled=false;
+    btn.textContent='Descargar acuses (ZIP)';
+  }
+}
+
+document.getElementById('acusesZipBtn').addEventListener('click',exportAcusesZip);
 
 async function exportExcelAdministrative(){
   const btn=document.getElementById("exportBtn");
