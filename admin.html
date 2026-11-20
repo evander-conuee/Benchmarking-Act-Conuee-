@@ -33,7 +33,7 @@
 <div><label for="building">Tipo de edificio</label><select id="building"><option value="">Todos</option></select></div>
 <button id="filterBtn" class="btn btn-primary">Buscar</button><button id="clearBtn" class="btn btn-secondary">Limpiar</button>
 </div></div>
-<div class="card export-card"><div><h2 style="margin:0;color:#3f5d2a;font-size:20px">Exportación administrativa</h2><p>Genera un archivo Excel con 3 hojas: Índice, Descriptor de archivo y Registros.</p><p>Se exportan todos los registros que coincidan con los filtros actuales; sin filtros, se exportan todos.</p></div><div style="text-align:right"><button id="exportBtn" class="btn btn-excel">⬇ Exportar Excel administrativo</button><button id="acusesZipBtn" class="btn btn-secondary" style="margin:8px 0 0 8px" type="button">Descargar acuses (ZIP)</button><div id="acusesZipEstado" class="export-status" aria-live="polite" style="margin-top:7px"></div><div id="exportStatus" class="export-status" style="margin-top:8px"></div></div></div><div class="card"><div id="tableStatus" class="loading">Cargando registros...</div><div id="tableWrap" class="table-wrap hidden"><table><thead><tr><th>Fecha</th><th>Contraseña APF</th><th>ID inmueble</th><th>Entidad</th><th>Municipio / Alcaldía</th><th>Tipo</th><th>Consumo 2025</th><th>AA reportado</th><th>Unidad</th><th>AA en TR</th><th>Acción</th></tr></thead><tbody id="tbody"></tbody></table></div><div class="actions"><span id="rangeLabel" class="muted"></span><div><button id="prevBtn" class="btn btn-secondary">Anterior</button> <button id="nextBtn" class="btn btn-secondary">Siguiente</button></div></div></div>
+<div class="card export-card"><div><h2 style="margin:0;color:#3f5d2a;font-size:20px">Exportación administrativa</h2><p>Genera un Excel con 5 hojas: Índice, Descriptor de archivo, Registros, Filtro estadístico y Base Depurada.</p><p>Se exportan todos los registros que coincidan con los filtros actuales; sin filtros, se exportan todos.</p></div><div style="text-align:right"><button id="exportBtn" class="btn btn-excel">⬇ Exportar Excel administrativo</button><button id="acusesZipBtn" class="btn btn-secondary" style="margin:8px 0 0 8px" type="button">Descargar acuses (ZIP)</button><div id="acusesZipEstado" class="export-status" aria-live="polite" style="margin-top:7px"></div><div id="exportStatus" class="export-status" style="margin-top:8px"></div></div></div><div class="card"><div id="tableStatus" class="loading">Cargando registros...</div><div id="tableWrap" class="table-wrap hidden"><table><thead><tr><th>Fecha</th><th>Contraseña APF</th><th>ID inmueble</th><th>Entidad</th><th>Municipio / Alcaldía</th><th>Tipo</th><th>Consumo 2025</th><th>AA reportado</th><th>Unidad</th><th>AA en TR</th><th>Acción</th></tr></thead><tbody id="tbody"></tbody></table></div><div class="actions"><span id="rangeLabel" class="muted"></span><div><button id="prevBtn" class="btn btn-secondary">Anterior</button> <button id="nextBtn" class="btn btn-secondary">Siguiente</button></div></div></div>
 </section>
 </main>
 <div id="modal" class="modal hidden">
@@ -462,16 +462,22 @@ function makeIndexSheet(){
     ["BENCHMARKING APF — ARCHIVO ADMINISTRATIVO"],
     [""],
     ["1. Descriptor de archivo: Descripción de las variables, unidades, tipos de dato y reglas."],
-    ["2. Registros: Registros de la base de datos."]
+    ["2. Registros: Registros de la base de datos."],
+    ["3. Filtro estadístico: Diagnóstico, alertas y selección manual de registros."],
+    ["4. Base Depurada: Muestra seleccionada, regresión exploratoria y ranking."]
   ];
   const ws=XLSX.utils.aoa_to_sheet(rows);
   ws["!cols"]=[{wch:118}];
-  ws["!rows"]=[{hpt:24},{hpt:9},{hpt:22},{hpt:22}];
+  ws["!rows"]=[{hpt:24},{hpt:9},{hpt:22},{hpt:22},{hpt:22},{hpt:22}];
   ws["A1"].s={fill:{patternType:"solid",fgColor:{rgb:"002F2A"}},font:{bold:true,color:{rgb:"FFFFFF"},sz:16},alignment:{vertical:"center",horizontal:"left"}};
   ws["A3"].l={Target:"#'Descriptor de archivo'!A1",Tooltip:"Ir al Descriptor de archivo"};
   ws["A4"].l={Target:"#'Registros'!A1",Tooltip:"Ir a Registros"};
+  ws["A5"].l={Target:"#'Filtro estadístico'!A1",Tooltip:"Ir al filtro estadístico"};
+  ws["A6"].l={Target:"#'Base Depurada'!A1",Tooltip:"Ir a la base depurada"};
   ws["A3"].s={...NAV_LINK_STYLE,font:{...NAV_LINK_STYLE.font,sz:12}};
   ws["A4"].s={...NAV_LINK_STYLE,font:{...NAV_LINK_STYLE.font,sz:12}};
+  ws["A5"].s={...NAV_LINK_STYLE,font:{...NAV_LINK_STYLE.font,sz:12}};
+  ws["A6"].s={...NAV_LINK_STYLE,font:{...NAV_LINK_STYLE.font,sz:12}};
   ws["!gridlines"]=false;
   ws["!showGridLines"]=false;
   ws["!sheetViews"]=[{showGridLines:false}];
@@ -574,6 +580,347 @@ function makeRecordsSheet(records){
   return ws;
 }
 
+
+/* ============================================================
+   DIAGNÓSTICO ESTADÍSTICO EXPLORATORIO — EXCEL
+   Ninguna decisión modifica Supabase ni la base Registros.
+   El usuario cambia Conservar / Excluir en Filtro estadístico.
+   El modelo es orientativo y NO representa calibración validada.
+   ============================================================ */
+
+const SCREEN_FIRST=18;
+const DEP_FIRST=18;
+const MODEL_MIN_N=20;
+
+function excelFormula(ws,address,formula,format){
+  const cell={t:'n',f:formula.replace(/^=/,'')};
+  if(format) cell.z=format;
+  ws[address]=cell;
+}
+function numericPositive(value){
+  const n=Number(value);
+  return value!==null && value!==undefined && value!=='' && Number.isFinite(n) && n>0;
+}
+function numberOrBlank(value){
+  if(value===null || value===undefined || value==='')return '';
+  const v=Number(value);
+  return Number.isFinite(v)?v:'';
+}
+function quantileSorted(a,q){
+  if(!a.length)return null;
+  const pos=(a.length-1)*q, low=Math.floor(pos),hi=Math.ceil(pos);
+  return a[low]+(a[hi]-a[low])*(pos-low);
+}
+function gaussJordanSystem(xtx,xty){
+  const p=xtx.length;
+  const a=xtx.map((row,i)=>[...row,...Array.from({length:p},(_,j)=>i===j?1:0),xty[i]]);
+  for(let col=0;col<p;col++){
+    let pivot=col;
+    for(let r=col+1;r<p;r++)if(Math.abs(a[r][col])>Math.abs(a[pivot][col]))pivot=r;
+    if(Math.abs(a[pivot][col])<1e-10)return null;
+    [a[col],a[pivot]]=[a[pivot],a[col]];
+    const divisor=a[col][col];
+    for(let j=0;j<2*p+1;j++)a[col][j]/=divisor;
+    for(let r=0;r<p;r++)if(r!==col){
+      const fac=a[r][col];
+      for(let j=0;j<2*p+1;j++)a[r][j]-=fac*a[col][j];
+    }
+  }
+  return {beta:a.map(r=>r[2*p]), inv:a.map(r=>r.slice(p,2*p))};
+}
+function modelVector(r){
+  return [1,Math.log(r.area),Math.log(r.employees),r.hours/168,r.occupation/100];
+}
+function exploratoryOLS(rows){
+  const p=5,n=rows.length;
+  if(n<MODEL_MIN_N)return null;
+  const x=rows.map(modelVector), y=rows.map(r=>Math.log(r.annual));
+  const xtx=Array.from({length:p},()=>Array(p).fill(0)),xty=Array(p).fill(0);
+  for(let k=0;k<n;k++){
+    for(let a=0;a<p;a++){
+      xty[a]+=x[k][a]*y[k];
+      for(let b=0;b<p;b++)xtx[a][b]+=x[k][a]*x[k][b];
+    }
+  }
+  const res=gaussJordanSystem(xtx,xty);
+  if(!res)return null;
+  const mean=y.reduce((a,b)=>a+b,0)/n;
+  let sse=0,sst=0;
+  const e=y.map((yk,k)=>{
+    const predicted=x[k].reduce((sum,v,j)=>sum+v*res.beta[j],0);
+    const diff=yk-predicted;sse+=diff*diff;sst+=(yk-mean)**2;
+    return diff;
+  });
+  if(sst<=1e-10)return null;
+  const mse=sse/(n-p);
+  if(!(mse>0))return {r2:1,rmse:0,cook:new Map(),n};
+  const cook=new Map();
+  for(let k=0;k<n;k++){
+    const v=x[k];
+    const leverage=Math.max(0,Math.min(.999999,v.reduce((sum,a,i)=>sum+a*v.reduce((ss,b,j)=>ss+b*res.inv[i][j],0),0)));
+    const denom=Math.max(1e-10,(1-leverage)**2);
+    cook.set(rows[k].key,(e[k]**2/(p*mse))*leverage/denom);
+  }
+  return {r2:1-sse/sst,rmse:Math.sqrt(mse),cook,n};
+}
+function prepareScreening(records){
+  const prepared=records.map((row,index)=>{
+    const months=Array.from({length:12},(_,j)=>row['p'+String(j+11).padStart(3,'0')+'_consumo_mensual_'+(j+1)]);
+    const complete=months.filter(numericPositive).length;
+    const annual=complete===12?months.reduce((s,v)=>s+Number(v),0):null;
+    const area=Number(row.p005_area_total_construida);
+    const employees=Number(row.p024_empleados_turno_principal);
+    const hours=Number(row.p010_horas_operacion_semana);
+    const occupation=Number(row.p006_ocupacion);
+    const eui=(annual!==null && area>0)?annual/area:null;
+    const fit=complete===12 && annual>0 && area>0 && employees>0 && hours>0 && occupation>0;
+    return {
+      key:String(row.id_registro||index),row,index,complete,annual,eui,
+      area,employees,hours,occupation,fit,
+      type:String(row.p004_tipo_edificio||'No informado'),
+      outlier:false,cook:null,influential:false,
+      reason:[]
+    };
+  });
+  const groups=new Map();
+  for(const r of prepared){
+    if(r.eui===null || r.eui<=0)continue;
+    if(!groups.has(r.type)) groups.set(r.type,[]);
+    groups.get(r.type).push(Math.log(r.eui));
+  }
+  for(const r of prepared){
+    if(r.eui===null || !(r.eui>0))continue;
+    const group=groups.get(r.type)||[];
+    // Sólo se señalan IQR por categoría con al menos 8 registros válidos.
+    if(group.length<8){r.reason.push('Grupo <8: sin juicio IQR');continue;}
+    const sorted=[...group].sort((a,b)=>a-b);
+    const q1=quantileSorted(sorted,.25),q3=quantileSorted(sorted,.75);
+    const iqr=q3-q1;
+    if(iqr>1e-8 && (Math.log(r.eui)<q1-1.5*iqr || Math.log(r.eui)>q3+1.5*iqr)){
+      r.outlier=true;r.reason.push('Fuera de 1.5 IQR de ln(kWh/m²) por tipo');
+    }
+  }
+  const valid=prepared.filter(r=>r.fit);
+  const baseline=exploratoryOLS(valid);
+  if(baseline){
+    const threshold=4/baseline.n;
+    for(const r of prepared){
+      if(!r.fit)continue;
+      r.cook=baseline.cook.get(r.key)??null;
+      if(r.cook!==null && r.cook>threshold){
+        r.influential=true;r.reason.push('Cook D > 4/n (influencia preliminar)');
+      }
+    }
+  }
+  for(const r of prepared){
+    if(r.complete<12)r.reason.unshift('Falta consumo mensual positivo: '+(12-r.complete)+' mes(es)');
+    else if(!r.fit)r.reason.unshift('Variables necesarias para modelo incompletas');
+  }
+  return {prepared,baseline};
+}
+
+const SCREEN_HEADERS=[
+  'Núm.','Folio registro','Contraseña APF','Inmueble','Tipo edificio','Consumo anual kWh',
+  'Área m²','kWh/m²','Meses válidos','Integridad 12 meses','Atípico IQR',
+  'Cook D','Influyente','Motivo revisión','Prioridad','Decisión manual',
+  'Incluido modelo','Datos modelo'
+];
+const DEP_HEADERS=[
+  'Ranking','Contraseña APF','Inmueble','Tipo edificio','Área m²','Ocupación %',
+  'Horas/semana','Empleados','Computadoras','Capacidad AA (TR)','Consumo kWh/año',
+  'kWh/m²','Consumo esperado kWh','Real / esperado','Calificación /100','Folio UUID'
+];
+const LIGHT_GREY={fill:{patternType:'solid',fgColor:{rgb:'F2F6F3'}}};
+const EDIT_STYLE={fill:{patternType:'solid',fgColor:{rgb:'FFF2C6'}},font:{bold:true,color:{rgb:'7A5100'}}};
+function makeScreeningSheet(records,screening){
+  const {prepared,baseline}=screening,n=records.length,end=SCREEN_FIRST+n-1;
+  const rows=Array.from({length:SCREEN_FIRST-1},()=>Array(SCREEN_HEADERS.length).fill(''));
+  rows[0][0]='← Volver al índice';
+  rows[2][0]='FILTRO ESTADÍSTICO — DIAGNÓSTICO Y DECISIONES MANUALES';
+  rows[4][0]='Registros exportados';rows[4][3]='Inválidos: 12 meses';rows[4][6]='Atípicos IQR';
+  rows[4][9]='Influyentes Cook';rows[4][12]='En revisión (únicos)';rows[4][15]='Excluidos (manual)';
+  rows[6][0]='N modelo original';rows[6][3]='R² original';rows[6][6]='R² depurado';
+  rows[6][9]='Cambio R²';rows[6][12]='RMSE depurado (ln)';
+  rows[7][0]='RMSE original (ln)';rows[7][3]='Cambio RMSE (dep - orig)';
+  rows[8][0]='Los valores atípicos son alertas, NO errores comprobados. Se evalúa ln(kWh/m²) por tipo (mínimo 8 inmuebles).';
+  rows[9][0]='La influencia usa D de Cook > 4/n en regresión exploratoria. El diagnóstico inicial se fija al exportar.';
+  rows[10][0]='Edite únicamente la columna P: Conservar / Excluir. La Base Depurada se actualiza al recalcular Excel.';
+  rows[11][0]='La regresión utiliza ln(kWh/año) con ln(área), ln(empleados), horas/168 y ocupación/100.';
+  rows[12][0]='Se requiere 12 consumos positivos y predictores válidos para modelar; la base Registros permanece intacta.';
+  rows[14][0]='IMPORTANTE: aumento de R² dentro de la muestra NO prueba mayor capacidad predictiva ni calidad de datos.';
+  rows[SCREEN_FIRST-2]=SCREEN_HEADERS;
+  for(const x of prepared){
+    const state=x.complete===12?'Válido':'Inválido';
+    const priority=state==='Inválido'?'INVÁLIDO':x.outlier||x.influential?'REVISAR':'Sin alerta';
+    const cells=[
+      x.index+1,x.row.id_registro||'',x.row.p000_contrasena_apf||'',x.row.p001_id_inmueble||'',
+      x.type,x.annual!==null?x.annual:'',numericPositive(x.area)?x.area:'',x.eui===null?'':x.eui,
+      x.complete,state,x.outlier?'Atípico':'No',x.cook===null?'':x.cook,
+      x.influential?'Influyente':'No',x.reason.join(' | '),priority,
+      state==='Inválido'?'Excluir':'Conservar','',x.fit?'Sí':'No'
+    ];
+    rows.push(cells);
+  }
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  addReturnToIndex(ws);
+  ws['!cols']=[{wch:9},{wch:36},{wch:20},{wch:43},{wch:23},{wch:21},{wch:15},{wch:16},
+    {wch:15},{wch:20},{wch:17},{wch:14},{wch:15},{wch:62},{wch:18},{wch:21},{wch:17},{wch:16}];
+  ws['!rows']=Array.from({length:rows.length},(_,i)=>({hpt:i===2?30:i===16?44:i>=17?22:21}));
+  styleRange(ws,'A3:R3',{
+    fill:{patternType:'solid',fgColor:{rgb:'002F2A'}},font:{bold:true,color:{rgb:'FFFFFF'},sz:15}
+  });
+  styleRange(ws,'A17:R17',HEADER_STYLE);
+  for(const p of ['A5','D5','G5','J5','M5','P5','A7','D7','G7','J7','M7','A8','D8']){
+    ws[p].s={font:{bold:true,color:{rgb:'33533E'}},fill:{patternType:'solid',fgColor:{rgb:'EFF4EB'}}};
+  }
+  for(let r=SCREEN_FIRST;r<=end;r++){
+    excelFormula(ws,'Q'+r,`IF(AND(P${r}="Conservar",J${r}="Válido",R${r}="Sí"),1,0)`,'0');
+    const decision=ws['P'+r];
+    if(decision)decision.s=EDIT_STYLE;
+    const flag=ws['O'+r];
+    if(flag && flag.v!=='Sin alerta')flag.s={fill:{patternType:'solid',fgColor:{rgb:flag.v==='INVÁLIDO'?'F9DADA':'FFF0CF'}},font:{bold:true,color:{rgb:flag.v==='INVÁLIDO'?'9F2222':'7A5100'}}};
+    for(const col of ['F','G','H','L'])if(ws[col+r])ws[col+r].z='#,##0.00';
+    if((r-SCREEN_FIRST)%2===1){
+      for(const col of ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','R']){
+        if(ws[col+r])ws[col+r].s=ALT_STYLE;
+      }
+    }
+  }
+  ws['B5']={t:'n',v:n};
+  excelFormula(ws,'E5',`COUNTIF(J${SCREEN_FIRST}:J${end},"Inválido")`,'0');
+  excelFormula(ws,'H5',`COUNTIF(K${SCREEN_FIRST}:K${end},"Atípico")`,'0');
+  excelFormula(ws,'K5',`COUNTIF(M${SCREEN_FIRST}:M${end},"Influyente")`,'0');
+  excelFormula(ws,'N5',`COUNTIF(O${SCREEN_FIRST}:O${end},"REVISAR")`,'0');
+  excelFormula(ws,'Q5',`COUNTIF(P${SCREEN_FIRST}:P${end},"Excluir")`,'0');
+  ws['B7']={t:'n',v:baseline?baseline.n:prepared.filter(r=>r.fit).length};
+  ws['E7']=baseline?{t:'n',v:baseline.r2,z:'0.000'}:{t:'s',v:'No estimable'};
+  ws['B8']=baseline?{t:'n',v:baseline.rmse,z:'0.000'}:{t:'s',v:'No estimable'};
+  excelFormula(ws,'E8','IF(AND(ISNUMBER(B8),ISNUMBER(N7)),N7-B8,"")','+0.000;-0.000;0.000');
+  excelFormula(ws,'H7',"'Base Depurada'!H4",'0.000');
+  excelFormula(ws,'K7','IF(AND(ISNUMBER(E7),ISNUMBER(H7)),H7-E7,"")','+0.000;-0.000;0.000');
+  excelFormula(ws,'N7',"'Base Depurada'!K4",'0.000');
+  ws['!autofilter']={ref:`A17:R${end}`};
+  ws['!freeze']='F18';ws['!gridlines']=false;ws['!showGridLines']=false;
+  ws['!sheetViews']=[{showGridLines:false}];
+  ws.__selectionRange=`P${SCREEN_FIRST}:P${end}`;
+  return ws;
+}
+function excelDataFormula(ws,addr,formula){excelFormula(ws,addr,formula);}
+function makeDepuratedSheet(records){
+  const n=records.length, end=DEP_FIRST+n-1,screenEnd=SCREEN_FIRST+n-1;
+  const rows=Array.from({length:DEP_FIRST-1},()=>Array(48).fill(''));
+  rows[0][0]='← Volver al índice';
+  rows[2][0]='BASE DEPURADA — MODELO Y RANKING EXPLORATORIOS';
+  rows[3][0]='N modelable';rows[3][3]='Estado';rows[3][6]='R² depurado';rows[3][9]='Error residual ln(kWh)';
+  rows[5][0]='Coeficientes regresión log-lineal (OLS)';
+  rows[6][1]='Intercepto b0';rows[6][3]='b1 ln(área)';rows[6][5]='b2 ln(empleados)';
+  rows[6][7]='b3 horas/168';rows[6][9]='b4 ocupación/100';
+  rows[8][0]='Ranking relativo: menor consumo real/esperado = mejor posición. No es calificación institucional validada.';
+  rows[9][0]='Excel recalcula esta hoja después de editar Conservar/Excluir en Filtro estadístico.';
+  rows[10][0]='Comparación entre tipos de edificio heterogéneos: interpretar con cautela; no usar como clasificación definitiva.';
+  rows[11][0]='Correlaciones (r)';rows[11][1]='ln área';rows[11][3]='ln empleados';rows[11][5]='Horas';rows[11][7]='Ocupación';
+  rows[12][0]='Ecuación del modelo';
+  rows[14][0]='Para emitir una evaluación oficial debe validarse el modelo y comprobar su desempeño fuera de la muestra.';
+  rows[DEP_FIRST-2].splice(0,DEP_HEADERS.length,...DEP_HEADERS);
+  const ws=XLSX.utils.aoa_to_sheet(rows);
+  addReturnToIndex(ws);
+  styleRange(ws,'A3:P3',{fill:{patternType:'solid',fgColor:{rgb:'002F2A'}},font:{bold:true,color:{rgb:'FFFFFF'},sz:15}});
+  styleRange(ws,'A17:P17',HEADER_STYLE);
+  const cols=[{wch:11},{wch:21},{wch:42},{wch:22},{wch:15},{wch:16},{wch:16},{wch:14},
+    {wch:17},{wch:20},{wch:21},{wch:17},{wch:21},{wch:18},{wch:19},{wch:38}];
+  while(cols.length<48)cols.push({wch:14,hidden:true});
+  ws['!cols']=cols;
+  ws['!rows']=Array.from({length:DEP_FIRST+n-1},(_,i)=>({hpt:i===2?28:i===16?44:22}));
+  const lnKwh=`$AN$${DEP_FIRST}:INDEX($AN$${DEP_FIRST}:$AN$${end},$B$4)`;
+  const allX=`$AO$${DEP_FIRST}:INDEX($AR$${DEP_FIRST}:$AR$${end},$B$4)`;
+  const linest=`LINEST(${lnKwh},${allX},TRUE,TRUE)`;
+  excelFormula(ws,'B4',`COUNT('Filtro estadístico'!$Q$${SCREEN_FIRST}:$Q$${screenEnd})-COUNTIF('Filtro estadístico'!$Q$${SCREEN_FIRST}:$Q$${screenEnd},0)`,'0');
+  excelFormula(ws,'E4',`IF(B4<${MODEL_MIN_N},"Muestra insuficiente",IF(H4="","Revisar modelo","Modelo exploratorio"))`);
+  excelFormula(ws,'H4',`IFERROR(IF($B$4<${MODEL_MIN_N},"",INDEX(${linest},3,1)),"")`,'0.000');
+  excelFormula(ws,'K4',`IFERROR(IF($B$4<${MODEL_MIN_N},"",INDEX(${linest},3,2)),"")`,'0.000');
+  const coeff=[['C7',5],['E7',4],['G7',3],['I7',2],['K7',1]];
+  for(const [cell,col] of coeff){
+    excelFormula(ws,cell,`IFERROR(IF($B$4<${MODEL_MIN_N},"",INDEX(${linest},1,${col})),"")`,'0.0000');
+  }
+  // Correlación simple entre ln(kWh/año) y cada predictor del modelo.
+  for(const [cell,predictor] of [['C12','AO'],['E12','AP'],['G12','AQ'],['I12','AR']]){
+    const pred=`$${predictor}$${DEP_FIRST}:INDEX($${predictor}$${DEP_FIRST}:$${predictor}$${end},$B$4)`;
+    excelFormula(ws,cell,`IFERROR(IF($B$4<${MODEL_MIN_N},"",CORREL(${lnKwh},${pred})),"")`,'0.000');
+  }
+  excelFormula(ws,'A14',`IF($C$7="","Sin muestra/modelo estimable (mínimo ${MODEL_MIN_N} registros)","ln(kWh/año) = "&TEXT($C$7,"0.0000")&" + ("&TEXT($E$7,"0.0000")&")·ln(área) + ("&TEXT($G$7,"0.0000")&")·ln(empleados) + ("&TEXT($I$7,"0.0000")&")·horas/168 + ("&TEXT($K$7,"0.0000")&")·ocupación/100")`);
+  for(const p of ['A4','D4','G4','J4','B7','D7','F7','H7','J7']){
+    if(ws[p])ws[p].s={font:{bold:true,color:{rgb:'31501F'}},fill:{patternType:'solid',fgColor:{rgb:'EFF4EB'}}};
+  }
+  const keycol=Object.fromEntries(EXCEL_HEADERS.map((key,i)=>[key,XLSX.utils.encode_col(i)]));
+  const getFromSource=(key,r)=>{
+    const col=keycol[key];
+    return `IF($AA${r}="","",INDEX('Registros'!$${col}$4:$${col}$${n+3},$AA${r}-${SCREEN_FIRST-1}))`;
+  };
+  const directAux=[
+    ['AB','id_registro'],['AC','p000_contrasena_apf'],['AD','p001_id_inmueble'],
+    ['AE','p004_tipo_edificio'],['AF','p005_area_total_construida'],
+    ['AG','p006_ocupacion'],['AH','p010_horas_operacion_semana'],
+    ['AI','p024_empleados_turno_principal'],['AJ','p026_numero_computadoras'],
+    ['AK','p027c_capacidad_aire_tr']
+  ];
+  const displayMap=['AV','AC','AD','AE','AF','AG','AH','AI','AJ','AK','AL','AM','AS','AT','AU','AB'];
+  for(let r=DEP_FIRST;r<=end;r++){
+    const k=`ROWS($AA$${DEP_FIRST}:AA${r})`;
+    excelDataFormula(ws,'AA'+r,`IFERROR(AGGREGATE(15,6,ROW('Filtro estadístico'!$Q$${SCREEN_FIRST}:$Q$${screenEnd})/('Filtro estadístico'!$Q$${SCREEN_FIRST}:$Q$${screenEnd}=1),${k}),"")`);
+    for(const [col,key] of directAux)excelDataFormula(ws,col+r,getFromSource(key,r));
+    const derive={
+      AL:`IF($AA${r}="","",INDEX('Filtro estadístico'!$F$${SCREEN_FIRST}:$F$${screenEnd},$AA${r}-${SCREEN_FIRST-1}))`,
+      AM:`IFERROR(IF($AA${r}="","",$AL${r}/$AF${r}),"")`,
+      AN:`IFERROR(IF($AA${r}="","",LN($AL${r})),"")`,
+      AO:`IFERROR(IF($AA${r}="","",LN($AF${r})),"")`,
+      AP:`IFERROR(IF($AA${r}="","",LN($AI${r})),"")`,
+      AQ:`IF($AA${r}="","",$AH${r}/168)`,
+      AR:`IF($AA${r}="","",$AG${r}/100)`,
+      AS:`IFERROR(IF(OR($AA${r}="",$C$7=""),"",EXP($C$7+$E$7*$AO${r}+$G$7*$AP${r}+$I$7*$AQ${r}+$K$7*$AR${r})),"")`,
+      AT:`IFERROR(IF(OR($AA${r}="",$AS${r}=""),"",$AL${r}/$AS${r}),"")`,
+      AU:`IFERROR(IF(OR($AT${r}="",COUNT($AT$${DEP_FIRST}:$AT$${end})<2),"",ROUND(100*(COUNTIF($AT$${DEP_FIRST}:$AT$${end},">"&$AT${r})+0.5*(COUNTIF($AT$${DEP_FIRST}:$AT$${end},"="&$AT${r})-1))/(COUNT($AT$${DEP_FIRST}:$AT$${end})-1),0)),"")`,
+      AV:`IF($AT${r}="","",RANK.EQ($AT${r},$AT$${DEP_FIRST}:$AT$${end},1)+COUNTIF($AT$${DEP_FIRST}:AT${r},$AT${r})-1)`
+    };
+    for(const [col,form] of Object.entries(derive))excelDataFormula(ws,col+r,form);
+    excelDataFormula(ws,'Z'+r,`IFERROR(MATCH(ROWS($A$${DEP_FIRST}:A${r}),$AV$${DEP_FIRST}:$AV$${end},0),"")`);
+    for(let ci=0;ci<displayMap.length;ci++){
+      const col=XLSX.utils.encode_col(ci),source=displayMap[ci];
+      excelDataFormula(ws,col+r,`IF($Z${r}="","",INDEX($${source}$${DEP_FIRST}:$${source}$${end},$Z${r}))`);
+      const c=ws[col+r];
+      if(ci===0 || ci===7 || ci===8 || ci===14)c.z='#,##0';
+      else if(ci>=4 && ci<=13)c.z='#,##0.00';
+      if(ci===13)c.z='0.000';
+      if(ci===14)c.z='0';
+      if((r-DEP_FIRST)%2===1)c.s=ALT_STYLE;
+    }
+  }
+  // Ampliar explícitamente el rango: las fórmulas del cuadro auxiliar llegan a AV.
+  ws['!ref']=`A1:AV${end}`;
+  ws['!autofilter']={ref:`A17:P${end}`};
+  ws['!freeze']='D18';ws['!gridlines']=false;ws['!showGridLines']=false;
+  ws['!sheetViews']=[{showGridLines:false}];
+  ws.__ratingRange=`O${DEP_FIRST}:O${end}`;
+  return ws;
+}
+
+// Inserta validación de lista, gradiente de color y recálculo por Excel.
+// No contiene macros y nunca borra valores del backend.
+function ensureWorkbookExcelInteractivity(xml,book,from,to){
+  if(book==='screen'){
+    const validation='<dataValidations count="1"><dataValidation type="list" allowBlank="0" showErrorMessage="1" errorTitle="Decisión inválida" error="Seleccione Conservar o Excluir" sqref="P'+from+':P'+to+'"><formula1>"Conservar,Excluir"</formula1></dataValidation></dataValidations>';
+    if(xml.includes('<hyperlinks>'))xml=xml.replace('<hyperlinks>',validation+'<hyperlinks>');
+    else if(xml.includes('<pageMargins'))xml=xml.replace('<pageMargins',validation+'<pageMargins');
+    else xml=xml.replace('</worksheet>',validation+'</worksheet>');
+  }
+  if(book==='rank'){
+    const color='<conditionalFormatting sqref="O'+from+':O'+to+'"><cfRule type="colorScale" priority="1"><colorScale><cfvo type="min"/><cfvo type="percentile" val="50"/><cfvo type="max"/><color rgb="FFF4B9B9"/><color rgb="FFFFEDBA"/><color rgb="FFB8DDBA"/></colorScale></cfRule></conditionalFormatting>';
+    if(xml.includes('<hyperlinks>'))xml=xml.replace('<hyperlinks>',color+'<hyperlinks>');
+    else if(xml.includes('<pageMargins'))xml=xml.replace('<pageMargins',color+'<pageMargins');
+    else xml=xml.replace('</worksheet>',color+'</worksheet>');
+  }
+  return xml;
+}
+
 async function getAllRecordsForExport(){
   const chunk=1000;
   let from=0;
@@ -623,14 +970,26 @@ function forceGridlinesOffInXml(xml){
   return xml.replace(/<worksheet([^>]*)>/,'<worksheet$1>'+views);
 }
 
-async function downloadWorkbookWithoutGridlines(wb,filename){
+async function downloadWorkbookWithoutGridlines(wb,filename,analysisRows){
   if(typeof JSZip==='undefined') throw new Error('No se pudo cargar el componente necesario para ocultar las líneas de cuadrícula.');
   const bytes=XLSX.write(wb,{bookType:'xlsx',type:'array',compression:true});
   const zip=await JSZip.loadAsync(bytes);
   const worksheetFiles=Object.keys(zip.files).filter(name=>/^xl\/worksheets\/sheet\d+\.xml$/.test(name));
   for(const name of worksheetFiles){
-    const xml=await zip.file(name).async('string');
-    zip.file(name,forceGridlinesOffInXml(xml));
+    let xml=await zip.file(name).async('string');
+    xml=forceGridlinesOffInXml(xml);
+    // Las tres hojas originales siguen intactas; la validación pertenece a la hoja 4
+    // y el semáforo a la hoja 5. Se usa el orden explícito book_append_sheet.
+    if(analysisRows>0 && name==='xl/worksheets/sheet4.xml')xml=ensureWorkbookExcelInteractivity(xml,'screen',SCREEN_FIRST,SCREEN_FIRST+analysisRows-1);
+    if(analysisRows>0 && name==='xl/worksheets/sheet5.xml')xml=ensureWorkbookExcelInteractivity(xml,'rank',DEP_FIRST,DEP_FIRST+analysisRows-1);
+    zip.file(name,xml);
+  }
+  const workbookXml=zip.file('xl/workbook.xml');
+  if(workbookXml){
+    let xml=await workbookXml.async('string');
+    if(/<calcPr\b/.test(xml))xml=xml.replace(/<calcPr\b[^>]*\/?>/,'<calcPr calcMode="auto" fullCalcOnLoad="1" forceFullCalc="1"/>');
+    else xml=xml.replace('</workbook>','<calcPr calcMode="auto" fullCalcOnLoad="1" forceFullCalc="1"/></workbook>');
+    zip.file('xl/workbook.xml',xml);
   }
   const blob=await zip.generateAsync({
     type:'blob',
@@ -734,11 +1093,14 @@ async function exportExcelAdministrative(){
     XLSX.utils.book_append_sheet(wb,makeIndexSheet(),"Índice");
     XLSX.utils.book_append_sheet(wb,makeDescriptorSheet(),"Descriptor de archivo");
     XLSX.utils.book_append_sheet(wb,makeRecordsSheet(records),"Registros");
+    const screening=prepareScreening(records);
+    XLSX.utils.book_append_sheet(wb,makeScreeningSheet(records,screening),"Filtro estadístico");
+    XLSX.utils.book_append_sheet(wb,makeDepuratedSheet(records),"Base Depurada");
 
     status.textContent="Preparando descarga...";
 
     const filename=`Benchmarking_Registros_${new Date().toISOString().slice(0,10)}.xlsx`;
-    await downloadWorkbookWithoutGridlines(wb,filename);
+    await downloadWorkbookWithoutGridlines(wb,filename,records.length);
 
     status.textContent=`Excel generado correctamente: ${records.length} registro(s).`;
   }catch(err){
