@@ -712,7 +712,13 @@ function prepareScreening(records){
     }
     const euiFit=annual!==null&&annual>0&&area!==null&&area>0;
     const fit=type!=='Sin clasificar'&&euiFit&&predictors.every(f=>featureLogs[f.id]!==null);
-    return {row,index,key:String(row.id_registro||index),type,annual,area,euiFit,fit,
+    // Identificar únicamente omisiones incompatibles entre capacidad AA y área enfriada.
+    // No alteramos ni imputamos los datos originales de Supabase desde el Excel.
+    const aaDeclarada=modelNumeric(row.p027a_capacidad_aire_valor);
+    const areaEnfriada=modelNumeric(row.p028_area_enfriada_electrica);
+    const contradictory=(aaDeclarada===null&&areaEnfriada!==null&&areaEnfriada>0) ||
+      (areaEnfriada===null&&aaDeclarada!==null&&aaDeclarada>0);
+    return {row,index,key:String(row.id_registro||index),type,annual,area,euiFit,fit,contradictory,
       eui:euiFit?annual/area:null,featureLogs,outlier:false,cook:null,influential:false,reason:[]};
   });
   const groups=new Map();
@@ -734,7 +740,11 @@ function prepareScreening(records){
         if(x.cook!==null&&x.cook>4/model.n){x.influential=true;x.reason.push('Influencia Cook D > 4/n por tipo');}
       }
     }
-    for(const x of items)if(!x.fit)x.reason.push('Datos incompletos para regresión multivariable');
+    for(const x of items){
+      if(x.contradictory)x.reason.push('Datos contradictorios');
+      else if(!x.fit)x.reason.push('Datos incompletos para regresión multivariable');
+      if(model.state==='Muestra insuficiente')x.reason.push('Muestra insuficiente');
+    }
   }
   const vals=[...baseline.values()],total=vals.reduce((s,v)=>s+v.n,0);
   const baselineWeightedR2=total?vals.reduce((s,v)=>s+v.n*v.r2,0)/total:null;
@@ -766,11 +776,11 @@ function makeScreeningSheet(records,screening){
   rows[12][0]='R²: proporción de variación de ln(kWh) explicada por los modelos estimables; promedio ponderado por n de cada categoría.';
   rows[13][0]='Edite exclusivamente la columna N (amarilla): Conservar / Excluir. La Base Depurada y los coeficientes se recalculan en Excel.';
   rows[14][0]='▶ VER BASE DEPURADA';
-  rows[16][0]='Revisión (únicos): inmuebles señalados por IQR, Cook o ambos (sin duplicar). R² depurado: R² con la selección de la columna N.';
+  rows[16][0]='Revisión (únicos): inmuebles señalados por IQR, Cook y/o datos contradictorios (sin duplicar). R² depurado: R² con la selección de la columna N.';
   rows[17][0]='Estimación: al menos 12 inmuebles completos, más observaciones que parámetros y variables independientes. No se asigna puntuación si la regresión no es válida.';
   rows[SCREEN_FIRST-2]=SCREEN_HEADERS;
   for(const x of prepared){
-    const priority=x.outlier||x.influential?'REVISAR':'Sin alerta';
+    const priority=x.outlier||x.influential||x.contradictory?'REVISAR':'Sin alerta';
     rows.push([x.index+1,x.row.id_registro||'',x.row.p000_contrasena_apf||'',x.row.p001_id_inmueble||'',
       x.type,x.annual??'',x.euiFit?x.area:'',x.eui??'',x.outlier?'Atípico':'No',x.cook??'',
       x.influential?'Influyente':'No',x.reason.join(' | '),priority,'Conservar','']);
@@ -883,8 +893,9 @@ function makeMethodologySheet(records,screening){
     const r=METHOD_FIRST+i,predictors=modelPredictors(type),params=[null,...predictors],p=params.length;
     const section=visualRow,header=section+1,start=section+2;
     ws[`A${section}`]={t:'s',v:`MODELO ESTADÍSTICO  |  ${type.toUpperCase()}`};
-    ws['!merges'].push({s:{r:section-1,c:0},e:{r:section-1,c:8}});
-    styleRange(ws,`A${section}:I${section}`,METHOD_NAVY);
+    // Las secciones por categoría ocupan exclusivamente A:E; F:I no reciben rellenos decorativos.
+    ws['!merges'].push({s:{r:section-1,c:0},e:{r:section-1,c:4}});
+    styleRange(ws,`A${section}:E${section}`,METHOD_NAVY);
     const headerValues=['Variable','Coeficiente β','Error estándar','Estadístico t','Valor p'];
     for(let c=0;c<headerValues.length;c++)ws[XLSX.utils.encode_col(c)+header]={t:'s',v:headerValues[c]};
     styleRange(ws,`A${header}:E${header}`,METHOD_NAVY_TABLE);
@@ -897,18 +908,18 @@ function makeMethodologySheet(records,screening){
       ws['!rows'][rr-1]={hpt:23};
     });
     const labelRow=start+p+1,equationRow=labelRow+1,noteRow=equationRow+2;
-    ws['A'+labelRow]={t:'s',v:'ECUACIÓN ESTIMADA · CONSUMO ANUAL (kWh)'};
-    ws['!merges'].push({s:{r:labelRow-1,c:0},e:{r:labelRow-1,c:8}});
-    ws['!merges'].push({s:{r:equationRow-1,c:0},e:{r:equationRow-1,c:8}});
-    styleRange(ws,`A${labelRow}:I${labelRow}`,KPI_LABEL);
-    styleRange(ws,`A${equationRow}:I${equationRow}`,{fill:{patternType:'solid',fgColor:{rgb:'F0F5F2'}},font:{color:{rgb:'002F2A'},sz:10},alignment:{wrapText:true,vertical:'center',horizontal:'center'}});
+    ws['A'+labelRow]={t:'s',v:`ECUACIÓN DEL MODELO DE ESTIMACIÓN DE CONSUMO ANUAL (kWh) DE: ${type.toUpperCase()}`};
+    ws['!merges'].push({s:{r:labelRow-1,c:0},e:{r:labelRow-1,c:4}});
+    ws['!merges'].push({s:{r:equationRow-1,c:0},e:{r:equationRow-1,c:4}});
+    styleRange(ws,`A${labelRow}:E${labelRow}`,{...KPI_LABEL,alignment:{vertical:'center',horizontal:'center',wrapText:true}});
+    styleRange(ws,`A${equationRow}:E${equationRow}`,{fill:{patternType:'solid',fgColor:{rgb:'F0F5F2'}},font:{color:{rgb:'002F2A'},sz:10},alignment:{wrapText:true,vertical:'center',horizontal:'center'}});
     ws['!rows'][labelRow-1]={hpt:24};
     ws['!rows'][equationRow-1]={hpt:90};
     ws['A'+noteRow]={t:'s',v:'β indica el cambio en ln(consumo esperado) asociado al cambio en ln(variable+1), manteniendo constantes las demás variables. Los valores se recalculan al modificar la selección de registros.'};
     ws['!merges'].push({s:{r:noteRow-1,c:0},e:{r:noteRow-1,c:8}});
     ws['!rows'][noteRow-1]={hpt:29};
     styleRange(ws,`A${noteRow}:I${noteRow}`,{font:{color:{rgb:'456354'},sz:11},alignment:{wrapText:true,vertical:'center'}});
-    ws['I'+r]={t:'s',v:'Ver ecuación ↓',l:{Target:`#'Metodología'!A${section}`,Tooltip:'Ver coeficientes y ecuación de esta categoría'},s:NAV_LINK_STYLE};
+    ws['I'+r]={t:'s',v:'Ver ecuación ↓',l:{Target:`#'Metodología'!A${equationRow}`,Tooltip:'Ir directamente a la ecuación de estimación de esta categoría'},s:NAV_LINK_STYLE};
     detailSpecs.push({type,r,params,p,section,start,equationRow,model:screening.status.get(type)});
     visualRow=noteRow+4;
   });
