@@ -627,7 +627,7 @@ const MODEL_EXTRA_BY_TYPE={
   'ADU':['customs'],'Infraestructura aduanal y fronteriza':['customs'],
   'OTR':['other'],'Otro tipo de inmueble':['other']
 };
-function excelFormula(ws,address,formula,format){const cell={t:'n',f:formula.replace(/^=/,'')};if(format)cell.z=format;ws[address]=cell;}
+function excelFormula(ws,address,formula,format){const old=ws[address]||{};const cell={...old,t:'n',f:formula.replace(/^=/,'')};delete cell.v;if(format)cell.z=format;ws[address]=cell;}
 function numericPositive(value){return value!==null&&value!==undefined&&value!==''&&Number.isFinite(Number(value))&&Number(value)>0;}
 function modelNumeric(value){return value!==null&&value!==undefined&&value!==''&&Number.isFinite(Number(value))&&Number(value)>=0?Number(value):null;}
 function modelPredictors(type){const extras=new Set(MODEL_EXTRA_BY_TYPE[type]||[]);return [...MODEL_CORE,...MODEL_FEATURES.slice(7).filter(f=>extras.has(f.id))];}
@@ -669,7 +669,7 @@ function invertNormalMatrix(matrix){
   return {inverse:normalInverse,determinantNormalized};
 }
 function typeOLS(items,predictors){
-  const n=items.length,p=1+predictors.length,min=Math.max(MODEL_MIN_N,3*p);
+  const n=items.length,p=1+predictors.length,min=Math.max(MODEL_MIN_N,p+2);
   if(n<min)return {state:'Muestra insuficiente',n,p,min};
   const vectors=items.map(x=>[1,...predictors.map(f=>x.featureLogs[f.id])]);
   const y=items.map(x=>Math.log(x.annual));
@@ -696,7 +696,7 @@ function typeOLS(items,predictors){
     cooks.set(items[i].key,Number.isFinite(d)?d:null);
   }
   const se=solved.inverse.map((row,i)=>Math.sqrt(Math.max(0,row[i]*mse)));
-  return {state:'Estimable',n,p,min,beta,r2,r2Adjusted,rmse:Math.sqrt(mse),sse,sst,se,cooks,predictors};
+  return {state:'Estimada',n,p,min,beta,r2,r2Adjusted,rmse:Math.sqrt(mse),sse,sst,se,cooks,predictors};
 }
 function prepareScreening(records){
   const prepared=records.map((row,index)=>{
@@ -728,7 +728,7 @@ function prepareScreening(records){
     }
     const model=typeOLS(valid,modelPredictors(type));
     status.set(type,model);
-    if(model.state==='Estimable'){
+    if(model.state==='Estimada'){
       baseline.set(type,model);
       for(const x of valid){x.cook=model.cooks.get(x.key)??null;
         if(x.cook!==null&&x.cook>4/model.n){x.influential=true;x.reason.push('Influencia Cook D > 4/n por tipo');}
@@ -765,9 +765,9 @@ function makeScreeningSheet(records,screening){
   rows[11][0]='Cook D: mide la influencia de cada registro sobre la regresión de su categoría. Se marca si D > 4/n; es una alerta, no prueba de error.';
   rows[12][0]='R²: proporción de variación de ln(kWh) explicada por los modelos estimables; promedio ponderado por n de cada categoría.';
   rows[13][0]='Edite exclusivamente la columna N (amarilla): Conservar / Excluir. La Base Depurada y los coeficientes se recalculan en Excel.';
-  rows[14][0]='▶ VER BASE DEPURADA (ACTUALIZACIÓN AUTOMÁTICA)';
+  rows[14][0]='▶ VER BASE DEPURADA';
   rows[16][0]='Revisión (únicos): inmuebles señalados por IQR, Cook o ambos (sin duplicar). R² depurado: R² con la selección de la columna N.';
-  rows[17][0]='Se requiere n ≥ máximo(12, 3 × parámetros) y matriz de rango completo. Sin modelo válido, no se asigna puntuación.';
+  rows[17][0]='Estimación: al menos 12 inmuebles completos, más observaciones que parámetros y variables independientes. No se asigna puntuación si la regresión no es válida.';
   rows[SCREEN_FIRST-2]=SCREEN_HEADERS;
   for(const x of prepared){
     const priority=x.outlier||x.influential?'REVISAR':'Sin alerta';
@@ -776,14 +776,14 @@ function makeScreeningSheet(records,screening){
       x.influential?'Influyente':'No',x.reason.join(' | '),priority,'Conservar','']);
   }
   const ws=XLSX.utils.aoa_to_sheet(rows);addReturnToIndex(ws);
-  ws['!cols']=[{wch:9},{wch:38},{wch:22},{wch:42},{wch:32},{wch:21},{wch:16},{wch:17},
-    {wch:16},{wch:15},{wch:17},{wch:55},{wch:18},{wch:23},{wch:16},
+  ws['!cols']=[{wch:27},{wch:7},{wch:13},{wch:29},{wch:13},{wch:19},{wch:14},{wch:17},
+    {wch:17},{wch:15},{wch:16},{wch:41},{wch:18},{wch:23},{wch:16},
     ...Array.from({length:30},()=>({wch:14,hidden:true}))];
-  ws['!rows']=Array.from({length:rows.length},(_,i)=>({hpt:i===2?32:i===18?42:i>=19?22:i>=10&&i<=17?38:28}));
-  ws['!merges']=[{s:{r:2,c:0},e:{r:2,c:14}},
+  ws['!rows']=Array.from({length:rows.length},(_,i)=>({hpt:i===2?29:i===18?39:i>=19?22:i===14?28:i===15?8:i>=10&&i<=13?29:i===16||i===17?27:i===1?9:23}));
+  ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:1}}, {s:{r:2,c:0},e:{r:2,c:14}},
     ...[4,5,6,7,8].map(r=>({s:{r,c:0},e:{r,c:1}})),
     ...[10,11,12,13,16,17].map(r=>({s:{r,c:0},e:{r,c:7}})),
-    {s:{r:14,c:0},e:{r:15,c:3}}];
+    {s:{r:14,c:0},e:{r:14,c:1}}];
   styleRange(ws,'A3:O3',DARK);styleRange(ws,'A19:O19',HEADER_STYLE);
   for(const r of [5,6,7,8,9]){
     styleRange(ws,`A${r}:B${r}`,KPI_LABEL);styleRange(ws,`D${r}:D${r}`,KPI_LABEL);
@@ -793,8 +793,8 @@ function makeScreeningSheet(records,screening){
     fill:{patternType:'solid',fgColor:{rgb:r===11||r===12?'F0F5F2':'FFFFFF'}},
     font:{color:{rgb:'345044'},sz:11},alignment:{wrapText:true,vertical:'center'}
   });
-  styleRange(ws,'A15:D16',{fill:{patternType:'solid',fgColor:{rgb:'285E4A'}},
-    font:{bold:true,color:{rgb:'FFFFFF'},sz:13},alignment:{vertical:'center',horizontal:'center',wrapText:true}});
+  styleRange(ws,'A15:B15',{fill:{patternType:'solid',fgColor:{rgb:'285E4A'}},
+    font:{bold:true,color:{rgb:'FFFFFF'},sz:10},alignment:{vertical:'center',horizontal:'center',wrapText:false}});
   ws['A15'].l={Target:"#'Base Depurada'!A1",Tooltip:'Abrir la base depurada actualizada'};
   for(const x of prepared){
     const r=SCREEN_FIRST+x.index;
@@ -810,34 +810,39 @@ function makeScreeningSheet(records,screening){
       const v=x.featureLogs[feature.id];ws[feature.col+r]={t:'n',v:v===null?0:v,z:'0.000000'};
     }
     ws['AD'+r]={t:'n',v:x.fit?1:0,z:'0'};
+    ws['AS'+r]={t:'n',v:screening.types.indexOf(x.type)+1,z:'0'}; // código ordinal de tipo (orden estable)
     excelFormula(ws,'O'+r,`IF(N${r}="Conservar",1,0)`,'0');
     excelFormula(ws,'P'+r,`AF${r}`);
     excelFormula(ws,'Q'+r,`IF(F${r}>0,LN(F${r}),0)`);
     excelFormula(ws,'R'+r,`IF(AND(O${r}=1,AD${r}=1),1,0)`,'0');
     const lookup=(c)=>methodLookup(c,r,screening);
-    excelFormula(ws,'AB'+r,`IF(O${r}=0,"",IF(AND(R${r}=1,${lookup('H')}="Estimable"),"Estimable","Sin modelo"))`);
+    excelFormula(ws,'AB'+r,`IF(O${r}=0,"",IF(AND(R${r}=1,${lookup('H')}="Estimada"),"Estimada","Sin modelo"))`);
     const terms=[lookup('P'),...MODEL_FEATURES.map((f,i)=>`${lookup(modelCol(i+1))}*${f.col}${r}`)];
-    excelFormula(ws,'V'+r,`IFERROR(IF(AB${r}="Estimable",EXP(${terms.join('+')}),""),"")`);
+    excelFormula(ws,'V'+r,`IFERROR(IF(AB${r}="Estimada",EXP(${terms.join('+')}),""),"")`);
     excelFormula(ws,'W'+r,`IFERROR(IF(V${r}>0,F${r}/V${r},""),"")`);
-    excelFormula(ws,'AC'+r,`IFERROR(IF(AB${r}="Estimable",(Q${r}-LN(V${r}))^2,""),"")`);
-    excelFormula(ws,'X'+r,`IF(O${r}=0,"",IF(W${r}>0,W${r},IF(H${r}>0,H${r},1E+15)))`);
+    excelFormula(ws,'AC'+r,`IFERROR(IF(AB${r}="Estimada",(Q${r}-LN(V${r}))^2,""),"")`);
+    excelFormula(ws,'X'+r,`IF(O${r}=0,"",IF(AND(AB${r}="Estimada",W${r}>0),W${r},1E+10+IF(H${r}>0,H${r},0)))`);
     excelFormula(ws,'Y'+r,`IF(O${r}=0,"",COUNTIFS($E$${SCREEN_FIRST}:$E$${end},E${r},$O$${SCREEN_FIRST}:$O$${end},1,$X$${SCREEN_FIRST}:$X$${end},"<"&X${r})+COUNTIFS($E$${SCREEN_FIRST}:E${r},E${r},$O$${SCREEN_FIRST}:O${r},1,$X$${SCREEN_FIRST}:X${r},X${r}))`,'0');
-    excelFormula(ws,'Z'+r,`IF(O${r}=0,"",COUNTIFS($E$${SCREEN_FIRST}:$E$${end},"<"&E${r},$O$${SCREEN_FIRST}:$O$${end},1)+Y${r})`,'0');
-    const count=`COUNTIFS($E$${SCREEN_FIRST}:$E$${end},E${r},$O$${SCREEN_FIRST}:$O$${end},1)`;
-    excelFormula(ws,'AA'+r,`IFERROR(IF(AND(AB${r}="Estimable",${count}>1),ROUND(1+99*(${count}-Y${r})/(${count}-1),1),""),"")`,'0.0');
+    excelFormula(ws,'Z'+r,`IF(O${r}=0,"",COUNTIFS($AS$${SCREEN_FIRST}:$AS$${end},"<"&AS${r},$O$${SCREEN_FIRST}:$O$${end},1)+Y${r})`,'0');
+    // La puntuación se calcula solo entre los casos evaluables del mismo tipo.
+    // Los casos sin modelo aparecen al final del grupo y no diluyen la escala 1–100.
+    const qualified=`COUNTIFS($E$${SCREEN_FIRST}:$E$${end},E${r},$O$${SCREEN_FIRST}:$O$${end},1,$AB$${SCREEN_FIRST}:$AB$${end},"Estimada")`;
+    const better=`COUNTIFS($E$${SCREEN_FIRST}:$E$${end},E${r},$O$${SCREEN_FIRST}:$O$${end},1,$AB$${SCREEN_FIRST}:$AB$${end},"Estimada",$W$${SCREEN_FIRST}:$W$${end},"<"&W${r})`;
+    const tied=`COUNTIFS($E$${SCREEN_FIRST}:E${r},E${r},$O$${SCREEN_FIRST}:O${r},1,$AB$${SCREEN_FIRST}:AB${r},"Estimada",$W$${SCREEN_FIRST}:W${r},W${r})`;
+    excelFormula(ws,'AA'+r,`IFERROR(IF(AND(AB${r}="Estimada",${qualified}>1),ROUND(1+99*(${qualified}-${better}-${tied})/(${qualified}-1),1),""),"")`,'0.0');
   }
-  ws['C5']={t:'n',v:n};
+  ws['C5']={...(ws['C5']||{}),t:'n',v:n};
   excelFormula(ws,'E5',`COUNTIF(I${SCREEN_FIRST}:I${end},"Atípico")`,'0');
   excelFormula(ws,'C6',`COUNTIF(K${SCREEN_FIRST}:K${end},"Influyente")`,'0');
   excelFormula(ws,'E6',`COUNTIF(M${SCREEN_FIRST}:M${end},"REVISAR")`,'0');
   excelFormula(ws,'C7',`COUNTIF(N${SCREEN_FIRST}:N${end},"Excluir")`,'0');
   excelFormula(ws,'E7',`COUNTIF(O${SCREEN_FIRST}:O${end},1)`,'0');
-  ws['C8']=baselineWeightedR2===null?{t:'s',v:'No estimable'}:{t:'n',v:baselineWeightedR2,z:'0.000'};
+  ws['C8']={...(ws['C8']||{}),...(baselineWeightedR2===null?{t:'s',v:'No estimable'}:{t:'n',v:baselineWeightedR2,z:'0.000'})};
   const mtEnd=methodRangeEnd(screening);
   excelFormula(ws,'E8',`IFERROR(SUM('Metodología'!AD${METHOD_FIRST}:AD${mtEnd})/SUM('Metodología'!AE${METHOD_FIRST}:AE${mtEnd}),"")`,'0.000');
   excelFormula(ws,'C9',`IFERROR(IF(AND(ISNUMBER(C8),ISNUMBER(E8)),E8-C8,""),"")`,'+0.000;-0.000;0.000');
-  excelFormula(ws,'E9',`COUNTIF('Metodología'!H${METHOD_FIRST}:H${mtEnd},"Estimable")`,'0');
-  ws['!ref']=`A1:AR${end}`;
+  excelFormula(ws,'E9',`COUNTIF('Metodología'!H${METHOD_FIRST}:H${mtEnd},"Estimada")`,'0');
+  ws['!ref']=`A1:AS${end}`;
   ws['!autofilter']={ref:`A19:O${end}`};
   ws['!freeze']='F20';ws['!gridlines']=false;ws['!showGridLines']=false;
   ws.__selectionRange=`N${SCREEN_FIRST}:N${end}`;
@@ -859,15 +864,15 @@ function makeMethodologySheet(records,screening){
   rows[2][0]='METODOLOGÍA DE CALIFICACIÓN  |  REGRESIÓN LINEAL MÚLTIPLE POR TIPO';
   rows[4][0]='MODELO: ln(consumo eléctrico anual en kWh) = β₀ + Σ βⱼ × ln(variableⱼ+1). Estimación por mínimos cuadrados ordinarios (MCO).';
   rows[5][0]='CAPACIDAD AA: siempre en TR; 1 TR = 12,000 BTU/h. Los porcentajes se expresan en escala 0 a 100, no en proporción.';
-  rows[6][0]='ESTIMABILIDAD: n ≥ máx(12, 3 × parámetros), consumo positivo, datos completos y matriz de regresión de rango completo.';
-  rows[8]=['Tipo de inmueble','Conservados','n en modelo','Parámetros','R²','R² ajustado','RMSE ln(kWh)','Estado','Ecuación por tipo'];
+  rows[6][0]='ESTIMACIÓN: n ≥ máx(12, parámetros + 2); se requieren datos completos y matriz de regresión de rango completo. El resultado no es estimable cuando hay multicolinealidad.';
+  rows[8]=['Tipo de inmueble','Conservados','n en modelo','Parámetros','R²','R² ajustado','RMSE ln(kWh)','Estado','Detalle'];
   for(const type of types)rows.push([type,'','','','','','','','']);
   const ws=XLSX.utils.aoa_to_sheet(rows);addReturnToIndex(ws);
-  ws['!cols']=[{wch:36},{wch:16},{wch:15},{wch:16},{wch:12},{wch:15},{wch:19},{wch:25},{wch:78},
+  ws['!cols']=[{wch:35},{wch:14},{wch:14},{wch:14},{wch:12},{wch:16},{wch:19},{wch:26},{wch:18},
     ...Array.from({length:28},()=>({wch:14,hidden:true}))];
-  ws['!merges']=[{s:{r:2,c:0},e:{r:2,c:8}},...[4,5,6].map(r=>({s:{r,c:0},e:{r,c:8}}))];
+  ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:1}},{s:{r:2,c:0},e:{r:2,c:8}},...[4,5,6].map(r=>({s:{r,c:0},e:{r,c:8}}))];
   styleRange(ws,'A3:I3',METHOD_NAVY);styleRange(ws,'A9:I9',METHOD_NAVY_TABLE);
-  ws['!rows']=Array.from({length:end+12},(_,i)=>({hpt:i===2?33:i===8?44:i>=9&&i<end?42:27}));
+  ws['!rows']=Array.from({length:end+12},(_,i)=>({hpt:i===2?30:i===8?36:i>=9&&i<end?27:i===1?9:24}));
   for(const r of [5,6,7])styleRange(ws,`A${r}:I${r}`,{
     font:{color:{rgb:'345044'},sz:11},alignment:{vertical:'center',wrapText:true}
   });
@@ -880,31 +885,30 @@ function makeMethodologySheet(records,screening){
     ws[`A${section}`]={t:'s',v:`MODELO ESTADÍSTICO  |  ${type.toUpperCase()}`};
     ws['!merges'].push({s:{r:section-1,c:0},e:{r:section-1,c:8}});
     styleRange(ws,`A${section}:I${section}`,METHOD_NAVY);
-    const headerValues=['Variable','Coeficiente β','Error estándar','Estadístico t','Valor p','Unidad','Transformación','Origen','Estado'];
+    const headerValues=['Variable','Coeficiente β','Error estándar','Estadístico t','Valor p'];
     for(let c=0;c<headerValues.length;c++)ws[XLSX.utils.encode_col(c)+header]={t:'s',v:headerValues[c]};
-    styleRange(ws,`A${header}:I${header}`,METHOD_NAVY_TABLE);
-    ws['!rows'][section-1]={hpt:33};ws['!rows'][header-1]={hpt:33};
+    styleRange(ws,`A${header}:E${header}`,METHOD_NAVY_TABLE);
+    ws['!rows'][section-1]={hpt:29};ws['!rows'][header-1]={hpt:30};
     params.forEach((f,j)=>{
       const rr=start+j,bcol=modelCol(f?MODEL_FEATURES.findIndex(g=>g.id===f.id)+1:0);
       ws['A'+rr]={t:'s',v:f?f.label:'Intercepto (β₀)'};
-      ws['F'+rr]={t:'s',v:f?f.unit:'—'};
-      ws['G'+rr]={t:'s',v:f?'ln(x + 1)':'Constante'};
-      ws['H'+rr]={t:'s',v:f?f.db:'Regresión'};
-      excelFormula(ws,'B'+rr,`IF($H$${r}="Estimable",${bcol}${r},"")`,'0.000000');
-      if(j%2)styleRange(ws,`A${rr}:I${rr}`,ALT_STYLE);
-      ws['!rows'][rr-1]={hpt:26};
+      excelFormula(ws,'B'+rr,`IF($H$${r}="Estimada",${bcol}${r},"")`,'0.000000');
+      if(j%2)styleRange(ws,`A${rr}:E${rr}`,ALT_STYLE);
+      ws['!rows'][rr-1]={hpt:23};
     });
-    const equationRow=start+p+1,noteRow=equationRow+2;
-    ws['A'+equationRow]={t:'s',v:'ECUACIÓN ESTIMADA'};
-    ws['!merges'].push({s:{r:equationRow-1,c:0},e:{r:equationRow-1,c:1}});
-    ws['!merges'].push({s:{r:equationRow-1,c:2},e:{r:equationRow-1,c:8}});
-    styleRange(ws,`A${equationRow}:B${equationRow}`,KPI_LABEL);
-    styleRange(ws,`C${equationRow}:I${equationRow}`,{fill:{patternType:'solid',fgColor:{rgb:'F0F5F2'}},font:{color:{rgb:'002F2A'},sz:11},alignment:{wrapText:true,vertical:'center'}});
-    ws['!rows'][equationRow-1]={hpt:p>8?76:64};
+    const labelRow=start+p+1,equationRow=labelRow+1,noteRow=equationRow+2;
+    ws['A'+labelRow]={t:'s',v:'ECUACIÓN ESTIMADA · CONSUMO ANUAL (kWh)'};
+    ws['!merges'].push({s:{r:labelRow-1,c:0},e:{r:labelRow-1,c:8}});
+    ws['!merges'].push({s:{r:equationRow-1,c:0},e:{r:equationRow-1,c:8}});
+    styleRange(ws,`A${labelRow}:I${labelRow}`,KPI_LABEL);
+    styleRange(ws,`A${equationRow}:I${equationRow}`,{fill:{patternType:'solid',fgColor:{rgb:'F0F5F2'}},font:{color:{rgb:'002F2A'},sz:10},alignment:{wrapText:true,vertical:'center',horizontal:'center'}});
+    ws['!rows'][labelRow-1]={hpt:24};
+    ws['!rows'][equationRow-1]={hpt:90};
     ws['A'+noteRow]={t:'s',v:'β indica el cambio en ln(consumo esperado) asociado al cambio en ln(variable+1), manteniendo constantes las demás variables. Los valores se recalculan al modificar la selección de registros.'};
     ws['!merges'].push({s:{r:noteRow-1,c:0},e:{r:noteRow-1,c:8}});
-    ws['!rows'][noteRow-1]={hpt:35};
+    ws['!rows'][noteRow-1]={hpt:29};
     styleRange(ws,`A${noteRow}:I${noteRow}`,{font:{color:{rgb:'456354'},sz:11},alignment:{wrapText:true,vertical:'center'}});
+    ws['I'+r]={t:'s',v:'Ver ecuación ↓',l:{Target:`#'Metodología'!A${section}`,Tooltip:'Ver coeficientes y ecuación de esta categoría'},s:NAV_LINK_STYLE};
     detailSpecs.push({type,r,params,p,section,start,equationRow,model:screening.status.get(type)});
     visualRow=noteRow+4;
   });
@@ -960,10 +964,10 @@ function makeMethodologySheet(records,screening){
     excelFormula(ws,`AK${r}`,`MIN(${pivotTerms.join(',')})`);
     // El umbral se aplica al determinante de la matriz normalizada por
     // su diagonal (razón entre det(X'X) y el producto de sumas de cuadrados).
-    excelFormula(ws,'H'+r,`IF(C${r}<MAX(${MODEL_MIN_N},3*D${r}),"Muestra insuficiente",IFERROR(IF(OR(AK${r}<1E-9,ABS(AJ${r})<1E-20),"Matriz singular",IF(ABS(AI${r})<1E-10,"Sin variación en consumo","Estimable")),"Matriz singular"))`);
+    excelFormula(ws,'H'+r,`IF(C${r}<MAX(${MODEL_MIN_N},D${r}+2),"Muestra insuficiente",IFERROR(IF(OR(AK${r}<1E-9,ABS(AJ${r})<1E-20),"Matriz singular",IF(ABS(AI${r})<1E-10,"Sin variación en consumo","Estimada")),"Matriz singular"))`);
     excelFormula(ws,'B'+r,`COUNTIFS(${tRange},A${r},${src}$O$${SCREEN_FIRST}:$O$${screenEnd},1)`,'0');
     excelFormula(ws,'C'+r,`COUNTIFS(${tRange},A${r},${rRange},1)`,'0');
-    ws['D'+r]={t:'n',v:p,z:'0'};
+    ws['D'+r]={...(ws['D'+r]||{}),t:'n',v:p,z:'0'};
     excelFormula(ws,'AI'+r,`IFERROR(${y2cell}-(${rhsColName}${gramRow})^2/C${r},0)`);
     const betaColumnByTerm=[];
     const minorRanges=[];
@@ -976,7 +980,7 @@ function makeMethodologySheet(records,screening){
       }
       const term=params[j],featureIndex=term?MODEL_FEATURES.findIndex(f=>f.id===term.id)+1:0;
       const col=modelCol(featureIndex);betaColumnByTerm.push(col);
-      excelFormula(ws,col+r,`IFERROR(IF($H${r}="Estimable",MDETERM(${range})/$AJ${r},0),0)`,'0.000000');
+      excelFormula(ws,col+r,`IFERROR(IF($H${r}="Estimada",MDETERM(${range})/$AJ${r},0),0)`,'0.000000');
       block+=p+1;
     }
     for(let j=0;j<p;j++){
@@ -997,25 +1001,29 @@ function makeMethodologySheet(records,screening){
     excelFormula(ws,'AH'+r,y2cell);
     const rhsProducts=params.map((term,j)=>`${betaColumnByTerm[j]}${r}*${rhsColName}${gramRow+j}`);
     excelFormula(ws,'AG'+r,`IFERROR(MAX(0,AH${r}-(${rhsProducts.join('+')})),0)`);
-    excelFormula(ws,'E'+r,`IFERROR(IF(H${r}="Estimable",MAX(0,MIN(1,1-AG${r}/AI${r})),""),"")`,'0.000');
-    excelFormula(ws,'F'+r,`IFERROR(IF(H${r}="Estimable",1-(1-E${r})*(C${r}-1)/(C${r}-D${r}),""),"")`,'0.000');
-    excelFormula(ws,'G'+r,`IFERROR(IF(H${r}="Estimable",SQRT(AG${r}/(C${r}-D${r})),""),"")`,'0.000');
-    excelFormula(ws,'AD'+r,`IF(H${r}="Estimable",C${r}*E${r},0)`);
-    excelFormula(ws,'AE'+r,`IF(H${r}="Estimable",C${r},0)`);
+    excelFormula(ws,'E'+r,`IFERROR(IF(H${r}="Estimada",MAX(0,MIN(1,1-AG${r}/AI${r})),""),"")`,'0.000');
+    excelFormula(ws,'F'+r,`IFERROR(IF(H${r}="Estimada",1-(1-E${r})*(C${r}-1)/(C${r}-D${r}),""),"")`,'0.000');
+    excelFormula(ws,'G'+r,`IFERROR(IF(H${r}="Estimada",SQRT(AG${r}/(C${r}-D${r})),""),"")`,'0.000');
+    excelFormula(ws,'AD'+r,`IF(H${r}="Estimada",C${r}*E${r},0)`);
+    excelFormula(ws,'AE'+r,`IF(H${r}="Estimada",C${r},0)`);
     // Texto completo de la ecuación de cada categoría en la sección visible.
-    const eqParts=[`"ln(E) = "&TEXT(${betaColumnByTerm[0]}${r},"0.0000")`];
-    for(let j=1;j<p;j++)eqParts.push(`" + ("&TEXT(${betaColumnByTerm[j]}${r},"0.0000")&")·ln(${params[j].label}+1)"`);
-    excelFormula(ws,'C'+equationRow,`IF($H$${r}="Estimable",${eqParts.join('&')},"No estimada: "&H${r})`);
-    excelFormula(ws,'I'+r,`IF(H${r}="Estimable","Ver ecuación y coeficientes en la sección inferior","No estimada")`);
+    const shortName={area:'Área',aa:'AA (TR)',hours:'Horas/sem.',employees:'Empleados',computers:'Computadoras',lighting:'% iluminación',cooled:'% área enfriada',beds:'Camas',students:'Estudiantes',labs:'Laboratorios',capacity:'Aforo',customs:'Módulos',other:'Ocupación máx.'};
+    const eqParts=[`"ln(Consumo esperado) = "&TEXT(${betaColumnByTerm[0]}${r},"0.0000")`];
+    for(let j=1;j<p;j++){
+      const sep=j%2===1?'" + ("':'CHAR(10)&" + ("';
+      eqParts.push(`${sep}&TEXT(${betaColumnByTerm[j]}${r},"0.0000")&")·ln(${shortName[params[j].id]}+1)"`);
+    }
+    excelFormula(ws,'A'+equationRow,`IF($H$${r}="Estimada",${eqParts.join('&')},"No estimada: "&H${r})`);
+    // Enlace permanente a los coeficientes por categoría (celda I de la tabla superior).
     for(let j=0;j<p;j++){
       const rr=start+j;
-      excelFormula(ws,'C'+rr,`IFERROR(IF($H$${r}="Estimable",SQRT(($AG$${r}/($C$${r}-$D$${r}))*MDETERM(${minorRanges[j]})/$AJ$${r}),""),"")`,'0.000000');
-      excelFormula(ws,'D'+rr,`IFERROR(IF($H$${r}="Estimable",B${rr}/C${rr},""),"")`,'0.000');
-      excelFormula(ws,'E'+rr,`IFERROR(IF($H$${r}="Estimable",_xlfn.T.DIST.2T(ABS(D${rr}),$C$${r}-$D$${r}),""),"")`,'0.0000');
-      excelFormula(ws,'I'+rr,`IF($H$${r}="Estimable","Estimado","No estimable")`);
+      excelFormula(ws,'C'+rr,`IFERROR(IF($H$${r}="Estimada",SQRT(($AG$${r}/($C$${r}-$D$${r}))*MDETERM(${minorRanges[j]})/$AJ$${r}),""),"")`,'0.000000');
+      excelFormula(ws,'D'+rr,`IFERROR(IF($H$${r}="Estimada",B${rr}/C${rr},""),"")`,'0.000');
+      excelFormula(ws,'E'+rr,`IFERROR(IF($H$${r}="Estimada",_xlfn.T.DIST.2T(ABS(D${rr}),$C$${r}-$D$${r}),""),"")`,'0.0000');
+      // Las variables auxiliares del modelo no ocupan columnas visibles.
     }
     if((r-METHOD_FIRST)%2)styleRange(ws,`A${r}:I${r}`,ALT_STYLE);
-    ws['!rows'][r-1]={hpt:45};
+    ws['!rows'][r-1]={hpt:28};
   }
   // No se dejan visibles las filas de cálculos matriciales.
   for(let rr=foot+notes.length+10;rr<solverCursor;rr++)ws['!rows'][rr-1]={hidden:true,hpt:0};
@@ -1031,6 +1039,7 @@ function makeDepuratedSheet(records){
   const rows=[['← Volver al índice'],Array(DEP_HEADERS.length).fill(''),DEP_HEADERS,
     ...Array.from({length:n},()=>Array(DEP_HEADERS.length).fill(''))];
   const ws=XLSX.utils.aoa_to_sheet(rows);addReturnToIndex(ws);
+  ws['!merges']=[{s:{r:0,c:0},e:{r:0,c:1}}];
   ws['!cols']=[{wch:16},{wch:22},{wch:20},{wch:47},{wch:35},{wch:18},{wch:22},{wch:17},
     {wch:18},{wch:22},{wch:21},{wch:15},{wch:16},{wch:17},{wch:25},{wch:38},{wch:14,hidden:true}];
   ws['!rows']=Array.from({length:end},(_,i)=>({hpt:i===2?46:i===1?9:24}));
@@ -1077,17 +1086,23 @@ function primeWorkbookAnalysisCache(wb,records,screening){
     const rows=items.map(item=>{
       const expected=model&&item.fit?Math.exp(model.beta[0]+model.predictors.reduce((s,f,j)=>s+model.beta[j+1]*item.featureLogs[f.id],0)):null;
       const ratio=expected&&Number.isFinite(expected)?item.annual/expected:null;
+      const eligible=Boolean(model&&item.fit&&ratio!==null&&Number.isFinite(ratio)&&ratio>0);
       return {item,expected:expected&&Number.isFinite(expected)?expected:null,ratio,
-        metric:ratio??item.eui??1E15,modelStatus:model&&item.fit?'Estimable':'Sin modelo'};
+        metric:eligible?ratio:1E10+(item.eui??0),modelStatus:eligible?'Estimada':'Sin modelo'};
     }).sort((a,b)=>a.metric-b.metric||a.item.index-b.item.index);
+    const eligibleCount=rows.filter(x=>x.modelStatus==='Estimada').length;
+    let eligibleRank=0;
     rows.forEach((data,i)=>{
-      const rank=i+1,score=model&&data.item.fit&&rows.length>1?Math.round(10*(1+99*(rows.length-rank)/(rows.length-1)))/10:null;
+      const rank=i+1;
+      if(data.modelStatus==='Estimada')eligibleRank++;
+      const score=data.modelStatus==='Estimada'&&eligibleCount>1
+        ?Math.round(10*(1+99*(eligibleCount-eligibleRank)/(eligibleCount-1)))/10:null;
       entries.push({...data,rank,score,globalPos:++globalPos});
     });
   }
   for(const row of entries){
     const r=SCREEN_FIRST+row.item.index,x=row.item;
-    const v={O:1,P:x.featureLogs.area??0,Q:x.annual>0?Math.log(x.annual):0,R:x.fit?1:0,
+    const v={O:1,P:x.featureLogs.area??0,Q:x.annual>0?Math.log(x.annual):0,R:x.fit?1:0,AS:screening.types.indexOf(x.type)+1,
       V:row.expected??'',W:row.ratio??'',X:row.metric,Y:row.rank,Z:row.globalPos,
       AA:row.score??'',AB:row.modelStatus,
       AC:row.expected&&x.fit?(Math.log(x.annual)-Math.log(row.expected))**2:''};
@@ -1104,7 +1119,7 @@ function primeWorkbookAnalysisCache(wb,records,screening){
     const r=METHOD_FIRST+i,items=byType.get(type)||[],valid=items.filter(x=>x.fit);
     const model=screening.baseline.get(type)||null,info=screening.status.get(type);
     const values={B:items.length,C:valid.length,E:model?.r2??'',F:model?.r2Adjusted??'',
-      G:model?.rmse??'',H:info.state,I:model?'Ver ecuación y coeficientes en la sección inferior':'No estimada',
+      G:model?.rmse??'',H:info.state,
       AD:model?model.n*model.r2:0,AE:model?model.n:0,AG:model?.sse??0};
     for(const [col,val]of Object.entries(values))cached(method,col+r,val);
     for(let j=0;j<=MODEL_FEATURES.length;j++){
@@ -1123,10 +1138,11 @@ function primeWorkbookAnalysisCache(wb,records,screening){
           cached(method,'I'+rr,model?'Estimado':'No estimable');
         }
         if(model){
-          const eq='ln(E) = '+model.beta[0].toFixed(4)+model.predictors.map((f,j)=>
-            ` + (${model.beta[j+1].toFixed(4)})·ln(${f.label}+1)`).join('');
-          cached(method,'C'+spec.equationRow,eq);
-        }else cached(method,'C'+spec.equationRow,'No estimada: '+info.state);
+          const sn={area:'Área',aa:'AA (TR)',hours:'Horas/sem.',employees:'Empleados',computers:'Computadoras',lighting:'% iluminación',cooled:'% área enfriada',beds:'Camas',students:'Estudiantes',labs:'Laboratorios',capacity:'Aforo',customs:'Módulos',other:'Ocupación máx.'};
+          const eq='ln(Consumo esperado) = '+model.beta[0].toFixed(4)+model.predictors.map((f,j)=>
+            `${j>0&&j%2===0?'\n':''} + (${model.beta[j+1].toFixed(4)})·ln(${sn[f.id]}+1)`).join('');
+          cached(method,'A'+spec.equationRow,eq);
+        }else cached(method,'A'+spec.equationRow,'No estimada: '+info.state);
       }
     }
   }
