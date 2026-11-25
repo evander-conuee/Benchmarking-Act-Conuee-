@@ -1487,6 +1487,7 @@
                     <label for="p027a">
 
                         Capacidad total instalada de aire acondicionado
+                        <span class="required">*</span>
 
                         <button
                             type="button"
@@ -1506,6 +1507,8 @@
                             min="0"
                             step="0.01"
                             placeholder="0 si no hay equipos de AA"
+                            required
+                            aria-describedby="aireCapacidadError"
                         >
 
                         <select id="p027b" class="unit-select">
@@ -1513,6 +1516,10 @@
                             <option value="BTU_H">BTU/h</option>
                         </select>
 
+                    </div>
+
+                    <div class="field-error" id="aireCapacidadError" role="status" aria-live="polite">
+                        Capture la capacidad instalada de aire acondicionado. Si no hay equipos, registre 0.
                     </div>
 
                     <div class="aire-equivalente" id="aireEquivalenteWrap" hidden>
@@ -1554,8 +1561,7 @@
                         <br><br>
 
                         Si el inmueble no cuenta con equipos de aire acondicionado,
-                        registre <strong>0</strong>. Deje el campo vacío solamente
-                        cuando no disponga de esta información.
+                        registre <strong>0</strong>. Este campo es obligatorio y no debe dejarse vacío.
 
                     </div>
 
@@ -1567,6 +1573,7 @@
                     <label for="p028">
                         Porcentaje del área total construida
                         que se enfría mediante equipos eléctricos
+                        <span class="required">*</span>
                     </label>
 
                     <div class="input-with-unit">
@@ -1578,10 +1585,16 @@
                             max="100"
                             step="0.01"
                             placeholder="0 si no se enfría superficie"
+                            required
+                            aria-describedby="areaEnfriadaError"
                         >
 
                         <span class="input-unit">%</span>
 
+                    </div>
+
+                    <div class="field-error" id="areaEnfriadaError" role="status" aria-live="polite">
+                        Indique el porcentaje de superficie enfriada (de 0 a 100). Si no se enfría, registre 0.
                     </div>
 
                 </div>
@@ -1592,6 +1605,7 @@
                     <label for="p030">
                         Porcentaje del área total construida
                         con iluminación artificial
+                        <span class="required">*</span>
                     </label>
 
                     <div class="input-with-unit">
@@ -1602,14 +1616,16 @@
                             min="0.01"
                             max="100"
                             step="0.01"
+                            required
+                            aria-describedby="iluminacionError"
                         >
 
                         <span class="input-unit">%</span>
 
                     </div>
 
-                    <div class="field-error" id="iluminacionError">
-                        El valor debe de ser mayor a 0.
+                    <div class="field-error" id="iluminacionError" role="status" aria-live="polite">
+                        Este campo es obligatorio y el porcentaje debe ser mayor que 0 y hasta 100.
                     </div>
 
                 </div>
@@ -2066,6 +2082,53 @@
         });
     }
 
+    /* =========================================================
+       CAMPOS OBLIGATORIOS PARA EL MODELO DE CONSUMO ESPERADO
+       Vacío nunca equivale a 0. P027A y P028 aceptan 0;
+       P030 debe ser estrictamente mayor que 0.
+    ========================================================= */
+    const benchmarkRequiredFields = [
+        {id: "p027a", errorId: "aireCapacidadError", min: 0, max: null,
+         missing: "Capture la capacidad de aire acondicionado; registre 0 si no hay equipos.",
+         invalid: "La capacidad debe ser un número mayor o igual a 0."},
+        {id: "p028", errorId: "areaEnfriadaError", min: 0, max: 100,
+         missing: "Capture el porcentaje del área enfriada; registre 0 si no se enfría ninguna superficie.",
+         invalid: "El porcentaje del área enfriada debe estar entre 0 y 100."},
+        {id: "p030", errorId: "iluminacionError", min: 0.01, max: 100,
+         missing: "Capture el porcentaje del área con iluminación artificial; no puede quedar vacío.",
+         invalid: "El porcentaje de iluminación artificial debe ser mayor que 0 y hasta 100."}
+    ];
+
+    let benchmarkValidationAttempted = false;
+    function validateBenchmarkRequiredFields() {
+        benchmarkValidationAttempted = true;
+        let valid = true;
+        for (const item of benchmarkRequiredFields) {
+            const field = document.getElementById(item.id);
+            const error = document.getElementById(item.errorId);
+            const missing = field.value.trim() === "";
+            const value = missing ? NaN : Number(field.value);
+            const invalid = missing || !Number.isFinite(value) ||
+                value < item.min || (item.max !== null && value > item.max) ||
+                !field.validity.valid;
+            field.classList.toggle("invalid", invalid);
+            field.setAttribute("aria-invalid", invalid ? "true" : "false");
+            error.textContent = missing ? item.missing : item.invalid;
+            error.classList.toggle("visible", invalid);
+            if (invalid) valid = false;
+        }
+        return valid;
+    }
+
+    // Mantiene los errores visibles solo mientras la captura es inválida.
+    benchmarkRequiredFields.forEach(function(item) {
+        const field = document.getElementById(item.id);
+        field.addEventListener("input", function() {
+            // Actualiza los mensajes después de que se haya intentado avanzar.
+            if (benchmarkValidationAttempted) validateBenchmarkRequiredFields();
+        });
+    });
+
     function validateCurrentSection() {
 
         let valid = true;
@@ -2261,6 +2324,9 @@
             ) && valid;
 
             valid = validateNumericalLimits(3) && valid;
+
+            // Evita avanzar cuando faltan variables necesarias para la regresión.
+            valid = validateBenchmarkRequiredFields() && valid;
 
             if (!valid) {
 
@@ -2616,6 +2682,18 @@
     });
 
     async function saveRecordToSupabase() {
+
+        // Comprobación final incluso si se llegó al cierre desde un estado antiguo.
+        if (!validateBenchmarkRequiredFields()) {
+            currentSection = 3;
+            showSection(3);
+            const firstInvalid = benchmarkRequiredFields
+                .map(item => document.getElementById(item.id))
+                .find(field => field.classList.contains("invalid"));
+            if (firstInvalid) firstInvalid.focus();
+            alert("Complete P027A, P028 y P030 correctamente antes de enviar la información.");
+            return;
+        }
 
         if (isSaving) {
             return;
