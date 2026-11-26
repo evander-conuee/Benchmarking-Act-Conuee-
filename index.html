@@ -379,6 +379,15 @@
             padding: 8px 10px;
         }
 
+        /* Aclaración informativa: mismo tamaño y color que la advertencia. */
+        .aire-warning-aclaracion {
+            display: block;
+            margin-top: 7px;
+            font-size: inherit;
+            color: inherit;
+            line-height: inherit;
+        }
+
         .input-unit {
             font-size: 14px;
             color: #555;
@@ -1534,11 +1543,13 @@
                     <div class="field-error" id="aireWarningAlto">
                         ⚠️ El valor ingresado parece elevado para la unidad seleccionada.
                         ¿Está seguro de que la unidad es TR y no BTU/h?
+                        <span class="aire-warning-aclaracion">Aviso: Este mensaje es únicamente informativo y no impide continuar con el registro. Verifique que la capacidad ingresada y la unidad seleccionada sean correctas.</span>
                     </div>
 
                     <div class="field-error" id="aireWarningBajo">
                         ⚠️ El valor ingresado parece corresponder a una capacidad
                         expresada en TR. Verifique que la unidad seleccionada sea correcta.
+                        <span class="aire-warning-aclaracion">Aviso: Este mensaje es únicamente informativo y no impide continuar con el registro. Verifique que la capacidad ingresada y la unidad seleccionada sean correctas.</span>
                     </div>
 
                     <div class="info-box" id="infoAire">
