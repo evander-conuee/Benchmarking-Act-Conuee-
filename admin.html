@@ -8,9 +8,18 @@
 <script src="https://cdn.jsdelivr.net/npm/xlsx-js-style@1.2.0/dist/xlsx.bundle.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.2/dist/jspdf.umd.min.js"></script>
-<script src="acuse.js"></script>
+<script src="acuse.js?v=20261127"></script>
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background-color:#f3f5f7;background-image:url('TexturaVerde.jpg');background-repeat:no-repeat;background-position:center center;background-size:cover;background-attachment:fixed;color:#263238}header{background:#002f2a;border-bottom:3px solid #1e5b4f;padding:8px 30px;position:sticky;top:0;z-index:1000;box-shadow:0 2px 8px rgba(0,0,0,.08)}.header{max-width:1100px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:20px}.title{display:flex;align-items:center;gap:20px;flex:1}.conuee-logo{width:145px;height:78px;flex:0 0 145px;object-fit:contain;object-position:left center;display:block}.title h1{margin:0;color:#fff;font-size:23px}.title p{margin:5px 0 0;color:#fff;font-size:14px;opacity:.92}.btn{border:0;border-radius:5px;padding:9px 15px;font-size:13px;font-weight:bold;cursor:pointer}.btn-primary{background:#5b7f3a;color:#fff}.btn-secondary{background:#d8dde0;color:#263238}.btn-danger{background:#8e0000;color:#fff}.btn-excel{background:#5b7f3a;color:#fff}.btn:disabled{opacity:.55;cursor:not-allowed}.export-card{display:flex;align-items:center;justify-content:space-between;gap:18px}.export-card p{margin:5px 0 0;color:#666;font-size:12px}.export-status{color:#666;font-size:12px}.hidden{display:none!important}main{max-width:1200px;margin:24px auto;padding:0 20px;font-size:14px}.card{background:#fff;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.08);padding:20px;margin-bottom:18px}.login{max-width:430px;margin:60px auto}.login h2{margin-top:0;color:#3f5d2a;font-size:20px}label{display:block;font-weight:bold;font-size:13px;margin:13px 0 6px}input,select{width:100%;padding:9px 11px;border:1px solid #b8bec3;border-radius:5px;font-size:14px;background:#fff}input:focus,select:focus{outline:none;border-color:#5b7f3a;box-shadow:0 0 0 2px rgba(91,127,58,.15)}.message{padding:12px;border-radius:5px;margin-top:14px;display:none}.message.error{display:block;background:#ffebee;color:#8e0000;border-left:4px solid #c62828}.message.success{display:block;background:#eef7e8;color:#5b7f3a;border-left:4px solid #5b7f3a}.toolbar{display:grid;grid-template-columns:2fr 1fr 1fr auto auto;gap:10px;align-items:end}.stats{display:flex;gap:15px;flex-wrap:wrap;margin-bottom:18px}.stat{background:#eef4e9;border-left:4px solid #5b7f3a;padding:12px 18px;border-radius:5px}.stat strong{display:block;font-size:22px;color:#3f5d2a}.table-wrap{overflow:auto;border:1px solid #d2d7da;border-radius:6px}table{width:100%;border-collapse:collapse;min-width:1000px}th,td{padding:10px;border-bottom:1px solid #e1e5e8;text-align:left;white-space:nowrap;font-size:13px}th{background:#eef1ed;color:#263238;position:sticky;top:0}tr:hover td{background:#f7f9f6}.actions{display:flex;justify-content:space-between;align-items:center;margin-top:15px;gap:10px}.muted{color:#666;font-size:13px}.loading{text-align:center;padding:30px;color:#666}.modal{position:fixed;inset:0;background:rgba(0,0,0,.55);display:flex;align-items:center;justify-content:center;padding:20px;z-index:1200}.modal-card{background:#f7f9f8;width:min(1040px,100%);max-height:92vh;overflow:auto;border-radius:12px;padding:0;box-shadow:0 18px 50px rgba(0,0,0,.28)}.modal-head{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;padding:22px 24px 18px;background:#002f2a;color:#fff;border-radius:12px 12px 0 0}.modal-head h2{margin:2px 0 4px;font-size:22px}.modal-kicker{font-size:11px;text-transform:uppercase;letter-spacing:.08em;opacity:.76}.modal-subtitle{margin:0;font-size:13px;opacity:.9}.modal-head .btn-secondary{background:#fff}.modal-body{padding:22px 24px 26px}.benchmark-panel{background:#fff;border:1px solid #dbe3df;border-radius:10px;padding:18px 20px;margin-bottom:18px;box-shadow:0 2px 7px rgba(0,0,0,.05)}.benchmark-top{display:flex;justify-content:space-between;gap:20px;align-items:center}.benchmark-copy h3{margin:0 0 5px;color:#244817;font-size:18px}.benchmark-copy p{margin:0;color:#66706b;font-size:13px;line-height:1.45}.benchmark-score{min-width:118px;text-align:center;padding:10px 14px;border-left:1px solid #e2e8e5}.benchmark-score strong{display:block;font-size:34px;line-height:1;color:#5b7f3a}.benchmark-score span{display:block;margin-top:4px;font-size:11px;color:#6d7772}.efficiency-meter{position:relative;margin-top:18px;padding-top:20px}.meter-track{height:14px;border-radius:999px;background:linear-gradient(90deg,#b85b55 0%,#d8a54b 35%,#d8d56a 52%,#87a95c 72%,#5b7f3a 100%);box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}.meter-marker{position:absolute;top:10px;width:18px;height:25px;border-radius:5px;background:#002f2a;border:3px solid #fff;box-shadow:0 1px 5px rgba(0,0,0,.3);transform:translateX(-50%)}.meter-marker::before{content:"Usted está aquí";position:absolute;left:50%;bottom:27px;transform:translateX(-50%);white-space:nowrap;background:#002f2a;color:#fff;font-size:10px;font-weight:bold;padding:4px 7px;border-radius:4px}.meter-labels{display:flex;justify-content:space-between;margin-top:7px;font-size:11px;color:#6d7772}.benchmark-metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.benchmark-metric{background:#f4f7f5;border-radius:7px;padding:10px 12px}.benchmark-metric small{display:block;color:#6c756f;font-size:11px;margin-bottom:4px}.benchmark-metric strong{font-size:14px;color:#263238}.benchmark-pending{border-left:5px solid #b7c2bd}.benchmark-pending .meter-track{background:#e2e7e4}.benchmark-pending .benchmark-score strong{font-size:17px;color:#66706b}.detail-section{background:#fff;border:1px solid #dbe3df;border-radius:10px;margin-bottom:14px;overflow:hidden}.detail-section-title{margin:0;padding:11px 16px;background:#eef3f0;color:#31501f;font-size:14px;font-weight:bold}.detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0}.detail{padding:13px 16px;border-bottom:1px solid #edf0ee}.detail:nth-child(odd){border-right:1px solid #edf0ee}.detail small{display:block;color:#707a75;margin-bottom:4px;font-size:11px}.detail strong{display:block;color:#263238;font-size:14px;word-break:break-word}.detail-empty{color:#98a09c!important;font-weight:normal}.detail-note{margin-top:6px;color:#7b8580;font-size:11px;line-height:1.35}@media(max-width:800px){.toolbar{grid-template-columns:1fr}.header{align-items:flex-start;flex-direction:column}.modal{padding:8px}.modal-body{padding:16px}.benchmark-top{align-items:flex-start;flex-direction:column}.benchmark-score{border-left:0;border-top:1px solid #e2e8e5;width:100%;padding-top:12px}.benchmark-metrics{grid-template-columns:1fr}.detail-grid{grid-template-columns:1fr}.detail:nth-child(odd){border-right:0}}
+/* Confirmación de eliminación exclusivamente administrativa. */
+.delete-modal-card{width:min(590px,100%)}
+.delete-modal-body{padding:22px 24px 24px}
+.delete-warning{padding:14px 16px;background:#fff4f2;border-left:4px solid #9b2222;border-radius:5px;line-height:1.55}
+.delete-info{margin:16px 0;padding:12px 14px;background:#f4f7f5;border:1px solid #e0e9e2;border-radius:6px;line-height:1.8}
+.delete-info strong{overflow-wrap:anywhere}
+.delete-action-row{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap}
+.delete-modal-card input{max-width:290px;text-transform:uppercase;letter-spacing:0.06em}
+.delete-error{color:#8e0000;font-weight:bold;font-size:13px;margin:10px 0;min-height:16px}
 </style>
 </head>
 <body>
@@ -28,7 +37,7 @@
 <section id="adminApp" class="hidden">
 <div class="stats"><div class="stat"><span>Registros encontrados</span><strong id="count">0</strong></div><div class="stat"><span>Página</span><strong id="pageLabel">1</strong></div></div>
 <div class="card"><div class="toolbar">
-<div><label for="search">Buscar inmueble</label><input id="search" placeholder="ID del inmueble"></div>
+<div><label for="search">Buscar inmueble</label><input id="search" placeholder="ID del inmueble o contraseña APF"></div>
 <div><label for="entity">Entidad</label><select id="entity"><option value="">Todas</option></select></div>
 <div><label for="building">Tipo de edificio</label><select id="building"><option value="">Todos</option></select></div>
 <button id="filterBtn" class="btn btn-primary">Buscar</button><button id="clearBtn" class="btn btn-secondary">Limpiar</button>
@@ -51,6 +60,32 @@
     <div id="detailGrid"></div>
   </div>
 </div>
+</div>
+<!-- Ventana de eliminación: exige confirmación exacta de contraseña APF. -->
+<div id="deleteModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="deleteModalTitle">
+  <div class="modal-card delete-modal-card">
+    <div class="modal-head">
+      <div><div class="modal-kicker">Acción administrativa irreversible</div>
+        <h2 id="deleteModalTitle">Eliminar registro</h2></div>
+      <button type="button" id="deleteCloseTop" class="btn btn-secondary">Cerrar</button>
+    </div>
+    <div class="delete-modal-body">
+      <div class="delete-warning"><strong>Atención:</strong> esta acción elimina definitivamente el registro de Supabase. El folio y su acuse anterior dejarán de corresponder a un registro vigente. La contraseña APF quedará disponible para una nueva captura.</div>
+      <div class="delete-info">
+        <div><strong>Inmueble:</strong> <span id="deleteBuildingName"></span></div>
+        <div><strong>Contraseña APF:</strong> <span id="deleteApfDisplay"></span></div>
+        <div><strong>Folio UUID:</strong> <span id="deleteFolioDisplay"></span></div>
+      </div>
+      <label for="deleteApfConfirmation">Escriba la contraseña APF para confirmar</label>
+      <input id="deleteApfConfirmation" type="text" autocomplete="off" autocapitalize="characters" spellcheck="false" placeholder="Contraseña APF" />
+      <p class="muted">Solo se habilitará la eliminación cuando coincida exactamente con el registro seleccionado.</p>
+      <div id="deleteError" class="delete-error" role="alert" aria-live="assertive"></div>
+      <div class="delete-action-row">
+        <button type="button" id="deleteCancel" class="btn btn-secondary">Cancelar</button>
+        <button type="button" id="deleteConfirm" class="btn btn-danger" disabled>Eliminar definitivamente</button>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
 const SUPABASE_URL='https://cixxmvdippishbpvauul.supabase.co';
@@ -128,7 +163,7 @@ async function loadFilters(){
 async function loadRows(){
  const from=page*PAGE_SIZE,to=from+PAGE_SIZE-1;let q=db.from('registros_inmuebles').select('*',{count:'exact'}).order('fecha_registro',{ascending:false}).range(from,to);
  const search=document.getElementById('search').value.trim(),entity=document.getElementById('entity').value,building=document.getElementById('building').value;
- if(search) q=q.ilike('p001_id_inmueble','%'+search+'%');if(entity)q=q.eq('p002_entidad_federativa',entity);if(building)q=q.eq('p004_tipo_edificio',building);
+ if(search){if(/^[A-Za-z]{6}[0-9]{3,4}$/.test(search))q=q.eq('p000_contrasena_apf',search.toUpperCase());else q=q.ilike('p001_id_inmueble','%'+search+'%');}if(entity)q=q.eq('p002_entidad_federativa',entity);if(building)q=q.eq('p004_tipo_edificio',building);
  document.getElementById('tableStatus').classList.remove('hidden');document.getElementById('tableWrap').classList.add('hidden');
  const {data,error,count}=await q;if(error){document.getElementById('tableStatus').textContent='Error al cargar registros: '+error.message;return}
  currentRows=data||[];total=count||0;renderRows();
@@ -170,6 +205,14 @@ function renderRows(){
      catch(error){ alert('No fue posible generar el acuse: '+error.message); }
    };
    td.appendChild(receiptButton);
+   const deleteButton=document.createElement('button');
+   deleteButton.type='button';
+   deleteButton.className='btn btn-danger';
+   deleteButton.textContent='Eliminar';
+   deleteButton.style.marginLeft='6px';
+   deleteButton.title='Eliminar este registro de Supabase (requiere confirmación)';
+   deleteButton.onclick=()=>abrirEliminacion(r);
+   td.appendChild(deleteButton);
    tr.appendChild(td);
    tbody.appendChild(tr);
  });
@@ -181,6 +224,65 @@ function renderRows(){
  document.getElementById('tableStatus').classList.add('hidden');
  document.getElementById('tableWrap').classList.remove('hidden');
 }
+// Eliminación solo mediante RPC de Supabase con comprobación de admin_users.
+// Nunca se otorgan permisos DELETE ni se introduce una service_role en el navegador.
+let registroPorEliminar=null;
+const deleteModal=document.getElementById('deleteModal');
+const deleteInput=document.getElementById('deleteApfConfirmation');
+const deleteConfirm=document.getElementById('deleteConfirm');
+const deleteError=document.getElementById('deleteError');
+function abrirEliminacion(registro){
+  if(!registro || !registro.id_registro || !registro.p000_contrasena_apf){
+    alert('Este registro no tiene folio o contraseña APF válidos. No se eliminará.');return;
+  }
+  registroPorEliminar=registro;
+  document.getElementById('deleteBuildingName').textContent=registro.p001_id_inmueble||'Sin nombre';
+  document.getElementById('deleteApfDisplay').textContent=registro.p000_contrasena_apf;
+  document.getElementById('deleteFolioDisplay').textContent=registro.id_registro;
+  deleteInput.value='';deleteError.textContent='';deleteConfirm.disabled=true;
+  deleteModal.classList.remove('hidden');deleteInput.focus();
+}
+function cerrarEliminacion(){
+  if(deleteConfirm.dataset.busy==='1')return;
+  deleteModal.classList.add('hidden');registroPorEliminar=null;
+  deleteInput.value='';deleteError.textContent='';deleteConfirm.disabled=true;
+}
+function comprobarConfirmacion(){
+  deleteConfirm.disabled=!registroPorEliminar || deleteConfirm.dataset.busy==='1' ||
+    deleteInput.value.trim().toUpperCase()!==String(registroPorEliminar.p000_contrasena_apf).trim().toUpperCase();
+}
+deleteInput.addEventListener('input',comprobarConfirmacion);
+document.getElementById('deleteCancel').onclick=cerrarEliminacion;
+document.getElementById('deleteCloseTop').onclick=cerrarEliminacion;
+deleteModal.addEventListener('click',e=>{if(e.target===deleteModal)cerrarEliminacion()});
+async function eliminarRegistroConfirmado(){
+  if(!registroPorEliminar || deleteConfirm.disabled || deleteConfirm.dataset.busy==='1')return;
+  const candidato=registroPorEliminar;
+  if(deleteInput.value.trim().toUpperCase()!==String(candidato.p000_contrasena_apf).trim().toUpperCase())return;
+  deleteConfirm.dataset.busy='1';deleteConfirm.disabled=true;
+  deleteConfirm.textContent='Eliminando...';deleteError.textContent='';
+  try{
+    const {data,error}=await db.rpc('eliminar_registro_apf_admin',{
+      p_registro_id:candidato.id_registro,
+      p_apf:candidato.p000_contrasena_apf
+    });
+    if(error)throw error;
+    if(!data || data.deleted!==true)throw new Error('Supabase no confirmó la eliminación.');
+    deleteConfirm.dataset.busy='0';
+    cerrarEliminacion();
+    page=0;
+    await loadRows();
+    alert('Registro eliminado correctamente de Supabase. La contraseña APF quedó disponible para un nuevo envío.');
+  }catch(error){
+    console.error('Error al eliminar registro:',error);
+    deleteError.textContent=error.message||'No fue posible eliminar el registro. Compruebe la función de Supabase y sus permisos.';
+  }finally{
+    deleteConfirm.dataset.busy='0';
+    deleteConfirm.textContent='Eliminar definitivamente';
+    comprobarConfirmacion();
+  }
+}
+deleteConfirm.addEventListener('click',eliminarRegistroConfirmado);
 function num(v){return v==null?'':Number(v).toLocaleString('es-MX',{maximumFractionDigits:4})}function fmtDate(v){return v?new Date(v).toLocaleString('es-MX'):''}
 const DETAIL_GROUPS=[
   {title:'Ubicación y clasificación',fields:[
