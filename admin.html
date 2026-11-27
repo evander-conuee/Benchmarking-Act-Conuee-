@@ -20,6 +20,10 @@
 .delete-action-row{display:flex;justify-content:flex-end;gap:10px;margin-top:18px;flex-wrap:wrap}
 .delete-modal-card input{max-width:290px;text-transform:uppercase;letter-spacing:0.06em}
 .delete-error{color:#8e0000;font-weight:bold;font-size:13px;margin:10px 0;min-height:16px}
+/* Acciones visibles inmediatamente después de la contraseña APF. */
+.table-actions{white-space:nowrap;min-width:286px}
+.table-actions .btn{font-size:12px;padding:8px 10px}
+#tableWrap th:nth-child(4),#tableWrap td:nth-child(4){min-width:270px}
 </style>
 </head>
 <body>
@@ -37,12 +41,12 @@
 <section id="adminApp" class="hidden">
 <div class="stats"><div class="stat"><span>Registros encontrados</span><strong id="count">0</strong></div><div class="stat"><span>Página</span><strong id="pageLabel">1</strong></div></div>
 <div class="card"><div class="toolbar">
-<div><label for="search">Buscar inmueble</label><input id="search" placeholder="ID del inmueble o contraseña APF"></div>
+<div><label for="search">Buscar por contraseña APF</label><input id="search" placeholder="Introduzca la contraseña APF" autocomplete="off"></div>
 <div><label for="entity">Entidad</label><select id="entity"><option value="">Todas</option></select></div>
 <div><label for="building">Tipo de edificio</label><select id="building"><option value="">Todos</option></select></div>
 <button id="filterBtn" class="btn btn-primary">Buscar</button><button id="clearBtn" class="btn btn-secondary">Limpiar</button>
 </div></div>
-<div class="card export-card"><div><h2 style="margin:0;color:#3f5d2a;font-size:20px">Exportación administrativa</h2><p>Genera un Excel con 6 hojas: Índice, Descriptor de archivo, Registros, Filtro estadístico, Base Depurada y Metodología.</p><p>Se exportan todos los registros que coincidan con los filtros actuales; sin filtros, se exportan todos.</p></div><div style="text-align:right"><button id="exportBtn" class="btn btn-excel">⬇ Exportar Excel administrativo</button><button id="acusesZipBtn" class="btn btn-secondary" style="margin:8px 0 0 8px" type="button">Descargar acuses (ZIP)</button><div id="acusesZipEstado" class="export-status" aria-live="polite" style="margin-top:7px"></div><div id="exportStatus" class="export-status" style="margin-top:8px"></div></div></div><div class="card"><div id="tableStatus" class="loading">Cargando registros...</div><div id="tableWrap" class="table-wrap hidden"><table><thead><tr><th>Fecha</th><th>Contraseña APF</th><th>ID inmueble</th><th>Entidad</th><th>Municipio / Alcaldía</th><th>Tipo</th><th>Consumo 2025</th><th>AA reportado</th><th>Unidad</th><th>AA en TR</th><th>Acción</th></tr></thead><tbody id="tbody"></tbody></table></div><div class="actions"><span id="rangeLabel" class="muted"></span><div><button id="prevBtn" class="btn btn-secondary">Anterior</button> <button id="nextBtn" class="btn btn-secondary">Siguiente</button></div></div></div>
+<div class="card export-card"><div><h2 style="margin:0;color:#3f5d2a;font-size:20px">Exportación administrativa</h2><p>Genera un Excel con 6 hojas: Índice, Descriptor de archivo, Registros, Filtro estadístico, Base Depurada y Metodología.</p><p>Se exportan todos los registros que coincidan con los filtros actuales; sin filtros, se exportan todos.</p></div><div style="text-align:right"><button id="exportBtn" class="btn btn-excel">⬇ Exportar Excel administrativo</button><button id="acusesZipBtn" class="btn btn-secondary" style="margin:8px 0 0 8px" type="button">Descargar acuses (ZIP)</button><div id="acusesZipEstado" class="export-status" aria-live="polite" style="margin-top:7px"></div><div id="exportStatus" class="export-status" style="margin-top:8px"></div></div></div><div class="card"><div id="tableStatus" class="loading">Cargando registros...</div><div id="tableWrap" class="table-wrap hidden"><table><thead><tr><th>Fecha</th><th>Contraseña APF</th><th>Acciones</th><th>Nombre del inmueble</th><th>Entidad</th><th>Municipio / Alcaldía</th><th>Tipo</th><th>Consumo 2025</th><th>AA reportado</th><th>Unidad</th><th>AA en TR</th></tr></thead><tbody id="tbody"></tbody></table></div><div class="actions"><span id="rangeLabel" class="muted"></span><div><button id="prevBtn" class="btn btn-secondary">Anterior</button> <button id="nextBtn" class="btn btn-secondary">Siguiente</button></div></div></div>
 </section>
 </main>
 <div id="modal" class="modal hidden">
@@ -163,7 +167,7 @@ async function loadFilters(){
 async function loadRows(){
  const from=page*PAGE_SIZE,to=from+PAGE_SIZE-1;let q=db.from('registros_inmuebles').select('*',{count:'exact'}).order('fecha_registro',{ascending:false}).range(from,to);
  const search=document.getElementById('search').value.trim(),entity=document.getElementById('entity').value,building=document.getElementById('building').value;
- if(search){if(/^[A-Za-z]{6}[0-9]{3,4}$/.test(search))q=q.eq('p000_contrasena_apf',search.toUpperCase());else q=q.ilike('p001_id_inmueble','%'+search+'%');}if(entity)q=q.eq('p002_entidad_federativa',entity);if(building)q=q.eq('p004_tipo_edificio',building);
+ if(search)q=q.ilike('p000_contrasena_apf','%'+search.toUpperCase()+'%');if(entity)q=q.eq('p002_entidad_federativa',entity);if(building)q=q.eq('p004_tipo_edificio',building);
  document.getElementById('tableStatus').classList.remove('hidden');document.getElementById('tableWrap').classList.add('hidden');
  const {data,error,count}=await q;if(error){document.getElementById('tableStatus').textContent='Error al cargar registros: '+error.message;return}
  currentRows=data||[];total=count||0;renderRows();
@@ -185,8 +189,9 @@ function renderRows(){
      r.p027b_capacidad_aire_unidad||'',
      num(r.p027c_capacidad_aire_tr)
    ];
-   vals.forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td)});
+   vals.slice(0,2).forEach(v=>{const td=document.createElement('td');td.textContent=v;tr.appendChild(td)});
    const td=document.createElement('td');
+   td.className='table-actions';
    const b=document.createElement('button');
    b.className='btn btn-secondary';
    b.textContent='Ver detalle';
@@ -204,7 +209,6 @@ function renderRows(){
      }
      catch(error){ alert('No fue posible generar el acuse: '+error.message); }
    };
-   td.appendChild(receiptButton);
    const deleteButton=document.createElement('button');
    deleteButton.type='button';
    deleteButton.className='btn btn-danger';
@@ -213,7 +217,9 @@ function renderRows(){
    deleteButton.title='Eliminar este registro de Supabase (requiere confirmación)';
    deleteButton.onclick=()=>abrirEliminacion(r);
    td.appendChild(deleteButton);
+   td.appendChild(receiptButton);
    tr.appendChild(td);
+   vals.slice(2).forEach(v=>{const cell=document.createElement('td');cell.textContent=v;tr.appendChild(cell)});
    tbody.appendChild(tr);
  });
  document.getElementById('count').textContent=total;
@@ -1304,7 +1310,7 @@ async function getAllRecordsForExport(){
     const entity=document.getElementById("entity").value;
     const building=document.getElementById("building").value;
 
-    if(search) q=q.ilike("p001_id_inmueble","%"+search+"%");
+    if(search) q=q.ilike("p000_contrasena_apf","%"+search.toUpperCase()+"%");
     if(entity) q=q.eq("p002_entidad_federativa",entity);
     if(building) q=q.eq("p004_tipo_edificio",building);
 
